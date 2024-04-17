@@ -13,6 +13,53 @@ namespace System.Web.Mvc
 {
     public static class RouteCollectionExtensions
     {
+        private static Dictionary<string,RouteCollection> AreaRoutes = new Dictionary<string,RouteCollection>();
+        private static bool UseStaticAreaFilteredRoutes = false;
+        public static RouteCollection EnableStaticAreaFilteredRoutes(this RouteCollection routes){
+            UseStaticAreaFilteredRoutes = true;
+            //Group routes by area name and build the dictionary
+            
+            using (routes.GetReadLock())
+            {
+                HashTable<string> areas=new HashTable<string>();
+                //get all unique areas
+                foreach (RouteBase route in routes)
+                {
+                    string areaName = AreaHelpers.GetAreaName(route) ?? String.Empty;
+                    
+                    if (!string.IsNullOrEmpty(areaName))
+                    {
+                        areas.Add(areaName);
+                    }
+                }
+
+                //Build dictionary for all area routes
+                foreach (string area in areas)
+                {
+                    RouteCollection filteredRoutes = new RouteCollection()
+                    {
+                        AppendTrailingSlash = routes.AppendTrailingSlash,
+                        LowercaseUrls = routes.LowercaseUrls,
+                        RouteExistingFiles = routes.RouteExistingFiles
+                    };
+                    bool usingAreas=false;
+                    foreach (RouteBase route in routes)
+                    {
+                        string thisAreaName = AreaHelpers.GetAreaName(route) ?? String.Empty;
+                        usingAreas |= (thisAreaName.Length > 0);
+                        if (String.Equals(thisAreaName, area, StringComparison.OrdinalIgnoreCase))
+                        {
+                            filteredRoutes.Add(route);
+                        }
+                    }
+                    //Only add to dictionary if there are routes for the area
+                    if(usingAreas){
+                        AreaRoutes.Add(area, filteredRoutes);
+                    }
+                }
+            }
+        }
+        
         // This method returns a new RouteCollection containing only routes that matched a particular area.
         // The Boolean out parameter is just a flag specifying whether any registered routes were area-aware.
         private static RouteCollection FilterRouteCollectionByArea(RouteCollection routes, string areaName, out bool usingAreas)
@@ -24,6 +71,14 @@ namespace System.Web.Mvc
 
             usingAreas = false;
 
+            
+            
+            if (UseStaticAreaFilteredRoutes) {
+                usingAreas = AreaRoutes.ContainsKey(areaName);
+
+                return usingAreas ? AreaRoutes[areaName] : routes;
+            }
+
             // Ensure that we continue using the same settings as the previous route collection
             // if we are using areas and the route collection is exchanged
             RouteCollection filteredRoutes = new RouteCollection()
@@ -32,7 +87,6 @@ namespace System.Web.Mvc
                 LowercaseUrls = routes.LowercaseUrls,
                 RouteExistingFiles = routes.RouteExistingFiles
             };
-
             using (routes.GetReadLock())
             {
                 foreach (RouteBase route in routes)
