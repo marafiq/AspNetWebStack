@@ -47,7 +47,7 @@ namespace System.Web.Mvc
                     {
                         string thisAreaName = AreaHelpers.GetAreaName(route) ?? String.Empty;
                         usingAreas |= (thisAreaName.Length > 0);
-                        if (String.Equals(thisAreaName, area, StringComparison.OrdinalIgnoreCase))
+                        if (!string.IsNullOrEmpty(thisAreaName, area))
                         {
                             filteredRoutes.Add(route);
                         }
