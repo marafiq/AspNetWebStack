@@ -422,6 +422,10 @@ namespace RoutingBenchmark
             // Run advanced scalability test
             Console.WriteLine("\n" + new string('=', 60));
             await RunAdvancedBenchmark();
+
+            // Run real-world benchmark
+            Console.WriteLine("\n" + new string('=', 60));
+            await RunRealWorldBenchmark();
         }
 
         private static async Task RunAdvancedBenchmark()
@@ -503,5 +507,42 @@ namespace RoutingBenchmark
             else
                                  Console.WriteLine("  ❌ Trie routing exceeds 0.1ms target");
          }
+
+        private static async Task RunRealWorldBenchmark()
+        {
+            Console.WriteLine("=== Real-World Routing Performance Benchmark ===");
+            Console.WriteLine("Testing with diverse route patterns simulating actual web applications");
+            Console.WriteLine();
+
+            var realWorldBenchmark = new RealWorldRoutingBenchmark();
+            realWorldBenchmark.SetupRealWorldRoutes(5000);
+            
+            var results = await realWorldBenchmark.RunRealWorldBenchmark(10000);
+
+            Console.WriteLine("\n=== Real-World Benchmark Results ===");
+            Console.WriteLine($"Total Routes: {results.TotalRoutes}");
+            Console.WriteLine($"Average Time: {results.StandardAverageTimeMs:F4} ms");
+            Console.WriteLine($"Min Time: {results.StandardMinTimeMs:F4} ms");
+            Console.WriteLine($"Max Time: {results.StandardMaxTimeMs:F4} ms");
+            Console.WriteLine($"95th Percentile: {results.StandardP95TimeMs:F4} ms");
+
+            // Check if we meet the 1ms target
+            Console.WriteLine($"\n=== Real-World Target Achievement ===");
+            if (results.StandardAverageTimeMs < 1.0)
+            {
+                Console.WriteLine("✅ Real-World Routing: TARGET ACHIEVED (< 1ms)");
+            }
+            else
+            {
+                Console.WriteLine("❌ Real-World Routing: TARGET NOT MET (> 1ms)");
+            }
+
+            Console.WriteLine("\n=== Real-World Route Analysis ===");
+            Console.WriteLine("• Diverse route patterns with 20+ controllers");
+            Console.WriteLine("• 40+ different actions across various domains");
+            Console.WriteLine("• 25+ area prefixes for different application sections");
+            Console.WriteLine("• Complex parameter patterns with multiple segments");
+            Console.WriteLine("• Real-world URL structures (API, admin, e-commerce, etc.)");
+        }
      }
  }
