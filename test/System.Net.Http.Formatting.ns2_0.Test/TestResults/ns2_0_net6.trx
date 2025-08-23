@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="0927b5f8-798c-48ac-81d9-1393a7ca8888" name="@cursor 2025-08-23 06:47:27" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2025-08-23T06:47:27.0579373+00:00" queuing="2025-08-23T06:47:27.0579373+00:00" start="2025-08-23T06:47:26.9667955+00:00" finish="2025-08-23T06:47:27.0582694+00:00" />
+  <TestSettings name="default" id="f5635a04-99da-4645-ac7d-c7374592a348">
+    <Deployment runDeploymentRoot="_cursor_2025-08-23_06_47_27" />
+  </TestSettings>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="0" executed="0" passed="0" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>You must install or update .NET to run this application.
+App: /workspace/bin/Release/Test/ns2_0/net6.0/testhost.dll
+Architecture: x64
+Framework: 'Microsoft.NETCore.App', version '6.0.0' (x64)
+.NET location: /home/ubuntu/.dotnet/
+The following frameworks were found:
+  8.0.19 at [/home/ubuntu/.dotnet/shared/Microsoft.NETCore.App]
+Learn more:
+https://aka.ms/dotnet/app-launch-failed
+To install missing framework, download:
+https://aka.ms/dotnet-core-applaunch?framework=Microsoft.NETCore.App&amp;framework_version=6.0.0&amp;arch=x64&amp;rid=linux-x64&amp;os=ubuntu.25.04
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="cursor" outcome="Error" timestamp="2025-08-23T06:47:27.0292232+00:00">
+        <Text>Testhost process for source(s) '/workspace/bin/Release/Test/ns2_0/net6.0/System.Net.Http.Formatting.ns2_0.Test.dll' exited with error: You must install or update .NET to run this application.
+App: /workspace/bin/Release/Test/ns2_0/net6.0/testhost.dll
+Architecture: x64
+Framework: 'Microsoft.NETCore.App', version '6.0.0' (x64)
+.NET location: /home/ubuntu/.dotnet/
+The following frameworks were found:
+  8.0.19 at [/home/ubuntu/.dotnet/shared/Microsoft.NETCore.App]
+Learn more:
+https://aka.ms/dotnet/app-launch-failed
+To install missing framework, download:
+https://aka.ms/dotnet-core-applaunch?framework=Microsoft.NETCore.App&amp;framework_version=6.0.0&amp;arch=x64&amp;rid=linux-x64&amp;os=ubuntu.25.04
+. Please check the diagnostic logs for more information.</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>
