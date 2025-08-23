@@ -1,0 +1,60 @@
+{
+	"version": "15.2.10695-net10-p3",
+	"workloads": {
+		"macos": {
+			"description": ".NET SDK Workload for building macOS applications.",
+			"packs": [
+				"Microsoft.macOS.Sdk.net10.0_15.2",
+				"Microsoft.macOS.Sdk.net8.0_14.0",
+				"Microsoft.macOS.Sdk.net8.0_15.0",
+				"Microsoft.macOS.Sdk.net9.0_15.0",
+				"Microsoft.macOS.Ref.net10.0_15.2",
+				"Microsoft.macOS.Runtime.osx-x64.net10.0_15.2",
+				"Microsoft.macOS.Runtime.osx-arm64.net10.0_15.2",
+				"Microsoft.macOS.Templates.net9"
+			],
+			"extends": [
+				"microsoft-net-runtime-mono-tooling",
+				"microsoft-net-runtime-mono-tooling-net8",
+				"microsoft-net-runtime-mono-tooling-net9",
+			]
+		},
+	},
+	"packs": {
+		"Microsoft.macOS.Sdk.net10.0_15.2": {
+			"kind": "sdk",
+			"version": "15.2.10695-net10-p3",
+		},
+		"Microsoft.macOS.Sdk.net8.0_14.0": {
+			"kind": "sdk",
+			"version": "14.0.8523",
+		},
+		"Microsoft.macOS.Sdk.net8.0_15.0": {
+			"kind": "sdk",
+			"version": "15.0.8319",
+		},
+		"Microsoft.macOS.Sdk.net9.0_15.0": {
+			"kind": "sdk",
+			"version": "15.0.9617",
+		},
+		"Microsoft.macOS.Ref.net10.0_15.2": {
+			"kind": "framework",
+			"version": "15.2.10695-net10-p3"
+		},
+		"Microsoft.macOS.Runtime.osx-x64.net10.0_15.2": {
+			"kind": "framework",
+			"version": "15.2.10695-net10-p3"
+		},
+		"Microsoft.macOS.Runtime.osx-arm64.net10.0_15.2": {
+			"kind": "framework",
+			"version": "15.2.10695-net10-p3"
+		},
+		"Microsoft.macOS.Templates.net9": {
+			"kind": "template",
+			"version": "15.2.10695-net10-p3",
+			"alias-to": {
+				"any": "Microsoft.macOS.Templates",
+			}
+		}
+	}
+}

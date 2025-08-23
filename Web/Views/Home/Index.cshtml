@@ -1,0 +1,12 @@
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Current Tenant: <strong>@ViewData["TenantKey"]</strong> (@ViewData["TenantName"])</p>
+    <p>Group: <strong>@ViewData["TenantGroup"]</strong></p>
+    <p class="text-break" style="word-break: break-all;">Connection: <code>@ViewData["ConnString"]</code></p>
+    <p>Change host subdomain (e.g., alpha.localhost, beta.localhost) to switch tenants.</p>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
