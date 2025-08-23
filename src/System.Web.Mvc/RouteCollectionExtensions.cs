@@ -25,7 +25,7 @@ namespace System.Web.Mvc
             
             using (routes.GetReadLock())
             {
-                HashTable<string> areas=new HashTable<string>();
+                HashSet<string> areas=new HashSet<string>(StringComparer.OrdinalIgnoreCase);
                 //get all unique areas
                 foreach (RouteBase route in routes)
                 {
@@ -51,7 +51,7 @@ namespace System.Web.Mvc
                     {
                         string thisAreaName = AreaHelpers.GetAreaName(route) ?? String.Empty;
                         usingAreas |= (thisAreaName.Length > 0);
-                        if (!string.IsNullOrEmpty(thisAreaName, area))
+                        if (String.Equals(thisAreaName, area, StringComparison.OrdinalIgnoreCase))
                         {
                             filteredRoutes.Add(route);
                         }
@@ -62,6 +62,7 @@ namespace System.Web.Mvc
                     }
                 }
             }
+            return routes;
         }
         
         // This method returns a new RouteCollection containing only routes that matched a particular area.
