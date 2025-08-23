@@ -1,0 +1,105 @@
+{
+	"version": "18.2.10695-net10-p3",
+	"workloads": {
+		"ios": {
+			"description": ".NET SDK Workload for building iOS applications.",
+			"packs": [
+				"Microsoft.iOS.Sdk.net10.0_18.2",
+				"Microsoft.iOS.Sdk.net8.0_17.0",
+				"Microsoft.iOS.Sdk.net8.0_18.0",
+				"Microsoft.iOS.Sdk.net9.0_18.0",
+				"Microsoft.iOS.Windows.Sdk.Aliased.net10.0_18.2",
+				"Microsoft.iOS.Windows.Sdk.Aliased.net8.0_17.0",
+				"Microsoft.iOS.Windows.Sdk.Aliased.net8.0_18.0",
+				"Microsoft.iOS.Windows.Sdk.Aliased.net9.0_18.0",
+				"Microsoft.iOS.Ref.net10.0_18.2",
+				"Microsoft.iOS.Runtime.ios-arm64.net10.0_18.2",
+				"Microsoft.iOS.Runtime.iossimulator-x64.net10.0_18.2",
+				"Microsoft.iOS.Runtime.iossimulator-arm64.net10.0_18.2",
+				"Microsoft.iOS.Templates.net9"
+			],
+			"extends": [
+				"microsoft-net-runtime-ios",
+				"microsoft-net-runtime-ios-net8",
+				"microsoft-net-runtime-ios-net9",
+			]
+		},
+	},
+	"packs": {
+		"Microsoft.iOS.Sdk.net10.0_18.2": {
+			"kind": "sdk",
+			"version": "18.2.10695-net10-p3",
+		},
+		"Microsoft.iOS.Windows.Sdk.Aliased.net10.0_18.2": {
+			"kind": "sdk",
+			"version": "18.2.10695-net10-p3",
+			"alias-to": {
+				"win-x64": "Microsoft.iOS.Windows.Sdk.net10.0_18.2",
+				"win-x86": "Microsoft.iOS.Windows.Sdk.net10.0_18.2",
+				"win-arm64": "Microsoft.iOS.Windows.Sdk.net10.0_18.2",
+			}
+		},
+		"Microsoft.iOS.Sdk.net8.0_17.0": {
+			"kind": "sdk",
+			"version": "17.0.8523",
+		},
+		"Microsoft.iOS.Windows.Sdk.Aliased.net8.0_17.0": {
+			"kind": "sdk",
+			"version": "17.0.8523",
+			"alias-to": {
+				"win-x64": "Microsoft.iOS.Windows.Sdk.net8.0_17.0",
+				"win-x86": "Microsoft.iOS.Windows.Sdk.net8.0_17.0",
+				"win-arm64": "Microsoft.iOS.Windows.Sdk.net8.0_17.0",
+			}
+		},
+		"Microsoft.iOS.Sdk.net8.0_18.0": {
+			"kind": "sdk",
+			"version": "18.0.8319",
+		},
+		"Microsoft.iOS.Windows.Sdk.Aliased.net8.0_18.0": {
+			"kind": "sdk",
+			"version": "18.0.8319",
+			"alias-to": {
+				"win-x64": "Microsoft.iOS.Windows.Sdk.net8.0_18.0",
+				"win-x86": "Microsoft.iOS.Windows.Sdk.net8.0_18.0",
+				"win-arm64": "Microsoft.iOS.Windows.Sdk.net8.0_18.0",
+			}
+		},
+		"Microsoft.iOS.Sdk.net9.0_18.0": {
+			"kind": "sdk",
+			"version": "18.0.9617",
+		},
+		"Microsoft.iOS.Windows.Sdk.Aliased.net9.0_18.0": {
+			"kind": "sdk",
+			"version": "18.0.9617",
+			"alias-to": {
+				"win-x64": "Microsoft.iOS.Windows.Sdk.net9.0_18.0",
+				"win-x86": "Microsoft.iOS.Windows.Sdk.net9.0_18.0",
+				"win-arm64": "Microsoft.iOS.Windows.Sdk.net9.0_18.0",
+			}
+		},
+		"Microsoft.iOS.Ref.net10.0_18.2": {
+			"kind": "framework",
+			"version": "18.2.10695-net10-p3"
+		},
+		"Microsoft.iOS.Runtime.ios-arm64.net10.0_18.2": {
+			"kind": "framework",
+			"version": "18.2.10695-net10-p3"
+		},
+		"Microsoft.iOS.Runtime.iossimulator-x64.net10.0_18.2": {
+			"kind": "framework",
+			"version": "18.2.10695-net10-p3"
+		},
+		"Microsoft.iOS.Runtime.iossimulator-arm64.net10.0_18.2": {
+			"kind": "framework",
+			"version": "18.2.10695-net10-p3"
+		},
+		"Microsoft.iOS.Templates.net9": {
+			"kind": "template",
+			"version": "18.2.10695-net10-p3",
+			"alias-to": {
+				"any": "Microsoft.iOS.Templates",
+			}
+		}
+	}
+}

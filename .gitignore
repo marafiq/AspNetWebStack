@@ -1,20 +1,36 @@
-.msbuild/
-.vs/
+## .NET
 bin/
 obj/
-packages/
-
-*.[Cc]ache
-*.binlog
-*.dll
-*.dot[Cc]over
-*.exe
-*.nupkg
-*.orig
-*.psess
-*.sln.ide
-*.suo
 *.user
-*.vsp
-*[Rr]esharper*
-*launchSettings.json
+*.suo
+*.userosscache
+*.sln.docstates
+
+## VS Code / Rider
+.vscode/
+.idea/
+
+## ASP.NET
+wwwroot/lib/
+app.db
+Data/*.db
+Data/tenants/*.db
+
+## Logs
+logs/
+*.log
+
+## OS
+.DS_Store
+Thumbs.db
+
+## Node/Tailwind
+node_modules/
+*.cache/
+.tailwind*
+.tailwind/
+
+## Tooling
+coverage/
+TestResults/
+*.nupkg
