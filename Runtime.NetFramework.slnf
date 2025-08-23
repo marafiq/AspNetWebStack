@@ -22,7 +22,6 @@
       "src\\System.Web.WebPages.Deployment\\System.Web.WebPages.Deployment.csproj",
       "src\\System.Web.WebPages.Razor\\System.Web.WebPages.Razor.csproj",
       "src\\System.Web.WebPages\\System.Web.WebPages.csproj",
-      "src\\WebApiHelpPage\\VB\\WebApiHelpPageVB.vbproj",
       "src\\WebApiHelpPage\\WebApiHelpPage.csproj",
       "src\\WebMatrix.Data\\WebMatrix.Data.csproj",
       "src\\WebMatrix.WebData\\WebMatrix.WebData.csproj",
@@ -49,7 +48,6 @@
       "test\\System.Web.WebPages.Razor.Test\\System.Web.WebPages.Razor.Test.csproj",
       "test\\System.Web.WebPages.Test\\System.Web.WebPages.Test.csproj",
       "test\\WebApiHelpPage.Test\\WebApiHelpPage.Test.csproj",
-      "test\\WebApiHelpPage.VB.Test\\WebApiHelpPage.VB.Test.csproj",
       "test\\WebMatrix.Data.Test\\WebMatrix.Data.Test.csproj",
       "test\\WebMatrix.WebData.Test\\WebMatrix.WebData.Test.csproj"
     ]

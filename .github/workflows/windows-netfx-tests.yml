@@ -1,0 +1,109 @@
+name: Windows .NET Framework CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  build-test:
+    runs-on: windows-2019
+    timeout-minutes: 90
+    steps:
+      - name: Diagnostic - Runner info
+        shell: pwsh
+        run: |
+          $PSVersionTable
+          choco --version
+          gci env:* | sort-object name
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v2
+
+      - name: Install .NET Framework 4.5/4.5.1/4.5.2 Developer Packs (Chocolatey)
+        shell: pwsh
+        run: |
+          choco install -y netfx-4.5-devpack netfx-4.5.1-devpack netfx-4.5.2-devpack
+
+      - name: Install .NET Framework Targeting Packs (VS Installer)
+        shell: pwsh
+        run: |
+          $vsPath = "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise"
+          $installer = "C:/Program Files (x86)/Microsoft Visual Studio/Installer/vs_installer.exe"
+          if (Test-Path $installer) {
+            $components = @(
+              'Microsoft.Net.Component.4.5.TargetingPack',
+              'Microsoft.Net.Component.4.5.1.TargetingPack',
+              'Microsoft.Net.Component.4.5.2.TargetingPack',
+              'Microsoft.Net.Component.4.6.TargetingPack',
+              'Microsoft.Net.Component.4.6.1.TargetingPack',
+              'Microsoft.Net.Component.4.6.2.TargetingPack',
+              'Microsoft.Net.Component.4.7.TargetingPack',
+              'Microsoft.Net.Component.4.7.1.TargetingPack',
+              'Microsoft.Net.Component.4.7.2.TargetingPack',
+              'Microsoft.Net.Component.4.8.TargetingPack'
+            )
+            $args = @('modify','--installPath',"$vsPath",'--norestart','--quiet','--force') + ($components | ForEach-Object { '--add'; $_ })
+            & $installer @args || exit $LASTEXITCODE
+          } else {
+            Write-Warning "VS Installer not found; proceeding with Chocolatey-installed dev packs only"
+          }
+
+      - name: NuGet restore solution (packages.config)
+        shell: pwsh
+        run: |
+          nuget restore Runtime.sln -NonInteractive -NoCache -Verbosity normal
+
+      - name: Restore (MSBuild)
+        shell: pwsh
+        run: |
+          & "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/MSBuild/Current/Bin/MSBuild.exe" Runtime.NetFramework.slnf /t:Restore /m /p:Configuration=Release /verbosity:minimal
+
+      - name: Build (MSBuild)
+        shell: pwsh
+        run: |
+          & "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/MSBuild/Current/Bin/MSBuild.exe" Runtime.NetFramework.slnf /t:Build /m /p:Configuration=Release /p:RunCodeAnalysis=false /verbosity:minimal
+
+      - name: Find .NET Framework test assemblies
+        id: find_tests
+        shell: pwsh
+        run: |
+          $roots = @("test")
+          $patterns = @(
+            "bin/Release/net462/*.Test.dll",
+            "bin/Release/*.Test.dll"
+          )
+          $paths = @()
+          foreach ($root in $roots) {
+            foreach ($pat in $patterns) {
+              $paths += Get-ChildItem -Recurse -Path (Join-Path $root $pat) -ErrorAction SilentlyContinue | ForEach-Object { $_.FullName }
+            }
+          }
+          $paths = $paths | Where-Object { $_ -notmatch "(netcoreapp|ns[0-9_]+|/obj/)" } | Select-Object -Unique
+          if (-not $paths -or $paths.Count -eq 0) { Write-Host "No .NET Framework tests found" }
+          $joined = $paths -join "\n"
+          "paths=$joined" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+
+      - name: Run tests (.NET Framework)
+        if: steps.find_tests.outputs.paths != ''
+        shell: pwsh
+        run: |
+          $paths = @("${{ steps.find_tests.outputs.paths }}" -split "\n")
+          $vstest = "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/Common7/IDE/Extensions/TestPlatform/vstest.console.exe"
+          foreach ($asm in $paths) {
+            Write-Host "Running tests in $asm"
+            & $vstest $asm /Platform:x64 /InIsolation /logger:trx || exit $LASTEXITCODE
+          }
+
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-windows
+          path: |
+            **/*.trx
+            TestResults/**
