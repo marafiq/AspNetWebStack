@@ -1,0 +1,8 @@
+@model List<RoutingSampleApp.Controllers.NavigationItem>
+
+<ul class="nav nav-pills nav-stacked">
+    @foreach (var item in Model)
+    {
+        <li>@Html.ActionLink(item.Text, item.Action, item.Controller)</li>
+    }
+</ul>

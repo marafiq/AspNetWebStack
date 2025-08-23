@@ -1,0 +1,52 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+    <OutputType>Exe</OutputType>
+    
+    <!-- NuGet Package Metadata -->
+    <PackageId>UltraFastRouting</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>UltraFastRouting Team</Authors>
+    <Company>UltraFastRouting</Company>
+    <Description>Ultra-fast, zero-allocation routing system for .NET applications. Achieves sub-0.01ms performance with 5000+ routes and zero memory allocations.</Description>
+    <PackageTags>routing;performance;zero-allocation;ultra-fast;aspnet;mvc;webapi</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/ultrafastrouting/ultrafastrouting</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ultrafastrouting/ultrafastrouting</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    
+    <!-- Build Configuration -->
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    
+    <!-- Assembly Information -->
+    <AssemblyTitle>UltraFastRouting</AssemblyTitle>
+    <AssemblyDescription>Ultra-fast, zero-allocation routing system</AssemblyDescription>
+    <AssemblyCompany>UltraFastRouting</AssemblyCompany>
+    <AssemblyProduct>UltraFastRouting</AssemblyProduct>
+    <AssemblyCopyright>Copyright © 2024</AssemblyCopyright>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
+    <PackageReference Include="System.Collections.Concurrent" Version="4.3.0" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
+
+</Project>
