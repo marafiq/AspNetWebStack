@@ -19,6 +19,11 @@ jobs:
       - name: Setup NuGet
         uses: NuGet/setup-nuget@v2
 
+      - name: NuGet restore solution (packages.config)
+        shell: pwsh
+        run: |
+          nuget restore Runtime.sln -NonInteractive -NoCache -Verbosity normal
+
       - name: Restore (MSBuild)
         shell: pwsh
         run: |
