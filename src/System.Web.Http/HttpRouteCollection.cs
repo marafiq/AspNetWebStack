@@ -1,4 +1,4 @@
-﻿// Copyright (c) .NET Foundation. All rights reserved.
+// Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Collections;
@@ -22,6 +22,13 @@ namespace System.Web.Http
         private readonly List<IHttpRoute> _collection = new List<IHttpRoute>();
         private readonly IDictionary<string, IHttpRoute> _dictionary = new Dictionary<string, IHttpRoute>(StringComparer.OrdinalIgnoreCase);
         private bool _disposed;
+
+        // Fast lookup index: maps first literal segment -> ordered list of route indices
+        private readonly Dictionary<string, List<int>> _firstSegmentIndex = new Dictionary<string, List<int>>(StringComparer.OrdinalIgnoreCase);
+        // Routes whose first segment is parameter/catch-all or unknown
+        private readonly List<int> _parameterFirstIndices = new List<int>();
+        // Flag to indicate index must be rebuilt (after inserts/removes)
+        private bool _indexDirty;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HttpRouteCollection"/> class with a <see cref="M:VirtualPathRoot"/>
@@ -77,10 +84,83 @@ namespace System.Web.Http
                 throw Error.ArgumentNull("request");
             }
 
+            // Ensure index is up to date
+            if (_indexDirty)
+            {
+                RebuildIndex();
+            }
+
+            string virtualPathRoot = GetVirtualPathRoot(request.GetRequestContext());
+
+            // Compute first segment of the request relative to the virtual path root
+            string firstRequestSegment = GetFirstRequestSegment(virtualPathRoot, request);
+            if (firstRequestSegment == null)
+            {
+                return null;
+            }
+
+            // Build candidate route indices preserving global order
+            List<int> candidateIndices = new List<int>();
+            List<int> bucket;
+            if (_firstSegmentIndex.TryGetValue(firstRequestSegment, out bucket))
+            {
+                candidateIndices.AddRange(bucket);
+            }
+            // Always also try parameter-first routes (they can match any first segment)
+            if (_parameterFirstIndices.Count > 0)
+            {
+                candidateIndices.AddRange(_parameterFirstIndices);
+            }
+
+            IHttpRouteData routeData;
+            if (candidateIndices.Count > 0)
+            {
+                // De-duplicate and iterate in ascending order of insertion index to preserve semantics
+                HashSet<int> seen = new HashSet<int>();
+                List<int> ordered = new List<int>(candidateIndices.Count);
+                for (int i = 0; i < candidateIndices.Count; i++)
+                {
+                    int idx = candidateIndices[i];
+                    if (seen.Add(idx))
+                    {
+                        ordered.Add(idx);
+                    }
+                }
+                ordered.Sort();
+
+                for (int i = 0; i < ordered.Count; i++)
+                {
+                    int idx = ordered[i];
+                    routeData = _collection[idx].GetRouteData(virtualPathRoot, request);
+                    if (routeData != null)
+                    {
+                        return routeData;
+                    }
+                }
+
+                // Fallback: if nothing matched, scan the remaining routes (unlikely)
+                if (ordered.Count < _collection.Count)
+                {
+                    for (int i = 0; i < _collection.Count; i++)
+                    {
+                        if (!seen.Contains(i))
+                        {
+                            routeData = _collection[i].GetRouteData(virtualPathRoot, request);
+                            if (routeData != null)
+                            {
+                                return routeData;
+                            }
+                        }
+                    }
+                }
+
+                return null;
+            }
+
+            // No indexed candidates (e.g., empty table) - fall back to linear scan
             for (int i = 0; i < _collection.Count; i++)
             {
-                string virtualPathRoot = GetVirtualPathRoot(request.GetRequestContext());
-                IHttpRouteData routeData = _collection[i].GetRouteData(virtualPathRoot, request);
+                routeData = _collection[i].GetRouteData(virtualPathRoot, request);
                 if (routeData != null)
                 {
                     return routeData;
@@ -208,12 +288,16 @@ namespace System.Web.Http
 
             _dictionary.Add(name, route);
             _collection.Add(route);
+            IndexRouteAt(_collection.Count - 1, route);
         }
 
         public virtual void Clear()
         {
             _dictionary.Clear();
             _collection.Clear();
+            _firstSegmentIndex.Clear();
+            _parameterFirstIndices.Clear();
+            _indexDirty = false;
         }
 
         public virtual bool Contains(IHttpRoute item)
@@ -263,6 +347,9 @@ namespace System.Web.Http
             {
                 _dictionary.Add(name, value);
                 _collection.Insert(index, value);
+                // Rebuild index due to shifted positions
+                _indexDirty = true;
+                RebuildIndex();
             }
         }
 
@@ -284,6 +371,9 @@ namespace System.Web.Http
                 bool dictionaryRemove = _dictionary.Remove(name);
                 bool collectionRemove = _collection.Remove(value);
                 Contract.Assert(dictionaryRemove == collectionRemove);
+                // Rebuild index due to shifted positions
+                _indexDirty = true;
+                RebuildIndex();
                 return dictionaryRemove;
             }
 
@@ -340,6 +430,96 @@ namespace System.Web.Http
 
                 _disposed = true;
             }
+        }
+
+        // Build or rebuild the first-segment index over the current route list
+        private void RebuildIndex()
+        {
+            _firstSegmentIndex.Clear();
+            _parameterFirstIndices.Clear();
+
+            for (int i = 0; i < _collection.Count; i++)
+            {
+                IndexRouteAt(i, _collection[i]);
+            }
+
+            _indexDirty = false;
+        }
+
+        // Index a single route at the specified position
+        private void IndexRouteAt(int index, IHttpRoute route)
+        {
+            string key = GetFirstLiteralSegment(route.RouteTemplate);
+            if (key == null)
+            {
+                _parameterFirstIndices.Add(index);
+                return;
+            }
+
+            List<int> bucket;
+            if (!_firstSegmentIndex.TryGetValue(key, out bucket))
+            {
+                bucket = new List<int>();
+                _firstSegmentIndex[key] = bucket;
+            }
+            bucket.Add(index);
+        }
+
+        // Extract first literal segment from a route template; returns null if segment is parameter/catch-all
+        private static string GetFirstLiteralSegment(string template)
+        {
+            if (String.IsNullOrEmpty(template))
+            {
+                return String.Empty; // root
+            }
+
+            int slash = template.IndexOf('/');
+            string first = slash >= 0 ? template.Substring(0, slash) : template;
+            if (first.Length == 0)
+            {
+                return String.Empty;
+            }
+
+            // Parameter or catch-all segments start with '{'
+            if (first[0] == '{')
+            {
+                return null;
+            }
+
+            return first;
+        }
+
+        // Compute first path segment of the request relative to the given virtual path root. Returns null if outside root.
+        private static string GetFirstRequestSegment(string virtualPathRoot, HttpRequestMessage request)
+        {
+            string requestPath = "/" + request.RequestUri.GetComponents(UriComponents.Path, UriFormat.Unescaped);
+
+            // Fast path: exact case match first
+            if (!requestPath.StartsWith(virtualPathRoot, StringComparison.Ordinal))
+            {
+                if (!requestPath.StartsWith(virtualPathRoot, StringComparison.OrdinalIgnoreCase))
+                {
+                    return null;
+                }
+            }
+
+            int start = virtualPathRoot.Length;
+            if (requestPath.Length > start && requestPath[start] == '/')
+            {
+                start++;
+            }
+
+            if (start >= requestPath.Length)
+            {
+                return String.Empty;
+            }
+
+            int nextSlash = requestPath.IndexOf('/', start);
+            if (nextSlash < 0)
+            {
+                return requestPath.Substring(start);
+            }
+            return requestPath.Substring(start, nextSlash - start);
         }
     }
 }
