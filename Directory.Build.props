@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project>
-  <PropertyGroup>
-    <TargetFrameworkVersion Condition="'$(TargetFrameworkVersion)' == ''">v4.6.2</TargetFrameworkVersion>
-    <TargetFrameworkProfile Condition="'$(TargetFrameworkProfile)' == ''"></TargetFrameworkProfile>
-  </PropertyGroup>
-</Project>
