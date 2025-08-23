@@ -17,9 +17,9 @@
     <!-- Force rebuild if this file changes -->
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 
-    <!-- Default target framework for legacy projects that don't specify one -->
-    <TargetFrameworkVersion Condition="'$(TargetFrameworkVersion)' == ''">v4.6.2</TargetFrameworkVersion>
-    <TargetFrameworkProfile Condition="'$(TargetFrameworkProfile)' == ''"></TargetFrameworkProfile>
+    <!-- Force legacy projects to build against .NET Framework 4.6.2 on CI -->
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkProfile></TargetFrameworkProfile>
   </PropertyGroup>
 
   <!-- Project Defaults -->
