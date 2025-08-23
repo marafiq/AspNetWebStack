@@ -1,3 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Project>
-  <!-- Stop MsBuild searching parent directories for this file. -->
+  <!-- Retarget legacy non-SDK .csproj projects away from v4.5/4.5.1/4.5.2 to avoid missing packs on CI -->
+  <PropertyGroup Condition="'$(MSBuildProjectExtension)'=='.csproj' and '$(UsingMicrosoftNETSdk)'!='true' and ('$(TargetFrameworkVersion)'=='v4.5' or '$(TargetFrameworkVersion)'=='v4.5.1' or '$(TargetFrameworkVersion)'=='v4.5.2')">
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkProfile></TargetFrameworkProfile>
+  </PropertyGroup>
 </Project>
