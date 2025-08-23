@@ -1,0 +1,15 @@
+@model Web.MultiTenancy.TenantContext
+<div class="alert alert-info d-flex justify-content-between align-items-center">
+	<div>
+		<strong>Tenant:</strong> @Model.Tenant?.Key (@Model.Tenant?.Name) — <strong>Group:</strong> @Model.Tenant?.Group
+	</div>
+	<div class="d-flex gap-2">
+		<form hx-post="/components/counter/increment" hx-target="#counter" hx-swap="outerHTML">
+			<button class="btn btn-sm btn-primary" type="submit">Increment Counter</button>
+		</form>
+		<form hx-post="/components/outbox/publish" hx-trigger="click" hx-include="[name=msg]">
+			<input class="form-control form-control-sm" name="message" placeholder="Outbox message" />
+			<button class="btn btn-sm btn-outline-secondary" type="submit">Enqueue</button>
+		</form>
+	</div>
+</div>

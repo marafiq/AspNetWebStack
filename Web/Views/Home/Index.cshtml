@@ -4,9 +4,41 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Current Tenant: <strong>@ViewData["TenantKey"]</strong> (@ViewData["TenantName"])</p>
+    <p>Current Tenant: <strong>@ViewData["TenantKey"]</strong> (@ViewData["TenantName"]) </p>
     <p>Group: <strong>@ViewData["TenantGroup"]</strong></p>
     <p class="text-break" style="word-break: break-all;">Connection: <code>@ViewData["ConnString"]</code></p>
-    <p>Change host subdomain (e.g., alpha.localhost, beta.localhost) to switch tenants.</p>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+<div hx-get="/components/tenant-banner" hx-trigger="load" hx-target="#tenantBanner" hx-swap="innerHTML"></div>
+<div id="tenantBanner"></div>
+
+<div class="mt-2">
+    <div hx-get="/components/counter" hx-trigger="load" hx-target="#counter" hx-swap="outerHTML"></div>
+    <div id="counter"></div>
+</div>
+
+<div class="mt-3">
+    <h5>Tenant Messages</h5>
+    <ul id="messages" class="list-group"></ul>
+</div>
+
+@section Scripts {
+    <script src="https://unpkg.com/htmx.org@2.0.2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.7/signalr.min.js"></script>
+    <script>
+        document.addEventListener('CounterChanged', function (e) {
+            console.log('CounterChanged', e.detail);
+        });
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl('/hubs/tenant')
+            .withAutomaticReconnect()
+            .build();
+        connection.on('tenantMessage', (payload) => {
+            const li = document.createElement('li');
+            li.className = 'list-group-item';
+            li.textContent = `[${payload.tenant}] ${payload.message}`;
+            document.getElementById('messages').prepend(li);
+        });
+        connection.start().catch(err => console.error(err));
+    </script>
+}

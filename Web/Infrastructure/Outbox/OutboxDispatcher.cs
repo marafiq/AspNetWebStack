@@ -1,5 +1,7 @@
+using System.Linq;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using Web.Data;
 using Web.MultiTenancy;
 using Web.Realtime;
@@ -21,31 +23,34 @@ public sealed class OutboxDispatcher(ITenantScopeFactory tenantScopeFactory, Ten
 			{
 				foreach (var tenantKey in _registry.Tenants.Keys)
 				{
-					await using var scope = (await _tenantScopeFactory.CreateScopeForTenantAsync(tenantKey)).AsAsyncDisposable();
-					var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-
-					var messages = await db.Set<OutboxMessage>()
-						.Where(m => m.ProcessedOnUtc == null)
-						.OrderBy(m => m.OccurredOnUtc)
-						.Take(50)
-						.ToListAsync(stoppingToken);
-
-					foreach (var msg in messages)
+					var scope = await _tenantScopeFactory.CreateScopeForTenantAsync(tenantKey);
+					using (scope)
 					{
-						try
-						{
-							await _hub.Clients.Group(tenantKey).SendAsync("tenantMessage", new { tenant = tenantKey, message = $"Outbox {msg.Type}: {msg.Payload}", at = DateTimeOffset.UtcNow }, stoppingToken);
-							msg.ProcessedOnUtc = DateTimeOffset.UtcNow;
-						}
-						catch (Exception ex)
-						{
-							msg.Attempts++;
-							msg.Error = ex.Message;
-							_logger.LogError(ex, "Error dispatching outbox message {MessageId} for tenant {Tenant}", msg.Id, tenantKey);
-						}
-					}
+						var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-					await db.SaveChangesAsync(stoppingToken);
+						var messages = await db.Set<OutboxMessage>()
+							.Where(m => m.ProcessedOnUtc == null)
+							.OrderBy(m => m.OccurredOnUtc)
+							.Take(50)
+							.ToListAsync(stoppingToken);
+
+						foreach (var msg in messages)
+						{
+							try
+							{
+								await _hub.Clients.Group(tenantKey).SendAsync("tenantMessage", new { tenant = tenantKey, message = $"Outbox {msg.Type}: {msg.Payload}", at = DateTimeOffset.UtcNow }, stoppingToken);
+								msg.ProcessedOnUtc = DateTimeOffset.UtcNow;
+							}
+							catch (Exception ex)
+							{
+								msg.Attempts++;
+								msg.Error = ex.Message;
+								_logger.LogError(ex, "Error dispatching outbox message {MessageId} for tenant {Tenant}", msg.Id, tenantKey);
+							}
+						}
+
+						await db.SaveChangesAsync(stoppingToken);
+					}
 				}
 			}
 			catch (Exception ex)

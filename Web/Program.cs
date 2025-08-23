@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Web.Data;
 using Web.MultiTenancy;
+using Web.Realtime;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,9 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
 	.AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession();
 
 var app = builder.Build();
 
@@ -43,6 +47,7 @@ app.UseRouting();
 app.UseMultiTenancy();
 
 app.UseAuthorization();
+app.UseSession();
 
 app.MapStaticAssets();
 
@@ -53,5 +58,8 @@ app.MapControllerRoute(
 
 app.MapRazorPages()
    .WithStaticAssets();
+
+// SignalR hub
+app.MapHub<TenantHub>("/hubs/tenant");
 
 app.Run();
