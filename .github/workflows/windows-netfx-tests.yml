@@ -9,7 +9,7 @@ on:
 
 jobs:
   build-test:
-    runs-on: windows-latest
+    runs-on: windows-2019
     timeout-minutes: 90
     steps:
       - name: Checkout
@@ -18,10 +18,15 @@ jobs:
       - name: Setup NuGet
         uses: NuGet/setup-nuget@v2
 
+      - name: Install .NET Framework 4.5/4.5.1/4.5.2 Developer Packs (Chocolatey)
+        shell: pwsh
+        run: |
+          choco install -y netfx-4.5-devpack netfx-4.5.1-devpack netfx-4.5.2-devpack
+
       - name: Install .NET Framework Targeting Packs (VS Installer)
         shell: pwsh
         run: |
-          $vsPath = "C:/Program Files/Microsoft Visual Studio/2022/Enterprise"
+          $vsPath = "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise"
           $installer = "C:/Program Files (x86)/Microsoft Visual Studio/Installer/vs_installer.exe"
           if (Test-Path $installer) {
             $components = @(
@@ -39,7 +44,7 @@ jobs:
             $args = @('modify','--installPath',"$vsPath",'--norestart','--quiet','--force') + ($components | ForEach-Object { '--add'; $_ })
             & $installer @args || exit $LASTEXITCODE
           } else {
-            Write-Warning "VS Installer not found; proceeding without explicit targeting pack installs"
+            Write-Warning "VS Installer not found; proceeding with Chocolatey-installed dev packs only"
           }
 
       - name: NuGet restore solution (packages.config)
@@ -50,12 +55,12 @@ jobs:
       - name: Restore (MSBuild)
         shell: pwsh
         run: |
-          & "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin/MSBuild.exe" Runtime.NetFramework.slnf /t:Restore /m /p:Configuration=Release /verbosity:minimal
+          & "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/MSBuild/Current/Bin/MSBuild.exe" Runtime.NetFramework.slnf /t:Restore /m /p:Configuration=Release /verbosity:minimal
 
       - name: Build (MSBuild)
         shell: pwsh
         run: |
-          & "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin/MSBuild.exe" Runtime.NetFramework.slnf /t:Build /m /p:Configuration=Release /p:RunCodeAnalysis=false /verbosity:minimal
+          & "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/MSBuild/Current/Bin/MSBuild.exe" Runtime.NetFramework.slnf /t:Build /m /p:Configuration=Release /p:RunCodeAnalysis=false /verbosity:minimal
 
       - name: Find .NET Framework test assemblies
         id: find_tests
@@ -82,7 +87,7 @@ jobs:
         shell: pwsh
         run: |
           $paths = @("${{ steps.find_tests.outputs.paths }}" -split "\n")
-          $vstest = "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/Extensions/TestPlatform/vstest.console.exe"
+          $vstest = "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/Common7/IDE/Extensions/TestPlatform/vstest.console.exe"
           foreach ($asm in $paths) {
             Write-Host "Running tests in $asm"
             & $vstest $asm /Platform:x64 /InIsolation /logger:trx || exit $LASTEXITCODE
