@@ -1,4 +1,4 @@
-﻿// Copyright (c) .NET Foundation. All rights reserved.
+// Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Collections.Generic;
@@ -8,6 +8,9 @@ using System.Web.Mvc.Properties;
 using System.Web.Mvc.Routing;
 using System.Web.Routing;
 using System.Web.WebPages;
+using System.Text;
+using System.Linq;
+using System.Globalization;
 
 namespace System.Web.Mvc
 {
@@ -126,7 +129,17 @@ namespace System.Web.Mvc
             {
                 // the route name is a stronger qualifier than the area name, so just pipe it through
                 usingAreas = false;
-                return routes.GetVirtualPath(requestContext, name, values);
+
+                // Per-request cache for named routes
+                VirtualPathData cachedNamed;
+                if (TryGetCachedVpd(requestContext, name, area: null, values: values, result: out cachedNamed))
+                {
+                    return cachedNamed;
+                }
+
+                VirtualPathData named = routes.GetVirtualPath(requestContext, name, values);
+                CacheVpd(requestContext, name, area: null, values: values, vpd: named);
+                return named;
             }
 
             string targetArea = null;
@@ -156,10 +169,80 @@ namespace System.Web.Mvc
                 correctedValues.Remove("area");
             }
 
+            // Per-request cache for unnamed routes by area + values
+            VirtualPathData cached;
+            if (TryGetCachedVpd(requestContext, name: null, area: targetArea, values: correctedValues, result: out cached))
+            {
+                return cached;
+            }
+
             VirtualPathData vpd = filteredRoutes.GetVirtualPath(requestContext, correctedValues);
+            CacheVpd(requestContext, name: null, area: targetArea, values: correctedValues, vpd: vpd);
             return vpd;
         }
 
+        private const string VpdCacheKey = "__mvc_vpd_cache";
+
+        private static bool TryGetCachedVpd(RequestContext requestContext, string name, string area, RouteValueDictionary values, out VirtualPathData result)
+        {
+            result = null;
+            if (requestContext == null || requestContext.HttpContext == null)
+            {
+                return false;
+            }
+
+            IDictionary cache = requestContext.HttpContext.Items[VpdCacheKey] as IDictionary;
+            if (cache == null)
+            {
+                return false;
+            }
+
+            string key = BuildVpdCacheKey(name, area, values);
+            result = cache[key] as VirtualPathData;
+            return result != null;
+        }
+
+        private static void CacheVpd(RequestContext requestContext, string name, string area, RouteValueDictionary values, VirtualPathData vpd)
+        {
+            if (vpd == null || requestContext == null || requestContext.HttpContext == null)
+            {
+                return;
+            }
+
+            IDictionary cache = requestContext.HttpContext.Items[VpdCacheKey] as IDictionary;
+            if (cache == null)
+            {
+                cache = new Dictionary<string, VirtualPathData>(StringComparer.OrdinalIgnoreCase);
+                requestContext.HttpContext.Items[VpdCacheKey] = cache;
+            }
+
+            string key = BuildVpdCacheKey(name, area, values);
+            cache[key] = vpd;
+        }
+
+        private static string BuildVpdCacheKey(string name, string area, RouteValueDictionary values)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("name:");
+            sb.Append(name ?? String.Empty);
+            sb.Append("|area:");
+            sb.Append(area ?? String.Empty);
+            sb.Append("|values:");
+
+            if (values != null)
+            {
+                // stable ordering
+                foreach (var kvp in values.OrderBy(k => k.Key, StringComparer.OrdinalIgnoreCase))
+                {
+                    sb.Append(kvp.Key);
+                    sb.Append('=');
+                    sb.Append(Convert.ToString(kvp.Value, CultureInfo.InvariantCulture));
+                    sb.Append(';');
+                }
+            }
+            return sb.ToString();
+        }
+        
         [SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "1#", Justification = "This is not a regular URL as it may contain special routing characters.")]
         public static void IgnoreRoute(this RouteCollection routes, string url)
         {
