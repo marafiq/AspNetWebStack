@@ -4,14 +4,20 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - cursor/optimize-routing-with-faster-lookup-bb89
-      - feat/**
+      - '**'
 
 jobs:
   build-test:
     runs-on: windows-2019
     timeout-minutes: 90
     steps:
+      - name: Diagnostic - Runner info
+        shell: pwsh
+        run: |
+          $PSVersionTable
+          choco --version
+          gci env:* | sort-object name
+
       - name: Checkout
         uses: actions/checkout@v4
 
