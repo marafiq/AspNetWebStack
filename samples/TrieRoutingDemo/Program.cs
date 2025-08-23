@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Running;
 
 class Route
 {
@@ -25,14 +28,11 @@ class MethodPrefixIndex
 			_paramFirst.Add(route);
 			return;
 		}
-
-		string anyKey = "*|" + prefix;
-		string methodKey = route.Method + "|" + prefix;
-		AddToIndex(anyKey, route);
-		AddToIndex(methodKey, route);
+		AddToIndex("*|" + prefix, route);
+		AddToIndex(route.Method + "|" + prefix, route);
 	}
 
-	public IEnumerable<Route> GetCandidates(string method, string path)
+	public List<Route> GetCandidates(string method, string path)
 	{
 		List<Route> candidates = new();
 		method = (method ?? "").ToUpperInvariant();
@@ -89,36 +89,69 @@ class MethodPrefixIndex
 	}
 }
 
-class Program
+[MemoryDiagnoser]
+public class RoutingBenchmarks
 {
-	static void Main()
-	{
-		var idx = new MethodPrefixIndex();
-		var routes = new[]
-		{
-			new Route("GET", "api/products/{id}"),
-			new Route("POST", "api/products"),
-			new Route("GET", "api/orders/{orderId}/items/{itemId}"),
-			new Route("GET", "health"),
-			new Route("GET", "{controller}/{action}/{id}") // catch-all param-first
-		};
-		foreach (var r in routes) idx.Add(r);
+	private MethodPrefixIndex _index = default!;
+	private (string method, string path)[] _queries = default!;
 
-		RunCase(idx, "GET", "/api/products/123");
-		RunCase(idx, "POST", "/api/products");
-		RunCase(idx, "GET", "/api/orders/9/items/42");
-		RunCase(idx, "GET", "/health");
-		RunCase(idx, "GET", "/foo/bar/9");
+	[GlobalSetup]
+	public void Setup()
+	{
+		_index = new MethodPrefixIndex();
+		var rnd = new Random(42);
+		string[] methods = new[] { "GET", "POST", "PUT", "DELETE" };
+		string[] nouns = Enumerable.Range(0, 500).Select(i => $"resource{i}").ToArray();
+
+		// 5000 routes: mix of literal and parameter segments
+		for (int i = 0; i < 5000; i++)
+		{
+			string m = methods[i % methods.Length];
+			string a = nouns[rnd.Next(nouns.Length)];
+			string b = nouns[rnd.Next(nouns.Length)];
+			string tpl = (i % 3) switch
+			{
+				0 => $"api/{a}/{b}",
+				1 => $"api/{a}/{{id}}",
+				_ => $"{a}/{{controller}}/{{action}}/{{id}}"
+			};
+			_index.Add(new Route(m, tpl));
+		}
+
+		// 10k queries
+		_queries = Enumerable.Range(0, 10_000).Select(i =>
+		{
+			string m = methods[i % methods.Length];
+			string a = nouns[rnd.Next(nouns.Length)];
+			string b = nouns[rnd.Next(nouns.Length)];
+			string path = (i % 3) switch
+			{
+				0 => $"/api/{a}/{b}",
+				1 => $"/api/{a}/{rnd.Next(1000)}",
+				_ => $"/{a}/x/y/{rnd.Next(1000)}"
+			};
+			return (m, path);
+		}).ToArray();
 	}
 
-	static void RunCase(MethodPrefixIndex idx, string method, string path)
+	[Benchmark]
+	public int LookupCandidates()
 	{
-		Console.WriteLine($"Request {method} {path}");
-		int n = 0;
-		foreach (var c in idx.GetCandidates(method, path))
+		int total = 0;
+		for (int i = 0; i < _queries.Length; i++)
 		{
-			Console.WriteLine($"  cand[{n++}] => {c.Method} {c.Template}");
+			var (m, p) = _queries[i];
+			var cands = _index.GetCandidates(m, p);
+			total += cands.Count;
 		}
-		Console.WriteLine();
+		return total;
+	}
+}
+
+class Program
+{
+	static void Main(string[] args)
+	{
+		BenchmarkRunner.Run<RoutingBenchmarks>();
 	}
 }
