@@ -8,6 +8,6 @@ Intel Xeon Processor, 1 CPU, 4 logical and 4 physical cores
 
 
 ```
-| Method           | Mean     | Error     | StdDev    | Allocated |
-|----------------- |---------:|----------:|----------:|----------:|
-| LookupCandidates | 5.172 ms | 0.0233 ms | 0.0194 ms |   8.08 MB |
+| Method                     | Mean     | Error    | StdDev   | Allocated |
+|--------------------------- |---------:|---------:|---------:|----------:|
+| LookupCandidates_ZeroAlloc | 12.80 ms | 0.067 ms | 0.063 ms |      18 B |

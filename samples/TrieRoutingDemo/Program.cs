@@ -15,56 +15,26 @@ class Route
 	}
 }
 
-class MethodPrefixIndex
+sealed class ZeroAllocIndex
 {
-	private readonly Dictionary<string, List<Route>> _index = new(StringComparer.OrdinalIgnoreCase);
-	private readonly List<Route> _paramFirst = new();
-
-	public void Add(Route route)
+	private sealed class NodeBuilder
 	{
-		string prefix = GetLeadingLiteralPrefix(route.Template);
-		if (prefix.Length == 0)
-		{
-			_paramFirst.Add(route);
-			return;
-		}
-		AddToIndex("*|" + prefix, route);
-		AddToIndex(route.Method + "|" + prefix, route);
+		public Dictionary<string, NodeBuilder> Children = new(StringComparer.OrdinalIgnoreCase);
+		public List<Route> AnyRoutes = new();
+		public Dictionary<string, List<Route>> MethodRoutes = new(StringComparer.OrdinalIgnoreCase);
 	}
 
-	public List<Route> GetCandidates(string method, string path)
+	private sealed class Node
 	{
-		List<Route> candidates = new();
-		method = (method ?? "").ToUpperInvariant();
-		path = (path ?? "").Trim('/');
-		var segs = path.Length == 0 ? Array.Empty<string>() : path.Split('/');
-
-		for (int len = segs.Length; len >= 0; len--)
-		{
-			string prefix = Join(segs, len);
-			TryAdd(candidates, method + "|" + prefix);
-			TryAdd(candidates, "*|" + prefix);
-			if (candidates.Count > 0) break;
-		}
-
-		if (_paramFirst.Count > 0) candidates.AddRange(_paramFirst);
-		return candidates;
+		public SegmentEntry[] Children = Array.Empty<SegmentEntry>();
+		public Route[] AnyRoutes = Array.Empty<Route>();
+		public Dictionary<string, Route[]> MethodRoutes = new(StringComparer.OrdinalIgnoreCase);
 	}
 
-	private void TryAdd(List<Route> list, string key)
-	{
-		if (_index.TryGetValue(key, out var bucket)) list.AddRange(bucket);
-	}
-
-	private void AddToIndex(string key, Route route)
-	{
-		if (!_index.TryGetValue(key, out var bucket))
-		{
-			bucket = new List<Route>();
-			_index[key] = bucket;
-		}
-		bucket.Add(route);
-	}
+	private readonly NodeBuilder _rootBuilder = new();
+	private Node? _root;
+	private Route[] _paramFirstAny = Array.Empty<Route>();
+	private Dictionary<string, Route[]> _paramFirstByMethod = new(StringComparer.OrdinalIgnoreCase);
 
 	private static string GetLeadingLiteralPrefix(string template)
 	{
@@ -80,30 +50,151 @@ class MethodPrefixIndex
 		return lits.Count == 0 ? string.Empty : string.Join("/", lits);
 	}
 
-	private static string Join(string[] parts, int len)
+	public void Add(Route route)
 	{
-		if (len <= 0) return string.Empty;
-		if (len == 1) return parts[0];
-		if (len > parts.Length) len = parts.Length;
-		return string.Join("/", parts, 0, len);
+		string prefix = GetLeadingLiteralPrefix(route.Template);
+		if (prefix.Length == 0)
+		{
+			// parameter-first fallback
+			if (!_paramFirstByMethod.TryGetValue(route.Method, out var list))
+			{
+				_paramFirstByMethod[route.Method] = list = Array.Empty<Route>();
+			}
+			// accumulate using builder local list then freeze later
+			// for simplicity, reuse root builder method routes entry "" key
+			if (!_rootBuilder.MethodRoutes.TryGetValue($"param:{route.Method}", out var l))
+			{
+				l = new List<Route>();
+				_rootBuilder.MethodRoutes[$"param:{route.Method}"] = l;
+			}
+			l.Add(route);
+			_rootBuilder.AnyRoutes.Add(route); // track for any as well
+			return;
+		}
+
+		var segs = prefix.Split('/');
+		var cur = _rootBuilder;
+		for (int i = 0; i < segs.Length; i++)
+		{
+			string seg = segs[i];
+			if (!cur.Children.TryGetValue(seg, out var next))
+			{
+				next = new NodeBuilder();
+				cur.Children[seg] = next;
+			}
+			cur = next;
+		}
+		cur.AnyRoutes.Add(route);
+		if (!cur.MethodRoutes.TryGetValue(route.Method, out var mr))
+		{
+			mr = new List<Route>();
+			cur.MethodRoutes[route.Method] = mr;
+		}
+		mr.Add(route);
+	}
+
+	public void Freeze()
+	{
+		_root = FreezeNode(_rootBuilder);
+		// freeze param-first buckets
+		_paramFirstAny = _rootBuilder.AnyRoutes.ToArray();
+		foreach (var kvp in _rootBuilder.MethodRoutes)
+		{
+			if (kvp.Key.StartsWith("param:", StringComparison.Ordinal))
+			{
+				string method = kvp.Key.Substring(6);
+				_paramFirstByMethod[method] = kvp.Value.ToArray();
+			}
+		}
+	}
+
+	private static Node FreezeNode(NodeBuilder b)
+	{
+		var n = new Node
+		{
+			AnyRoutes = b.AnyRoutes.ToArray(),
+			MethodRoutes = b.MethodRoutes.ToDictionary(k => k.Key, v => v.Value.ToArray(), StringComparer.OrdinalIgnoreCase)
+		};
+		if (b.Children.Count == 0) return n;
+		var entries = new List<SegmentEntry>(b.Children.Count);
+		foreach (var kv in b.Children)
+		{
+			entries.Add(new SegmentEntry(kv.Key, FreezeNode(kv.Value)));
+		}
+		n.Children = entries.ToArray();
+		return n;
+	}
+
+	public int CountCandidates(string method, string path)
+	{
+		if (_root == null) throw new InvalidOperationException("Freeze first");
+		method = (method ?? string.Empty).ToUpperInvariant();
+		ReadOnlySpan<char> s = (path ?? string.Empty).AsSpan().Trim('/');
+
+		Node? node = _root;
+		Node? best = null;
+		int i = 0;
+		while (i <= s.Length && node != null)
+		{
+			best = node;
+			if (i == s.Length) break;
+			int nextSlash = s.Slice(i).IndexOf('/');
+			ReadOnlySpan<char> seg = nextSlash >= 0 ? s.Slice(i, nextSlash) : s.Slice(i);
+			i = nextSlash >= 0 ? i + nextSlash + 1 : s.Length;
+			node = FindChild(node, seg);
+		}
+
+		int count = 0;
+		if (best != null)
+		{
+			count += best.AnyRoutes.Length;
+			if (best.MethodRoutes.TryGetValue(method, out var mr)) count += mr.Length;
+		}
+		// param-first
+		count += _paramFirstAny.Length;
+		if (_paramFirstByMethod.TryGetValue(method, out var pm)) count += pm.Length;
+		return count;
+	}
+
+	private static Node? FindChild(Node node, ReadOnlySpan<char> seg)
+	{
+		var children = node.Children;
+		for (int k = 0; k < children.Length; k++)
+		{
+			if (seg.Equals(children[k].Segment, StringComparison.OrdinalIgnoreCase))
+			{
+				return children[k].Child;
+			}
+		}
+		return null;
+	}
+
+	private readonly struct SegmentEntry
+	{
+		public readonly string Segment;
+		public readonly Node Child;
+		public SegmentEntry(string segment, Node child)
+		{
+			Segment = segment;
+			Child = child;
+		}
 	}
 }
 
 [MemoryDiagnoser]
 public class RoutingBenchmarks
 {
-	private MethodPrefixIndex _index = default!;
+	private ZeroAllocIndex _index = default!;
 	private (string method, string path)[] _queries = default!;
 
 	[GlobalSetup]
 	public void Setup()
 	{
-		_index = new MethodPrefixIndex();
+		_index = new ZeroAllocIndex();
 		var rnd = new Random(42);
 		string[] methods = new[] { "GET", "POST", "PUT", "DELETE" };
 		string[] nouns = Enumerable.Range(0, 500).Select(i => $"resource{i}").ToArray();
 
-		// 5000 routes: mix of literal and parameter segments
 		for (int i = 0; i < 5000; i++)
 		{
 			string m = methods[i % methods.Length];
@@ -117,8 +208,8 @@ public class RoutingBenchmarks
 			};
 			_index.Add(new Route(m, tpl));
 		}
+		_index.Freeze();
 
-		// 10k queries
 		_queries = Enumerable.Range(0, 10_000).Select(i =>
 		{
 			string m = methods[i % methods.Length];
@@ -135,14 +226,13 @@ public class RoutingBenchmarks
 	}
 
 	[Benchmark]
-	public int LookupCandidates()
+	public int LookupCandidates_ZeroAlloc()
 	{
 		int total = 0;
 		for (int i = 0; i < _queries.Length; i++)
 		{
 			var (m, p) = _queries[i];
-			var cands = _index.GetCandidates(m, p);
-			total += cands.Count;
+			total += _index.CountCandidates(m, p);
 		}
 		return total;
 	}
