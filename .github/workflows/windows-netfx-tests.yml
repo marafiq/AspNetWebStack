@@ -18,15 +18,28 @@ jobs:
       - name: Setup NuGet
         uses: NuGet/setup-nuget@v2
 
-      - name: Install .NET Framework 4.5 Targeting Pack (VS Installer)
+      - name: Install .NET Framework Targeting Packs (VS Installer)
         shell: pwsh
         run: |
           $vsPath = "C:/Program Files/Microsoft Visual Studio/2022/Enterprise"
           $installer = "C:/Program Files (x86)/Microsoft Visual Studio/Installer/vs_installer.exe"
           if (Test-Path $installer) {
-            & $installer modify --installPath "$vsPath" --add Microsoft.Net.Component.4.5.TargetingPack --norestart --quiet --force || exit $LASTEXITCODE
+            $components = @(
+              'Microsoft.Net.Component.4.5.TargetingPack',
+              'Microsoft.Net.Component.4.5.1.TargetingPack',
+              'Microsoft.Net.Component.4.5.2.TargetingPack',
+              'Microsoft.Net.Component.4.6.TargetingPack',
+              'Microsoft.Net.Component.4.6.1.TargetingPack',
+              'Microsoft.Net.Component.4.6.2.TargetingPack',
+              'Microsoft.Net.Component.4.7.TargetingPack',
+              'Microsoft.Net.Component.4.7.1.TargetingPack',
+              'Microsoft.Net.Component.4.7.2.TargetingPack',
+              'Microsoft.Net.Component.4.8.TargetingPack'
+            )
+            $args = @('modify','--installPath',"$vsPath",'--norestart','--quiet','--force') + ($components | ForEach-Object { '--add'; $_ })
+            & $installer @args || exit $LASTEXITCODE
           } else {
-            Write-Warning "VS Installer not found; proceeding without explicit 4.5 targeting pack install"
+            Write-Warning "VS Installer not found; proceeding without explicit targeting pack installs"
           }
 
       - name: NuGet restore solution (packages.config)
