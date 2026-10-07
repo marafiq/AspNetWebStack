@@ -8,6 +8,9 @@ namespace System.Web.Mvc.Async
     public sealed class OperationCounter
     {
         private int _count;
+#if NET10_0_OR_GREATER
+        internal AspNetWebStack.Native.NativeLegacyAsyncOperation NativeOperation { get; set; }
+#endif
 
         public event EventHandler Completed;
 
@@ -49,6 +52,13 @@ namespace System.Web.Mvc.Async
 
         private void OnCompleted()
         {
+#if NET10_0_OR_GREATER
+            if (NativeOperation != null)
+            {
+                NativeOperation.Notify(() => { var nativeHandler = Completed; if (nativeHandler != null) nativeHandler(this, EventArgs.Empty); }, false);
+                return;
+            }
+#endif
             EventHandler handler = Completed;
             if (handler != null)
             {

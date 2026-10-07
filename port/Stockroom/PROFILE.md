@@ -1,0 +1,28 @@
+# Supported native profile —0.1.0-u60
+
+This unsigned local source recompilation preserves ordinary MVC developer shapes while using native .NET10 hosting, routing, authentication and protection. It is not an official Microsoft distribution, signed Framework replacement, general System.Web emulator or production-readiness certification. Source compatibility, binary/type identity, wire/token formats and runtime behavior are separate claims. The tested sample is Stockroom; accepted earlier combined-consumer evidence remains valid within its contracts.
+
+| Capability group | Implemented/proven boundary | Unsupported or untested modes |
+|---|---|---|
+| Controllers and DI | Explicit assemblies, original discovery, scoped native activation/resolver | One MVC/global configuration per process; arbitrary multi-app composition untested |
+| Async actions | Awaited Task and admitted original legacy pairs, native cooperative settlement | Detached/async-void, custom APM/managers, async children unsupported; uncooperative work can wait |
+| Routing/URLs/HTTP | Conventional/attribute/area/method routes, native links, root/nested mounts, HTTPS filters | Custom route callbacks/handlers, physical routes and automatic area scanning unsupported |
+| Razor | Build-time original C# Razor, typed views/layouts/partials/sections | Runtime compilation/CodeDOM host, VB and general multi-app runtime unsupported |
+| Forms/helpers/metadata | Original binding, helpers, server validation and metadata/filter overrides | jQuery unobtrusive browser validation/Ajax execution unimplemented; sample fetch is separate |
+| Children/WebForms | Admitted synchronous child composition and leaf cache (prior combined proof) | Async/custom children/nested cache and historical WebForms lifecycle unsupported |
+| Binding/request access | Prepared bounded form/JSON/multipart/query; owned lookup Params, detached cookies/metadata | No unprepared reads, full Params enumeration, combined unvalidated, DNS/browser/physical-path service |
+| Results/files/uploads | Original results and bounded staged file/upload profile (prior combined proof) | General streaming/ranges/virtual files/header emulation unsupported; no sample file endpoints |
+| Authentication/errors/filters | Trusted native principal/policy/CSRF with original MVC attributes; standard cookie local login and deployment OIDC | Configured native OIDC/cookie in deployment; provider lifecycle/revocation remains a host responsibility |
+| Caches | Eligible anonymous stateless output/leaf cache (prior combined proof) | Stateful/private/client/proxy/custom modes unsupported; no sample caching |
+| Lifecycle/session/TempData | Explicit native startup, typed bounded nonlocking session, protected-cookie TempData | Session rotation/Abandon/per-session timeout/broad providers unsupported; commit failure may persist; sample session disabled |
+| Serialization/cookies/tokens | Bounded original outbound/native inbound JSON, native antiforgery/DP, detached request cookie data | No historical MachineKey/token/cookie/wire interoperability; persistent key encryption/discriminator configured, actual crypto persistence/cross-restart cookies untested |
+| Packaging/deployment | Exact package-only Debug/Release/publish with private Razor; runnable local guide | Framework-dependent untrimmed directory only; deployment transport/encrypted keys/proxy configured; business state durable SQLite; actual crypto/proxy/provider provisioning untested |
+| Source/binary/platform | Preserved released MVC source/API rows, explicit native adaptations and unsigned identities | Missing historical handlers/startup/WebForms, LinqBinaryModelBinder/MvcWebRazorHostFactory remain visible; no Framework/IIS binary/platform parity |
+
+No exclusion earns implementation credit. Whole-port T82 acceptance and independent weighted maturity are separately assessed; this profile does not redefine the original10weighted groups or claim completeness from14checklist rows. This U60 native profile passed independent review; whole-port completion remains unclaimed. See [operations](OPERATIONS.md) and [provenance](PROVENANCE.md).
+
+## Finite compatibility disposition
+
+Implemented native behavior is backed by bounded contracts and observed workflows; configuration responsibilities are concrete shipped code/settings, not missing MVC machinery. Deployment operators own identity lifecycle, certificates, protected ring access/rotation, proxy ingress and durable storage operations. Those operations remain untested here and receive no behavior credit. Original unobtrusive validation/Ajax remains missing client behavior and the next release gate.
+
+The released MVC type surface has16 named absent types: `LinqBinaryModelBinder`, `MvcHandler`, `MvcHttpHandler`, `MvcWebRazorHostFactory`, `PreApplicationStartCode`, `ViewMasterPage`, `ViewMasterPage<TModel>`, `ViewPage`, `ViewPage<TModel>`, `ViewTemplateUserControl`, `ViewTemplateUserControl<TModel>`, `ViewType`, `ViewUserControl`, `ViewUserControl<TModel>`, `WebFormView`, `WebFormViewEngine`. Native endpoint hosting/startup and build-time Razor replace the handler/prestart/Razor-host responsibilities but do not restore those source shapes. WebForms page/control/view-engine types are unsupported historical platform shapes. `LinqBinaryModelBinder` remains an unsupported source shape. Their disposition against the original agreed API requirement is still explicit release assessment work; listing them is not implementation, silent scope removal or completion credit. Unsigned binary/type identity and native token/wire formats remain intentionally different from Framework. T82 stays separately assessed.

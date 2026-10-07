@@ -382,8 +382,10 @@ namespace System.Web.Mvc
             AddValidationAttributeAdapter(dict, typeof(MinLengthAttribute),
                 (metadata, context, attribute) => new MinLengthAttributeAdapter(metadata, context, (MinLengthAttribute)attribute));
 
+#if !NET10_0_OR_GREATER
             AddValidationAttributeAdapter(dict, typeof(MembershipPasswordAttribute),
                     (metadata, context, attribute) => new MembershipPasswordAttributeAdapter(metadata, context, (MembershipPasswordAttribute)attribute));
+#endif
 
             AddValidationAttributeAdapter(dict, typeof(DataAnnotationsCompareAttribute),
                     (metadata, context, attribute) => new CompareAttributeAdapter(metadata, context, (DataAnnotationsCompareAttribute)attribute));

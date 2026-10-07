@@ -1,0 +1,977 @@
+{
+  "repository": "https://github.com/dotnet/systemweb-adapters",
+  "commit": "30ccbfbd54f59381f98066c2197f313cd2161fe1",
+  "package_baseline": "Microsoft.AspNetCore.SystemWebAdapters 2.3.0 net10.0",
+  "source_files_modified": 0,
+  "excluded_source": "HtmlString.IHtmlContent.cs",
+  "files": [
+    {
+      "file": "port/SystemWebAdapters/Upstream/Adapters/Features/ApplicationEvent.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Adapters/Features/ApplicationEvent.cs",
+      "git_blob": "2a805dd59db682f3b03f0b03991cf2e49ce5c1ac",
+      "bytes": 1081,
+      "sha256": "b9ab7381fbaec0c54dbfb534349f8292e4b314ae991316a7b9f512e49d21dc54",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Adapters/Features/IBrowserCapabilitiesFactory.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Adapters/Features/IBrowserCapabilitiesFactory.cs",
+      "git_blob": "96dca6dd185caaa0d8f933375eeb8f559d565b51",
+      "bytes": 338,
+      "sha256": "3248e7c8b12ef45a4558a1b6d4f43bf7dcab63570c1ee94455d052bfdb33f3a9",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Adapters/Features/IHttpApplicationFeature.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Adapters/Features/IHttpApplicationFeature.cs",
+      "git_blob": "82d914c8a0bb2f5bf2d0ad468b10a0284832aa51",
+      "bytes": 1631,
+      "sha256": "949876055dca0579d78e34b6e188b9be5c3bbc288622d3a41e47cb1dc90a36f5",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Adapters/Features/IHttpBrowserCapabilityFeature.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Adapters/Features/IHttpBrowserCapabilityFeature.cs",
+      "git_blob": "2630c9272bea896e1cf73b7bd39441ce822ddcfc",
+      "bytes": 535,
+      "sha256": "f6dd020ba2d76bf04532caa29df8f1b76679075873a5a59f2a302f2ef0fa555b",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Adapters/Features/IHttpHandlerFeature.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Adapters/Features/IHttpHandlerFeature.cs",
+      "git_blob": "ea50f11d5ac68f698e2a2c7feba24972c11fa855",
+      "bytes": 1032,
+      "sha256": "c3556e27c0a66b9fad432501d156152e215acf9e7c70e56064a4fc1957475fb4",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Adapters/Features/IHttpRequestInputStreamFeature.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Adapters/Features/IHttpRequestInputStreamFeature.cs",
+      "git_blob": "19162395ac261cc45d2948b5242139642733a6aa",
+      "bytes": 1731,
+      "sha256": "b93eedc665eab620962b32872c206ccea12e4cffad4b3fe122ce60c1eb29deb1",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Adapters/Features/IHttpRequestPathFeature.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Adapters/Features/IHttpRequestPathFeature.cs",
+      "git_blob": "f920e789c93e4f8adab65c067b1b7882eaf87125",
+      "bytes": 901,
+      "sha256": "2e5b72e12b46f1e0f2390c291b69b160806d76d92ce456980bd4e858bfec9453",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Adapters/Features/IHttpResponseBufferingFeature.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Adapters/Features/IHttpResponseBufferingFeature.cs",
+      "git_blob": "c9713376a4f12788c86aa4c9f005e39cbdbd7edf",
+      "bytes": 736,
+      "sha256": "ba5e3567b68d0b48abe95bec8382fb81202d8c4e40b6c4281cf2e23a164d2108",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Adapters/Features/IHttpResponseContentFeature.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Adapters/Features/IHttpResponseContentFeature.cs",
+      "git_blob": "e2cfc735592aca02daa0e88b65fef05f9ffecd08",
+      "bytes": 549,
+      "sha256": "af839b1c55ac6e4d07348dc372e33dc24979f4600e871308cd371d61751a6fc0",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Adapters/Features/IHttpResponseEndFeature.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Adapters/Features/IHttpResponseEndFeature.cs",
+      "git_blob": "e80b384ffccdef812c206332bd7d350a8f0277ec",
+      "bytes": 578,
+      "sha256": "0c390f0a3504e00e7d2dfb469f99630a9a150e78d20cd7816a19bdb2e531c42f",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Adapters/Features/IRequestExceptionFeature.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Adapters/Features/IRequestExceptionFeature.cs",
+      "git_blob": "f401b37ed5255763b9f5eec28dbdd212e5d3d7dc",
+      "bytes": 645,
+      "sha256": "4d89df276d551b56c7b4f9a9cc46d10467c3050d536a14a692f6b7ceeb4b26ac",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Adapters/Features/IRequestUserFeature.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Adapters/Features/IRequestUserFeature.cs",
+      "git_blob": "9101c03109538cf58eda50a444c5081d9a49a3e5",
+      "bytes": 1203,
+      "sha256": "5f024a60df1b37d71eee88a8e3b9e410f23eeadf0eb4fa6caea5046a272e3120",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Adapters/Features/ISessionStateFeature.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Adapters/Features/ISessionStateFeature.cs",
+      "git_blob": "b006f85739ff66725d23172e44f121347acdc191",
+      "bytes": 700,
+      "sha256": "702f7ed13c2870123e7aa76903b0cd1e7a02222fdb2063dde1aeb0ffcb98a0d1",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Adapters/Features/ITimestampFeature.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Adapters/Features/ITimestampFeature.cs",
+      "git_blob": "ac5351db16abe87ee3d23d1429bd1b5d6885c5ac",
+      "bytes": 503,
+      "sha256": "b7d4d2d5a41e29260c2cf3492f0b5089aba68a0b2f45f052c398d737dd02c8dc",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Adapters/Features/ITransferRequestFeature.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Adapters/Features/ITransferRequestFeature.cs",
+      "git_blob": "8e29cde50d09eabee811e57cbba48f1d4408e571",
+      "bytes": 798,
+      "sha256": "69bf60984e1d63623335bcdf4b789f7a19a096d48943cb6459d6cd5bcfc2cfcc",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Adapters/IConfigurationAccessor.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Adapters/IConfigurationAccessor.cs",
+      "git_blob": "65747226012da3baba0abe71c201faf9fb85ddba",
+      "bytes": 327,
+      "sha256": "04d281605d5bdc37a8c32ec29f08cb4c7185ae31eff87e71cfa0702d24fffeda",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Adapters/IModuleRegistrar.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Adapters/IModuleRegistrar.cs",
+      "git_blob": "f818edaba23940cdf695b7b43cdaaa2fef8cbb75",
+      "bytes": 187,
+      "sha256": "a82955a391bcfb7582d9805f239f73cbecf1b062b6fe8ebfee363776734e3fea",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Adapters/ITraceContext.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Adapters/ITraceContext.cs",
+      "git_blob": "e65dfd83113dfd745c570c6df7e22fad32d06bff",
+      "bytes": 269,
+      "sha256": "d0aa457dd1294e10578a562fd5d3e57b19e86fe48b735e1a12a3e4cc412c3ce3",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Adapters/SessionState/ISessionState.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Adapters/SessionState/ISessionState.cs",
+      "git_blob": "100bc36fc70e9df67dca7bc92d77169c5fdf167a",
+      "bytes": 935,
+      "sha256": "6064b9d03e0fd512f303d55b13d6fac3d7d7903e1f2756e4610aeb35b600cdf4",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/AppConfiguration.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/AppConfiguration.cs",
+      "git_blob": "3044ae77b433c31afe03a62a42f29f27d457ac17",
+      "bytes": 1528,
+      "sha256": "2283c327646506ed62627b73cbaa7056ca4c74103929377475e4f39afb9a513e",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Caching/Cache.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Caching/Cache.cs",
+      "git_blob": "4d098ecceb9a67f91a9e5f016b152caf5937142c",
+      "bytes": 6146,
+      "sha256": "c9ec0ae671a06a4b92ae5f375d181d4d71efd1c38e9d69124597023b33e3485e",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Caching/CacheDependency.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Caching/CacheDependency.cs",
+      "git_blob": "d1f60c7ce1b7b11e195bd81709717dd37173c297",
+      "bytes": 6667,
+      "sha256": "73bac3d6f71d6c53f02944404f6676456a43b395b99f4d81e9596e999f8a6230",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Caching/CacheExtensions.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Caching/CacheExtensions.cs",
+      "git_blob": "b6c211856fd77406f143c1564928280e9b5d13ee",
+      "bytes": 1171,
+      "sha256": "2e1cae0be1e1508f3ab090f6b7ccbc327fd3dd53939d7e7484e2f4c752a36fd9",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Caching/CacheItemPriority.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Caching/CacheItemPriority.cs",
+      "git_blob": "8441d95c0f64ecd158c16175f8b2f7aa2dd3a883",
+      "bytes": 579,
+      "sha256": "6687744078ba3b2dcfd4c9811d643fa2b79a8760e1f358d233d5c8f72d8af920",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Caching/CacheItemRemovedReason.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Caching/CacheItemRemovedReason.cs",
+      "git_blob": "86dd4c917e4d861c866b36f79ec1ea3d155a919f",
+      "bytes": 408,
+      "sha256": "53de163d715b7fa3c718f2273e3c026170d5c9dfb9653a075da408795a6effb2",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Caching/CacheItemUpdateReason.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Caching/CacheItemUpdateReason.cs",
+      "git_blob": "2cf810775443d1304614924b7467fbb006d6ead1",
+      "bytes": 379,
+      "sha256": "301df403e700961686eaac3082c2cc75fc6210c91a6fb8c574394229423e9328",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Caching/ChangeMonitorExtensions.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Caching/ChangeMonitorExtensions.cs",
+      "git_blob": "5b3a54a12e2e8b7ccfe7ca0ac6db7e81ee3f576c",
+      "bytes": 738,
+      "sha256": "8fcd6707afaf51c605576e6a4778bd75ae0f0773077af5d488c055a797980874",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Configuration/BrowserCapabilitiesFactory.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Configuration/BrowserCapabilitiesFactory.cs",
+      "git_blob": "ac52ca228501f12bcf229378518446fd5f339694",
+      "bytes": 29784,
+      "sha256": "98d22c539e383670e85cdf247e48cd802cfc8153f9f6888ad195c3b00f6fc0c0",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Configuration/HttpCapabilitiesBase.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Configuration/HttpCapabilitiesBase.cs",
+      "git_blob": "ad5fd73964d71a764f1d3134ad0aa838f11f5ada",
+      "bytes": 3712,
+      "sha256": "0a213762c31a4c0e39a457c0ac52b10502961b3ea2c9e5092f737c4c5b4c0aa9",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Constants.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Constants.cs",
+      "git_blob": "814dfbf045db33191021b478a52a9f572f46f986",
+      "bytes": 1313,
+      "sha256": "ccc0a1fd75ef928aec4f1eb5a973a5bf7473bea1f69c896c6f6bf79696387e47",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/FeatureCollectionExtensions.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/FeatureCollectionExtensions.cs",
+      "git_blob": "cf3d39bc974516158e28b92349873c15d8ffdae3",
+      "bytes": 590,
+      "sha256": "35f984d83f1d9b61c0646851df7dae9d26b9f6875c8068bd689521b92e20a2c6",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Hosting/HostingEnvironment.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Hosting/HostingEnvironment.cs",
+      "git_blob": "35163db7cd747e03ed1cafc0ea2a0e335a312c1a",
+      "bytes": 2349,
+      "sha256": "22f8552a205f301567db6c659759661c062c7fedf2dfb55b535d500f524de411",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Hosting/HostingEnvironmentAccessor.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Hosting/HostingEnvironmentAccessor.cs",
+      "git_blob": "02c94508989691c5bd315d3e3cce35c3112e3567",
+      "bytes": 2465,
+      "sha256": "126d2a3c0f19218051c3322b3752b1d3eefc781f8cb0be1bcdb9125eb7726447",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Hosting/IMapPathUtility.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Hosting/IMapPathUtility.cs",
+      "git_blob": "be3544bd5eadd265489eeabf8d45170fcb42366e",
+      "bytes": 127,
+      "sha256": "1e143b728c257af4c8c974a3e5361dc56166948a1843c5c16e596389794f9816",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Hosting/MapPathUtility.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Hosting/MapPathUtility.cs",
+      "git_blob": "f01cb35d8e44a901b53d1cab3cdaedae21a69bc6",
+      "bytes": 1569,
+      "sha256": "31a76184c746ecf28862fec27f54a7cde206e59212f6632519abbc0e331631bb",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Hosting/VirtualDirectory.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Hosting/VirtualDirectory.cs",
+      "git_blob": "b1d7e165d92662ec9e2fae760b2134a512ddaae1",
+      "bytes": 1001,
+      "sha256": "b7af0dfa990581c56ee6275ab3a21aceee0a547deb49279abbcbd04118d7c590",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Hosting/VirtualFile.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Hosting/VirtualFile.cs",
+      "git_blob": "27b79da655f294afb8d7203f248470863c9e0319",
+      "bytes": 413,
+      "sha256": "764a4aa655c9b97a2c74d45c6e835c0d88879e7e8a9b5906f0f9b713c3a72412",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Hosting/VirtualFileBase.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Hosting/VirtualFileBase.cs",
+      "git_blob": "6129037980b8dc15f29decdbe22c549f80cc7274",
+      "bytes": 483,
+      "sha256": "d7082ab04e5f73f6ceb279077b783f6c4b3906c108239d8b85d689c1fcdd8d17",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Hosting/VirtualPathProvider.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Hosting/VirtualPathProvider.cs",
+      "git_blob": "b49eac0c9e95665a94fe6d74b5d6cdab4d3b4716",
+      "bytes": 2874,
+      "sha256": "cfd38931a1e35b1cbeea5b4994ec44492b17b5ba2494a1d858f4e9a4248e73ff",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HtmlString.IHtmlContent.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HtmlString.IHtmlContent.cs",
+      "git_blob": "df03c98890837a0f3353a24b57216d7b130b7f6a",
+      "bytes": 1038,
+      "sha256": "284a436769e3491f6ef508580582fb2240a3960ec04a530cfc8981e6308bdff9",
+      "compiled": false
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HtmlString.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HtmlString.cs",
+      "git_blob": "eccd707fd5ee7bd689799f32d1fb6211da1b0106",
+      "bytes": 539,
+      "sha256": "ea8d3bf2f6f6af2879e6cc075d6cfc646342a9b5a2ef0220e7b74c7166c521b8",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpApplication.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpApplication.cs",
+      "git_blob": "518ee60da2d60300720f861e2b14754c0fa514e3",
+      "bytes": 8689,
+      "sha256": "06944c898d523ae2100ca811457bc169a562591ca16a744623a53b52b0ef488b",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpApplicationState.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpApplicationState.cs",
+      "git_blob": "3cadac3bd8734669d1a75070f54925f82e0f61b8",
+      "bytes": 5128,
+      "sha256": "05e495b3b1f8edd60ac374a8a138985612591d9bbcffacf20a8ef087ecf49b42",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpApplicationStateBase.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpApplicationStateBase.cs",
+      "git_blob": "4f9478223a9cc786b0516be20a41fdf9fa296211",
+      "bytes": 4003,
+      "sha256": "f8710d4b474b9bf7c95321940939235882a5eac78810b861a0b6c8a4fb82ca09",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpApplicationStateWrapper.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpApplicationStateWrapper.cs",
+      "git_blob": "39c172613ad02c15548bec723e521b7308feabab",
+      "bytes": 2650,
+      "sha256": "4827ac94938e524a0e08ea92b4ab296d847d4693b6af1076a4b359f545ab2113",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpBrowserCapabilities.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpBrowserCapabilities.cs",
+      "git_blob": "04805c3b21c65b4285baa166dd7e6743efc2cbfc",
+      "bytes": 350,
+      "sha256": "73aae070e1f3e07345992509283f273f128a2bc1cc6a1feaa1002fd7b8d71e97",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpBrowserCapabilitiesBase.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpBrowserCapabilitiesBase.cs",
+      "git_blob": "d62362e74566aa03c5d17a8a27433fd5d159fd9e",
+      "bytes": 896,
+      "sha256": "b71e059f7656f8b967388baed5f562b5e59b5fca774bfaf5f22c6a7db6ba31a4",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpBrowserCapabilitiesWrapper.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpBrowserCapabilitiesWrapper.cs",
+      "git_blob": "68835d1cd922799adbd5181d2a286220e6750212",
+      "bytes": 954,
+      "sha256": "bdad1a0756c32c3957abf6004939744153575b6356df10fa6d4ae5e6a4a37314",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpCachePolicy.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpCachePolicy.cs",
+      "git_blob": "fc9ba257d937d32f634921434cfce1552f987ceb",
+      "bytes": 23722,
+      "sha256": "fd1842546cadf577be68b0d9af8945fc2983bb851ca0fe4c048806573bccf1bf",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpCachePolicyBase.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpCachePolicyBase.cs",
+      "git_blob": "cc68f5a8d18a6355994cf56d229a8f918888b68f",
+      "bytes": 2658,
+      "sha256": "bff4a0a265e4bdf9661e53d4386dc4449f125878aea1a98085fb445ee9c54148",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpCachePolicyWrapper.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpCachePolicyWrapper.cs",
+      "git_blob": "cf55dc56cd2b50235e3d4437b4cd2bc79992c416",
+      "bytes": 2789,
+      "sha256": "720196507a635a384f68b334a5953911cc080458f02969538d627bc7879da090",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpCacheRevalidation.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpCacheRevalidation.cs",
+      "git_blob": "4b55c64886bd183ccabd81f4e60fde4f39a16a5a",
+      "bytes": 386,
+      "sha256": "2e6999624127e822f72613072bb4a0d624644a616d49caceca46f914a6aff9f9",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpCacheVaryByContentEncodings.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpCacheVaryByContentEncodings.cs",
+      "git_blob": "c564f04a951219ffddbbebea467defa8258a9755",
+      "bytes": 3599,
+      "sha256": "4d3fb837837c26527c12a5c11d3c5061c9c0a9665b421ef57cd54ed0db1e6740",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpCacheVaryByHeaders.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpCacheVaryByHeaders.cs",
+      "git_blob": "5fdf0b53ca1e03b3c4b67c55c8d50db9f560e59a",
+      "bytes": 5091,
+      "sha256": "6cac41cb50c0a6479362a0feefc96df4df67f4607b793e7bc34e21d0bfc9a56c",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpCacheVaryByParams.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpCacheVaryByParams.cs",
+      "git_blob": "37585b6f83a51d96d806f77400e904cb5aecd4c3",
+      "bytes": 4585,
+      "sha256": "579b57cca29c3fa603e07f3a8b602a86be237715b5b1fc695bc657fbe641c8e2",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpCacheability.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpCacheability.cs",
+      "git_blob": "372a8efe7b70c771b643ee6d716f79b93c25b1d2",
+      "bytes": 574,
+      "sha256": "25cfc5aa5f759852d68c008f60d6b67ce839838f435876b0a1ee2d0ca8767c80",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpCacheabilityLimits.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpCacheabilityLimits.cs",
+      "git_blob": "27a7339206b47a348db462ad4a7004bfc48681ba",
+      "bytes": 309,
+      "sha256": "00c6c2fee37bdbd4f77a54dab4691602c102008c6754cb93ce885149c1433a98",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpContext.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpContext.cs",
+      "git_blob": "1b89bdafeb5f514066ccaea547c3ece4ed806a03",
+      "bytes": 7088,
+      "sha256": "87263bfa73ac6933be31fbf6099851474c3823d71a5389c8fba3d22a78912540",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpContextBase.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpContextBase.cs",
+      "git_blob": "ba30f5dd4eb2277bb503c46dc2bc5a3d375ae8bf",
+      "bytes": 4044,
+      "sha256": "4ec173b1ca3201a14a0bf1ade3918ff93c8a4883a84118f258cfaf824392f43a",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpContextRequestServicesExtensions.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpContextRequestServicesExtensions.cs",
+      "git_blob": "d152952eba908d2bf2cea1e864d5216f631f416f",
+      "bytes": 3264,
+      "sha256": "55a4a915baf28fe7acd98130645a9490c8b117bc9d573f55a0ff4a520c29d279",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpContextWrapper.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpContextWrapper.cs",
+      "git_blob": "bd7c89f10c33b611c10a303c095504489d203e51",
+      "bytes": 3973,
+      "sha256": "4b87f62685d96842daf632ba456f4881269437cdfeda99bdc931b081e3edc608",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpCookie.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpCookie.cs",
+      "git_blob": "bf9d57cb7dba8023395cb6c4f93b15ab934645b7",
+      "bytes": 4696,
+      "sha256": "9dd3d60f01441b927e194d83b6296c4f875bbc3b18281653967eb41156ed00c8",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpCookieCollection.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpCookieCollection.cs",
+      "git_blob": "b9e4dbe2ccdb9f56820f8627bffecb2a6938c04e",
+      "bytes": 3656,
+      "sha256": "94bdf6d9ca276dfcfc85f08b2cfe8fed8d69748d794591cc3f761f6e85511207",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpDictionary.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpDictionary.cs",
+      "git_blob": "4e54c08cd2a530fae44676a26c2ff3b94433550c",
+      "bytes": 737,
+      "sha256": "dd7202c63897b784802093f1a58b4a548cc7d36a5a957892a1eb451ab2e419c6",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpException.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpException.cs",
+      "git_blob": "d2aafaf0bedb0b779034ce821cc27074adadfdf9",
+      "bytes": 1452,
+      "sha256": "93d64b21cb9548e305372fb9bbdae398ec435d76a887ab3a6c1acb6108a26507",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpFileCollection.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpFileCollection.cs",
+      "git_blob": "8e64ff55b2ca5daa574ef61be859dcfc172bbb99",
+      "bytes": 4882,
+      "sha256": "361aad95b2ca719847d6e72a125a1333557fc2b4962ef04bb98fcb92bccd742a",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpFileCollectionBase.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpFileCollectionBase.cs",
+      "git_blob": "278b6257ba69d9a3b805272b66d83c33a6391586",
+      "bytes": 1475,
+      "sha256": "b550188207988873a24e9b50f03e7e2ced587515c80fa99dc0ea91d804e01fb3",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpFileCollectionWrapper.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpFileCollectionWrapper.cs",
+      "git_blob": "aba6ff30b62ed85750f89fc3a346c007bdbd9557",
+      "bytes": 1566,
+      "sha256": "68856c3a38e57e6f1115ca3d54afd5ceb7e7c6efa5b8079c98bf5b195074f31f",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpModuleCollection.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpModuleCollection.cs",
+      "git_blob": "42959ea115ea77f96e6106074b22cf6999f07312",
+      "bytes": 2146,
+      "sha256": "b5575dad2abf628f5cdef9361c9c84ab097dcb14fcaa2cdc5fbfbb49ff62dd3b",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpPostedFile.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpPostedFile.cs",
+      "git_blob": "65bb0c489157a4a036ed5754b87d8a3eff3b196a",
+      "bytes": 1040,
+      "sha256": "c67f1df5f7c9868b284b78fd3833e2371ad35a73de725ce0fa15c15353475dfa",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpPostedFileBase.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpPostedFileBase.cs",
+      "git_blob": "b5451728163dd098efb6170b6a326b8430aff23f",
+      "bytes": 777,
+      "sha256": "ac9a1da8d39c66ff5136d99fd414bd312cd55557f9a1daab8f22693697178e1a",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpPostedFileWrapper.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpPostedFileWrapper.cs",
+      "git_blob": "6c1ba9d3fd2de264ad8d781d10dd1330e4af1ad3",
+      "bytes": 771,
+      "sha256": "4ea9cf3d448e15cb52bcfb69b43a451965297606c6c863754ea8acaf767b3497",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpRequest.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpRequest.cs",
+      "git_blob": "2ebfde1b8e5fdf47b98fc37c1e325103155496af",
+      "bytes": 11674,
+      "sha256": "d58083424e71af5ddbcf7747d4e1114be3aed492e22a4f8071a9caca131d77c9",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpRequestBase.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpRequestBase.cs",
+      "git_blob": "b990031ac15f156d365a16ca7a07f0aac5d28166",
+      "bytes": 4804,
+      "sha256": "1fe397d16a1d2f67e02b2f9c25113c2f82963356458870f8acce3ac810fbb306",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpRequestWrapper.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpRequestWrapper.cs",
+      "git_blob": "494176ef7b04f9e06e9bc71f34d296a188b31d92",
+      "bytes": 3871,
+      "sha256": "451af47319020edbc618b0a49645a14eb13607c63caa8bc4dfe95593d8ecbaa4",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpResponse.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpResponse.cs",
+      "git_blob": "29b0808d631a44259ef283f45a74c679755025b7",
+      "bytes": 11619,
+      "sha256": "716b5f77dce857e580229e11ad1d243f17db55844a85cad19e148dc988ae98d0",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpResponseBase.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpResponseBase.cs",
+      "git_blob": "f03898dfc85935b9a2037748af895b5bf72a96fa",
+      "bytes": 6305,
+      "sha256": "bc79e3891f7d1c22493c98c13740234cfb6ebd3ea6a5f8bfeb9d41d0308d7455",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpResponseWrapper.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpResponseWrapper.cs",
+      "git_blob": "531272f40efa1f3df9a74ab9c0fbe56a1fea30e1",
+      "bytes": 5479,
+      "sha256": "7abcbb4058a9b3c019e94d6a257a84efef3d7a64fe40129f4c40852adc915c7b",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpRuntime.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpRuntime.cs",
+      "git_blob": "8aa305c26c3739ac2a5b2bf06140e952f80e4aa5",
+      "bytes": 749,
+      "sha256": "6cf7392550af7e8985e5031343de128e54f570d14a4dcdd82915848bfd7ab319",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpServerUtility.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpServerUtility.cs",
+      "git_blob": "8a3432a27abcf5479fef58fc33dd4aa8970fdeec",
+      "bytes": 6113,
+      "sha256": "94a1c6959840829e69eb6bf9e8e029f286a6b939cc816a6ba53d5221beac9f36",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpServerUtilityBase.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpServerUtilityBase.cs",
+      "git_blob": "136e62f35602333efc1db17f9196289d89986f54",
+      "bytes": 1018,
+      "sha256": "4be94c6366e57b4e45402b2dbcd1ab616b8746b9c3f084053575374ef40d6bba",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpServerUtilityWrapper.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpServerUtilityWrapper.cs",
+      "git_blob": "64d8e17ea4878cdf35e55b913c7d58dd72dddecf",
+      "bytes": 917,
+      "sha256": "23207d482f98394969e5b2a76c47363518efe2762148fdc4d7a4b2644943bfe4",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpTaskAsyncHandler.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpTaskAsyncHandler.cs",
+      "git_blob": "eb2782f06f86b7c6c599820b0e7aa8549946091a",
+      "bytes": 1684,
+      "sha256": "ed9afa3ceb5b7b105d87f007547aaf2406d078f5b0d87f4ff7c972c8b9b810b5",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpUnhandledException.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/HttpUnhandledException.cs",
+      "git_blob": "d00a896c182a0ea995970ed4a2333354439091ca",
+      "bytes": 472,
+      "sha256": "2609cd22968d86f2bef43ac48f799cf7955aa647c5bda5586bfb1f0d63516da9",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/IHtmlString.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/IHtmlString.cs",
+      "git_blob": "d42ebed6408c2c936e55e3d8358833a610de783c",
+      "bytes": 506,
+      "sha256": "8d49a96d3a1b1610f6795594f78eab877e202ebbb170cb3047f3b27cb9226877",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/IHttpAsyncHandler.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/IHttpAsyncHandler.cs",
+      "git_blob": "2a38517370a5c605cf51fccb0cc3475d89304f65",
+      "bytes": 361,
+      "sha256": "faa85a42d2330fa68226668a1bb85a00efe090a88a269d605a55ea4ec43fcbe6",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/IHttpHandler.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/IHttpHandler.cs",
+      "git_blob": "0fdb04cf792e4b10a54050932107d71102cd1f32",
+      "bytes": 271,
+      "sha256": "f9dd4ffac16f70cebc1ff6252d7c154454971e016cbeb9477e41f70da9d3f816",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/IHttpHandlerFactory.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/IHttpHandlerFactory.cs",
+      "git_blob": "b403b83ff16eeb4d9df2b9fe9f4efc88312eff37",
+      "bytes": 505,
+      "sha256": "eda3f70c53aa8ec5cb9579afa27b6393544fe57fcae5371da3927118f57c1565",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/IHttpModule.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/IHttpModule.cs",
+      "git_blob": "6f200e8cec3a860d58489dc9801f71ba3d7c1b09",
+      "bytes": 259,
+      "sha256": "8f627aa15cf8567dc162cd3c9ad8d9eb768b0123a64977df97bbcc0a1e99a0ca",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/IReadOnlySessionState.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/IReadOnlySessionState.cs",
+      "git_blob": "00a1fce4c689a71afbe072ef177cbff89dc014ff",
+      "bytes": 368,
+      "sha256": "38c3867db234b6600ea2c9193ea39065e60d1ddc3f28980e3662b55d4d5635c5",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/IRequiresSessionState.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/IRequiresSessionState.cs",
+      "git_blob": "a338b344017eb8b1ad88d232325f8499ad6d5429",
+      "bytes": 344,
+      "sha256": "c0922ef54844e6c429962f10849e886f8d4207b388b885bc051b642f5a5d875e",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/ISubscriptionToken.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/ISubscriptionToken.cs",
+      "git_blob": "b2e6db99ab3164100339a18a52326e992ea09abd",
+      "bytes": 443,
+      "sha256": "17c7cf370e858f1ec4ece658f9a069b3f4c590f5acce745cc1f01590be551db3",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Internal/FormCollectionReadOnlyDictionary.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Internal/FormCollectionReadOnlyDictionary.cs",
+      "git_blob": "95f52c0c4bef068d5b5f09b3e3a6ae8277894a86",
+      "bytes": 1317,
+      "sha256": "3263042663272077abadf7ebbf2515dcf53a981858a3024ddc540a13aea8a84a",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Internal/HttpValueCollection.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Internal/HttpValueCollection.cs",
+      "git_blob": "863071fe3e88891f16868d7cd0d440fda62f9183",
+      "bytes": 3512,
+      "sha256": "777f5498264ac6e9d791c6e0705b4c3cb8a9c863d4fdf018d0f7bebd00ff6c1e",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Internal/NameValueCollectionExtensions.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Internal/NameValueCollectionExtensions.cs",
+      "git_blob": "bb03c58b3b9c7e792e2439c977f101c2aff969cf",
+      "bytes": 1371,
+      "sha256": "24c71124c8ef4febea1fe81bc08275e7e218059ffaf191ff5272f1a6055af1d1",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Internal/NoGetByIntNameValueCollection.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Internal/NoGetByIntNameValueCollection.cs",
+      "git_blob": "f061c64a08332026d2ced4decf0317ac71398c64",
+      "bytes": 732,
+      "sha256": "1e4ca0210cc2e934e657a2ab24d32bc305984e0939903e3c0386e614dd10de50",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Internal/NonGenericCollectionWrapper.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Internal/NonGenericCollectionWrapper.cs",
+      "git_blob": "a3d817ffa71c92b3355353021d5a60d386f1cd4e",
+      "bytes": 1139,
+      "sha256": "19432391294fe0e55f89ff4b4d9c32b9c0563178ce70f2f15939db1216bab950",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Internal/NonGenericDictionaryWrapper.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Internal/NonGenericDictionaryWrapper.cs",
+      "git_blob": "ac3b98ce9b2a64e0fc7d291ca52ee44c1b03c47f",
+      "bytes": 3333,
+      "sha256": "d1d7dd0a7206c53055c5478533a5e6a3971734cf5d7ff11f61b098e231afa6fe",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Internal/ParamsCollection.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Internal/ParamsCollection.cs",
+      "git_blob": "65cd5d8052a331afd5b7dfc037060b99ceb2385e",
+      "bytes": 1580,
+      "sha256": "2fc4937ac161456bf9ba90fbcde2044f41b728cb53397a8890265289c7bc1e17",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Internal/QueryCollectionReadOnlyDictionary.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Internal/QueryCollectionReadOnlyDictionary.cs",
+      "git_blob": "e347989ea1afee27fa8d76010845a99b147ca0a0",
+      "bytes": 1332,
+      "sha256": "8918d63d5037e25627b2978b5df04ee9cd4b70844b9d1b45152049db16cb65d8",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Internal/ServerVariablesNameValueCollection.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Internal/ServerVariablesNameValueCollection.cs",
+      "git_blob": "87cf359c802b764f12e1c8591bc10b6f8b06793d",
+      "bytes": 2643,
+      "sha256": "24117446d0a6a539c3edf94d3c845ef74a14b47a6e3f08ca7f689d073b1fe0b2",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Internal/StringValuesDictionaryNameValueCollection.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Internal/StringValuesDictionaryNameValueCollection.cs",
+      "git_blob": "0c70bfafccb4a604786888281ab252e10aec6d62",
+      "bytes": 1861,
+      "sha256": "314c1b00c472197920b207d23734a77b675447e99a7cacb28d6742fd770d59bc",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Internal/StringValuesReadOnlyDictionaryNameValueCollection.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Internal/StringValuesReadOnlyDictionaryNameValueCollection.cs",
+      "git_blob": "3c3b2a29fe8ef926145cc132a7012fe660c2af05",
+      "bytes": 1382,
+      "sha256": "6b93bdd20a13bff8478af1eef2e0cbd7bba3e275467bdf087123623924b650cd",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Properties/PropertyInfo.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Properties/PropertyInfo.cs",
+      "git_blob": "b47d20eb6d74ccd266c873fa74dae9ebfea9d1f5",
+      "bytes": 187,
+      "sha256": "b142dfe20ef3e1395eb951fabb106e1b6ff858308adfc56274c9fa4a23a20fe3",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/ReadEntityBodyMode.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/ReadEntityBodyMode.cs",
+      "git_blob": "3c01a8a3c4fafa0d74ccd6ed5124ad1fb2d4a6dc",
+      "bytes": 375,
+      "sha256": "074ac2141c38cad1a4308538038c7a7aaec4b8d1941de57869a295c0b8d46bdc",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/RequestNotification.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/RequestNotification.cs",
+      "git_blob": "17159f2849324cc56f6abb8437a3c8a8208847c1",
+      "bytes": 961,
+      "sha256": "bd291d25a324d85bc57a374884fec0ff4c1e1da06e63f72ff3ef8bd6577e553a",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/SameSiteMode.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/SameSiteMode.cs",
+      "git_blob": "76f0be8e393b12c3c3d587b6768d10e1939edda4",
+      "bytes": 233,
+      "sha256": "5cb2dc7d3718693d889b6e458f544dcd7b97caa4947f5f43a3f5c3d291a0a8fe",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Security/MachineKey.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Security/MachineKey.cs",
+      "git_blob": "50608dfd176b7b896fb9c67a494f8bb93bf0c8ad",
+      "bytes": 1508,
+      "sha256": "03d4d401064109761c5faaaa859675e7719c1d63c5843ce5a13a9c260b8919c4",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/SessionState/HttpSessionState.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/SessionState/HttpSessionState.cs",
+      "git_blob": "1a2e60c31462baa86f9a2d11781b9af6cdc30727",
+      "bytes": 2218,
+      "sha256": "e4498242e4e4622d0613d2b89cb010afe55c2b4a857a2fd8cc22437d16797994",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/SessionState/HttpSessionStateBase.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/SessionState/HttpSessionStateBase.cs",
+      "git_blob": "2f47ca9ce5bc9d0b455b13895d44ec943cc80970",
+      "bytes": 1376,
+      "sha256": "bd08cc6e18e26478e27bba684e436424995102ef9d1485332646da72865f3f3a",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/SessionState/HttpSessionStateWrapper.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/SessionState/HttpSessionStateWrapper.cs",
+      "git_blob": "edb5724c549a997af53bc63b7819c55a292d1526",
+      "bytes": 1228,
+      "sha256": "d98b6e9be77cb5e956f347eabe13e8e06631aefd2b37635d5818e46d0e3632fc",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/SessionState/SessionStateBehavior.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/SessionState/SessionStateBehavior.cs",
+      "git_blob": "52ceb19daab732e63e601bbd73ea98733d313a5f",
+      "bytes": 282,
+      "sha256": "82276d72286e409a35129dd58494bee359336d1db0d85eb51d658cfb0c362fb7",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/SessionState/SessionStateMode.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/SessionState/SessionStateMode.cs",
+      "git_blob": "2e60b391c83e9aad63e258065fd0b34adff19361",
+      "bytes": 292,
+      "sha256": "3a325a5440f0da2df9c2c5e0e88c910ec8ec77b3b74c3d3ce5af9eda98490634",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/System/Diagnostics/CodeAnalysis/ExperimentalAttribute.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/System/Diagnostics/CodeAnalysis/ExperimentalAttribute.cs",
+      "git_blob": "7478c031a00dd5a159f0e3408a07ec1e36f2deac",
+      "bytes": 2782,
+      "sha256": "d80ccc655713f17544645f1ab5640942fbb1a60f349396e3c07dc6675b27b03f",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/SystemWebAdaptersConversionExtensions.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/SystemWebAdaptersConversionExtensions.cs",
+      "git_blob": "c555c7317153782dd24c775ae3b9ced469ff3c70",
+      "bytes": 3507,
+      "sha256": "2263b9ca8afbc9c2f7328436b2c2a16457be1d1612cbf2ab0769c514db7075f0",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/SystemWebAdaptersOptions.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/SystemWebAdaptersOptions.cs",
+      "git_blob": "be94709dc747409bd0afdf8b0f0140b0bffff10b",
+      "bytes": 2627,
+      "sha256": "e85ece9e6deefa7f685e2865d638fae086647f011379b36291c0b9fa48d7b69e",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/TraceContext.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/TraceContext.cs",
+      "git_blob": "401511a5122bc9f32fa3429c1551ed8c0787a7bc",
+      "bytes": 1513,
+      "sha256": "93745c5a707a68641232e7efeef7c22fa44b482b4ce052f5a1c420af72f57d22",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Utilities/StringUtil.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Utilities/StringUtil.cs",
+      "git_blob": "e2b14f68d75176793c7178545ba16e7a5765eafc",
+      "bytes": 1064,
+      "sha256": "473e30fc3d307abd9e9817d60a8d16905e279be9eb779a9ab927f9220a3c4400",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/Utilities/UrlPath.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/Utilities/UrlPath.cs",
+      "git_blob": "bd1b345b2c861de8e72b7f66afbea30f7361f4f8",
+      "bytes": 19858,
+      "sha256": "b019a8694d93b65b429fd204753c6e213b4d64108410e5347e4361ccebfe0d22",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/VirtualPathUtility.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/VirtualPathUtility.cs",
+      "git_blob": "acdf5249c5cba4dd7abaf0c50aa441ea35d9271b",
+      "bytes": 8694,
+      "sha256": "ac52fed20ce4c45502d2043b0313cfb73050724971ab575afb9f0bf5cbd48d97",
+      "compiled": true
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/VirtualPathUtilityImpl.cs",
+      "upstream_path": "src/Microsoft.AspNetCore.SystemWebAdapters/VirtualPathUtilityImpl.cs",
+      "git_blob": "2e5e3733aa2a6e710dcdcef6794829640b449545",
+      "bytes": 6909,
+      "sha256": "e1a1ff5f9fa19cc6eadde55e68777a7121896fad47ace8bc0db8b15b1957da0d",
+      "compiled": true
+    }
+  ]
+}

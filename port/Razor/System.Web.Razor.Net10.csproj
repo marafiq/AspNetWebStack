@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><AssemblyName>System.Web.Razor</AssemblyName><RootNamespace>System.Web.Razor</RootNamespace><AssemblyVersion>3.0.0.0</AssemblyVersion><EnableDefaultCompileItems>false</EnableDefaultCompileItems><DefineConstants>$(DefineConstants);ASPNETWEBPAGES</DefineConstants></PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="System.CodeDom" Version="10.0.1" />
+    <EmbeddedResource Include="../../src/CommonResources.resx" LogicalName="System.Web.Razor.CommonResources.resources" />
+    <EmbeddedResource Include="../../src/System.Web.Razor/Resources/RazorResources.resx" LogicalName="System.Web.Razor.Resources.RazorResources.resources" />
+  </ItemGroup>
+  <Import Project="SourceInputs.props" />
+</Project>

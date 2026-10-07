@@ -13,7 +13,9 @@ using System.Web.Mvc.Filters;
 using System.Web.Mvc.Properties;
 using System.Web.Mvc.Routing;
 using System.Web.Routing;
+#if !NET10_0_OR_GREATER
 using Microsoft.Web.Infrastructure.DynamicValidationHelper;
+#endif
 
 namespace System.Web.Mvc
 {
@@ -354,6 +356,10 @@ namespace System.Web.Mvc
             }
             catch (Exception ex)
             {
+#if NET10_0_OR_GREATER
+                AspNetWebStack.Native.NativeChildActions.ObserveFailure(preContext);
+                AspNetWebStack.Native.NativeOutputCache.ObserveFailure(preContext);
+#endif
                 wasError = true;
                 postContext = new ActionExecutedContext(preContext, preContext.ActionDescriptor, false /* canceled */, ex);
                 filter.OnActionExecuted(postContext);
@@ -433,6 +439,10 @@ namespace System.Web.Mvc
             }
             catch (Exception ex)
             {
+#if NET10_0_OR_GREATER
+                AspNetWebStack.Native.NativeChildActions.ObserveFailure(controllerContext);
+                AspNetWebStack.Native.NativeOutputCache.ObserveFailure(controllerContext);
+#endif
                 wasError = true;
                 postContext = new ResultExecutedContext(preContext, preContext.Result, canceled: false, exception: ex);
                 filter.OnResultExecuted(postContext);
@@ -524,6 +534,10 @@ namespace System.Web.Mvc
 
         protected virtual ExceptionContext InvokeExceptionFilters(ControllerContext controllerContext, IList<IExceptionFilter> filters, Exception exception)
         {
+#if NET10_0_OR_GREATER
+            AspNetWebStack.Native.NativeChildActions.ObserveFailure(controllerContext);
+            AspNetWebStack.Native.NativeOutputCache.ObserveFailure(controllerContext);
+#endif
             ExceptionContext context = new ExceptionContext(controllerContext, exception);
             foreach (IExceptionFilter filter in filters.Reverse())
             {
@@ -535,6 +549,9 @@ namespace System.Web.Mvc
 
         internal static void ValidateRequest(ControllerContext controllerContext)
         {
+#if NET10_0_OR_GREATER
+            Net10RequestValidation.Validate(controllerContext.HttpContext.Request);
+#else
             if (controllerContext.IsChildAction)
             {
                 return;
@@ -555,6 +572,7 @@ namespace System.Web.Mvc
             }
 
             controllerContext.HttpContext.Request.ValidateInput();
+#endif
         }
     }
 }

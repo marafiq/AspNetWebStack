@@ -21,13 +21,20 @@ namespace System.Web.Mvc
             FileStream = fileStream;
         }
 
+#if NET10_0_OR_GREATER
+        internal bool NativeExecutionOwnsStream { get; set; }
+#endif
         public Stream FileStream { get; private set; }
 
         protected override void WriteFile(HttpResponseBase response)
         {
             // grab chunks of data and write to the output stream
             Stream outputStream = response.OutputStream;
+#if NET10_0_OR_GREATER
+            using (NativeExecutionOwnsStream ? null : FileStream)
+#else
             using (FileStream)
+#endif
             {
                 byte[] buffer = new byte[BufferSize];
 

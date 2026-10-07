@@ -16,6 +16,9 @@ namespace System.Web.Mvc
 
         private DynamicViewDataDictionary _dynamicViewDataDictionary;
         private TempDataDictionary _tempDataDictionary;
+#if NET10_0_OR_GREATER
+        internal int NativeTempDataVersion { get; private set; }
+#endif
         private bool _validateRequest = true;
         private IValueProvider _valueProvider;
         private ViewDataDictionary _viewDataDictionary;
@@ -37,7 +40,13 @@ namespace System.Web.Mvc
                 }
                 return _tempDataDictionary;
             }
-            set { _tempDataDictionary = value; }
+            set
+            {
+#if NET10_0_OR_GREATER
+                NativeTempDataVersion++;
+#endif
+                _tempDataDictionary = value;
+            }
         }
 
         public bool ValidateRequest
@@ -98,6 +107,9 @@ namespace System.Web.Mvc
 
             VerifyExecuteCalledOnce();
             Initialize(requestContext);
+#if NET10_0_OR_GREATER
+            AspNetWebStack.Native.NativeChildActions.CheckInitialized(this, requestContext);
+#endif
 
             using (ScopeStorage.CreateTransientScope())
             {

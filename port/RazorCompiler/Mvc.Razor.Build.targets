@@ -1,0 +1,5 @@
+<Project>
+  <ItemGroup><ProjectReference Include="$(MSBuildThisFileDirectory)RazorCompiler.csproj" ReferenceOutputAssembly="false" /></ItemGroup>
+  <PropertyGroup><NativeRazorCompilerPath>$(MSBuildThisFileDirectory)bin/$(Configuration)/net10.0/RazorCompiler.dll</NativeRazorCompilerPath></PropertyGroup>
+  <Import Project="../Packaging/Razor.Build/Mvc5.Native.Experimental.Razor.Build.targets" />
+</Project>

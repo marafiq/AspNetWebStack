@@ -70,7 +70,11 @@ namespace System.Web.Mvc
             {
                 if (_buildManager == null)
                 {
+#if NET10_0_OR_GREATER
+                    _buildManager = new NativeUnavailableBuildManager();
+#else
                     _buildManager = new BuildManagerWrapper();
+#endif
                 }
                 return _buildManager;
             }
@@ -113,9 +117,13 @@ namespace System.Web.Mvc
 
         private static bool GetPrecompiledNonUpdateable()
         {
+#if NET10_0_OR_GREATER
+            throw new PlatformNotSupportedException("ASP.NET precompiled-site detection is unavailable. Use an explicit native compiled-view engine.");
+#else
             IVirtualPathUtility virtualPathUtility = new VirtualPathUtilityWrapper();
             return WebPages.BuildManagerWrapper.IsNonUpdateablePrecompiledApp(HostingEnvironment.VirtualPathProvider,
                                                                               virtualPathUtility);
+#endif
         }
 
         internal class DefaultViewPageActivator : IViewPageActivator

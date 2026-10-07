@@ -1,0 +1,8 @@
+<!doctype html>
+<html><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width" /><title>Stockroom</title><link rel="stylesheet" href="@Url.Content("~/site.css")" /></head>
+<body><main><header><a href="@Url.Action("Index", "Stock")">Stockroom</a>
+@if (User.Identity.IsAuthenticated) {
+ <span id="signed-in">@User.Identity.Name</span>
+ <form class="inline" method="post" action="@Url.Content("~/account/logout")">@Html.AntiForgeryToken()<button>Sign out</button></form>
+} else { <a href="@Url.Content("~/account/login")">Sign in</a> }
+</header>@RenderBody()<footer>Stockroom · Native MVC.</footer></main></body></html>

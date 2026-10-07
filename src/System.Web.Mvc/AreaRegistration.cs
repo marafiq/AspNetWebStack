@@ -39,7 +39,11 @@ namespace System.Web.Mvc
 
         public static void RegisterAllAreas(object state)
         {
+#if NET10_0_OR_GREATER
+            throw new PlatformNotSupportedException("Register areas explicitly with AreaRegistrationContext; automatic BuildManager discovery is unavailable.");
+#else
             RegisterAllAreas(RouteTable.Routes, new BuildManagerWrapper(), state);
+#endif
         }
 
         internal static void RegisterAllAreas(RouteCollection routes, IBuildManager buildManager, object state)

@@ -75,7 +75,11 @@ namespace System.Web.WebPages
         [EditorBrowsable(EditorBrowsableState.Never)]
         public virtual IVirtualPathFactory VirtualPathFactory
         {
+#if NET10_0_OR_GREATER
+            get { return _virtualPathFactory ?? throw new PlatformNotSupportedException("The native port does not provide BuildManager virtual-path activation. Assign an IVirtualPathFactory explicitly."); }
+#else
             get { return _virtualPathFactory ?? VirtualPathFactoryManager.Instance; }
+#endif
             set { _virtualPathFactory = value; }
         }
 
@@ -84,7 +88,11 @@ namespace System.Web.WebPages
 
         public virtual string Href(string path, params object[] pathParts)
         {
+#if NET10_0_OR_GREATER
+            throw new PlatformNotSupportedException("The native port does not provide WebPages Href virtual-path and rewrite semantics.");
+#else
             return UrlUtil.GenerateClientUrl(Context, VirtualPath, path, pathParts);
+#endif
         }
 
         protected internal void BeginContext(int startPosition, int length, bool isLiteral)
@@ -305,7 +313,16 @@ namespace System.Web.WebPages
         // This method is called by generated code and needs to stay in sync with the parser
         public static void WriteTo(TextWriter writer, object content)
         {
+#if NET10_0_OR_GREATER
+            // Native HttpUtility's object overload coalesces a non-null object's
+            // null conversion result. Preserve the original writer argument and
+            // IHtmlString dispatch while retaining native string encoding.
+            writer.Write(content == null ? null : content is IHtmlString html
+                ? html.ToHtmlString()
+                : HttpUtility.HtmlEncode(Convert.ToString(content, CultureInfo.CurrentCulture)));
+#else
             writer.Write(HttpUtility.HtmlEncode(content));
+#endif
         }
 
         // Perf optimization to avoid calling string.ToString when we already know the type is a string.

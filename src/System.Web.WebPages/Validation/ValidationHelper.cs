@@ -13,6 +13,10 @@ using System.Web.WebPages.Html;
 using System.Web.WebPages.Scope;
 using Microsoft.Internal.Web.Utils;
 
+#if NET10_0_OR_GREATER
+using ModelStateDictionary = System.Web.WebPages.Html.ModelStateDictionary;
+using ModelState = System.Web.WebPages.Html.ModelState;
+#endif
 namespace System.Web.WebPages
 {
     public sealed class ValidationHelper
@@ -55,7 +59,12 @@ namespace System.Web.WebPages
                 object value;
                 if (!Scope.TryGetValue(_invalidCssClassKey, out value))
                 {
+#if NET10_0_OR_GREATER
+                    // Exact original WebPages HtmlHelper constant; the helper itself is not restored yet.
+                    return "input-validation-error";
+#else
                     return HtmlHelper.DefaultValidationInputErrorCssClass;
+#endif
                 }
                 return value as string;
             }

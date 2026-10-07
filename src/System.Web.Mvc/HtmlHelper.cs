@@ -8,8 +8,10 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+#if !NET10_0_OR_GREATER
 using System.Web.Helpers;
 using System.Web.Mvc.Html;
+#endif
 using System.Web.Mvc.Properties;
 using System.Web.Routing;
 using System.Web.WebPages;
@@ -29,6 +31,11 @@ namespace System.Web.Mvc
         private static readonly object _html5InputsModeKey = new object();
 
         private DynamicViewDataDictionary _dynamicViewDataDictionary;
+#if NET10_0_OR_GREATER
+        // The original WebPages global setting lives here while that helper is
+        // omitted. Original TagBuilder in this assembly uses this same setting.
+        private static string _idAttributeDotReplacement;
+#endif
 
         public HtmlHelper(ViewContext viewContext, IViewDataContainer viewDataContainer)
             : this(viewContext, viewDataContainer, RouteTable.Routes)
@@ -64,8 +71,20 @@ namespace System.Web.Mvc
 
         public static string IdAttributeDotReplacement
         {
+#if NET10_0_OR_GREATER
+            get
+            {
+                if (String.IsNullOrEmpty(_idAttributeDotReplacement))
+                {
+                    _idAttributeDotReplacement = "_";
+                }
+                return _idAttributeDotReplacement;
+            }
+            set { _idAttributeDotReplacement = value; }
+#else
             get { return WebPages.Html.HtmlHelper.IdAttributeDotReplacement; }
             set { WebPages.Html.HtmlHelper.IdAttributeDotReplacement = value; }
+#endif
         }
 
         internal Func<string, ModelMetadata, IEnumerable<ModelClientValidationRule>> ClientValidationRuleFactory { get; set; }
@@ -147,13 +166,30 @@ namespace System.Web.Mvc
         /// <returns>A dictionary that represents HTML attributes.</returns>
         public static RouteValueDictionary AnonymousObjectToHtmlAttributes(object htmlAttributes)
         {
+#if NET10_0_OR_GREATER
+            // Original WebPages conversion, using its original cached accessors.
+            RouteValueDictionary result = new RouteValueDictionary();
+            if (htmlAttributes != null)
+            {
+                foreach (PropertyHelper property in HtmlAttributePropertyHelper.GetProperties(htmlAttributes))
+                {
+                    result.Add(property.Name, property.GetValue(htmlAttributes));
+                }
+            }
+            return result;
+#else
             return System.Web.WebPages.Html.HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes);
+#endif
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "For consistency, all helpers are instance methods.")]
         public MvcHtmlString AntiForgeryToken()
         {
+#if NET10_0_OR_GREATER
+            return AspNetWebStack.Native.NativeAntiforgery.GetHtml(ViewContext.HttpContext);
+#else
             return new MvcHtmlString(AntiForgery.GetHtml().ToString());
+#endif
         }
 
         /// <summary>
@@ -256,7 +292,17 @@ namespace System.Web.Mvc
         [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "For consistency, all helpers are instance methods.")]
         public string Encode(object value)
         {
+#if NET10_0_OR_GREATER
+            // Framework HttpUtility preserves null returned by a non-null object
+            // or IHtmlString. Native object encoding coalesces it, so retain the
+            // original dispatch and use the native string encoder only.
+            if (value == null) return String.Empty;
+            IHtmlString htmlString = value as IHtmlString;
+            if (htmlString != null) return htmlString.ToHtmlString();
+            return HttpUtility.HtmlEncode(Convert.ToString(value, CultureInfo.CurrentCulture));
+#else
             return value != null ? HttpUtility.HtmlEncode(value) : String.Empty;
+#endif
         }
 
         internal string EvalString(string key)

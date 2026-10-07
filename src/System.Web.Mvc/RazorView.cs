@@ -23,7 +23,11 @@ namespace System.Web.Mvc
         {
             LayoutPath = layoutPath ?? String.Empty;
             RunViewStartPages = runViewStartPages;
+#if NET10_0_OR_GREATER
+            StartPageLookup = NativeRazorHosting.GetStartPage;
+#else
             StartPageLookup = StartPage.GetStartPage;
+#endif
             ViewStartFileExtensions = viewStartFileExtensions ?? Enumerable.Empty<string>();
         }
 
@@ -77,7 +81,11 @@ namespace System.Web.Mvc
             WebPageRenderingBase startPage = null;
             if (RunViewStartPages)
             {
+#if NET10_0_OR_GREATER
+                startPage = StartPageLookup(webViewPage, NativeRazorHosting.ViewStartFileName, ViewStartFileExtensions);
+#else
                 startPage = StartPageLookup(webViewPage, RazorViewEngine.ViewStartFileName, ViewStartFileExtensions);
+#endif
             }
             webViewPage.ExecutePageHierarchy(new WebPageContext(context: viewContext.HttpContext, page: null, model: null), writer, startPage);
         }

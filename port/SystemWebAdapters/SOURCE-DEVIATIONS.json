@@ -1,0 +1,43 @@
+{
+  "unit": "U43",
+  "pinned_manifest": "SOURCE-MANIFEST.json",
+  "source_files_modified": 5,
+  "changes": [
+    {
+      "file": "port/SystemWebAdapters/Upstream/VirtualPathUtilityImpl.cs",
+      "pinned_sha256": "e1a1ff5f9fa19cc6eadde55e68777a7121896fad47ace8bc0db8b15b1957da0d",
+      "current_sha256": "7afe996180cbf8237d64c55d8c64c6e34a8f69b8466446f593092585ab96dfdb"
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpFileCollection.cs",
+      "pinned_sha256": "361aad95b2ca719847d6e72a125a1333557fc2b4962ef04bb98fcb92bccd742a",
+      "current_sha256": "070fb8a0117c2c401e480391588d4c15f692ef2f183287e1af079f70261bee5a",
+      "unit": "U38",
+      "reason": "Restore the original GetKey(int) declaration for ordinary legacy upload collection access."
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpFileCollectionBase.cs",
+      "pinned_sha256": "b550188207988873a24e9b50f03e7e2ced587515c80fa99dc0ea91d804e01fb3",
+      "current_sha256": "6ea756c43339b149a90e2d9fb73a627f3f8cb5e1a331213009fcaae80ea2af86",
+      "unit": "U38",
+      "reason": "Restore the original GetKey(int) declaration for ordinary legacy upload collection access."
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpFileCollectionWrapper.cs",
+      "pinned_sha256": "68856c3a38e57e6f1115ca3d54afd5ceb7e7c6efa5b8079c98bf5b195074f31f",
+      "current_sha256": "279ad1404030cce056f7fb617f1a9efbf33c54ab9c29c960d7642332e299b0c4",
+      "unit": "U38",
+      "reason": "Restore the original GetKey(int) declaration for ordinary legacy upload collection access."
+    },
+    {
+      "file": "port/SystemWebAdapters/Upstream/HttpContextBase.cs",
+      "pinned_sha256": "4ec173b1ca3201a14a0bf1ade3918ff93c8a4883a84118f258cfaf824392f43a",
+      "current_sha256": "9f40b9657811707e2aa73c30e16f9c3f5aad264d8c88b6369af623dd3ef74953",
+      "unit": "U43",
+      "reason": "Restore original IsCustomErrorEnabled declaration for original MVC HandleError; native contexts implement the environment policy."
+    }
+  ],
+  "reason": "U25 canonical parent traversal and U38 original file-collection GetKey declarations; original source manifest remains immutable. U43 restores HttpContextBase.IsCustomErrorEnabled.",
+  "reference": "https://github.com/microsoft/referencesource/blob/main/System.Web/VirtualPath.cs",
+  "not_claimed": "General System.Web or concrete adapter file-stream behavior equivalence; native MVC uses request-owned HttpPostedFileBase wrappers."
+}

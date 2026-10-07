@@ -1,0 +1,11 @@
+{
+  "repository": "https://github.com/microsoft/referencesource",
+  "commit": "ec9fa9ae770d522a5b5f0607898044b7478574a3",
+  "source": "System.Data.Linq/Types.cs",
+  "source_sha256": "2f21f3bebe9a2a55f0113b923e71a409d6a4c2708e2ed245d19ea63f9ea42669",
+  "extraction": "Attributes and complete Binary class body preserved verbatim after UTF-8 text reading. Only file header, imports and namespace wrapper added; all other LINQ-to-SQL types excluded.",
+  "class_block_sha256": "53c6b239ec7db7b8f9c7dc83ae765d7ae2d88ff1b03f9cbd2471b7719b451d33",
+  "compiled_file_sha256": "0c8dccc9647479e4663e784011c48e9e1dad42a48b0cc479343069767696a3d6",
+  "assembly_identity": "Unsigned System.Web.Mvc, Version=5.3.0.0; not signed System.Data.Linq; source consumers must compile against the port.",
+  "scope": "Hidden/HiddenFor Binary.ToArray conversion and original standalone immutable value behavior. No LINQ-to-SQL query, connection, mapping or model binder."
+}

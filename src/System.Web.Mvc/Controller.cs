@@ -96,7 +96,11 @@ namespace System.Web.Mvc
 
         public ProfileBase Profile
         {
+#if NET10_0_OR_GREATER
+            get { throw new PlatformNotSupportedException("U02 does not implement ASP.NET Profile."); }
+#else
             get { return HttpContext == null ? null : HttpContext.Profile; }
+#endif
         }
 
         public HttpRequestBase Request
@@ -865,6 +869,9 @@ namespace System.Web.Mvc
 
                 VerifyExecuteCalledOnce();
                 Initialize(requestContext);
+#if NET10_0_OR_GREATER
+                AspNetWebStack.Native.NativeLegacyAsyncOperation.CheckInitialized(this, requestContext);
+#endif
 
                 // Ensure delegates continue to use the C# Compiler static delegate caching optimization.
                 BeginInvokeDelegate<Controller> beginDelegate = (AsyncCallback asyncCallback, object callbackState, Controller controller) =>

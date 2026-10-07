@@ -27,10 +27,12 @@ namespace System.Web.Mvc
 
         protected virtual IEnumerable<Attribute> FilterAttributes(Type containerType, PropertyDescriptor propertyDescriptor, IEnumerable<Attribute> attributes)
         {
+#if !NET10_0_OR_GREATER
             if (typeof(ViewPage).IsAssignableFrom(containerType) || typeof(ViewUserControl).IsAssignableFrom(containerType))
             {
                 return attributes.Where(a => !(a is ReadOnlyAttribute));
             }
+#endif
 
             return attributes;
         }

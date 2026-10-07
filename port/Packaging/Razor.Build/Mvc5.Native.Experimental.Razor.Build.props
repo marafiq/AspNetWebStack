@@ -1,0 +1,8 @@
+<Project>
+  <!-- Original MVC views are compiled by this package, not the Core Razor SDK. -->
+  <PropertyGroup>
+    <EnableDefaultRazorGenerateItems>false</EnableDefaultRazorGenerateItems>
+    <RazorCompileOnBuild>false</RazorCompileOnBuild>
+    <RazorCompileOnPublish>false</RazorCompileOnPublish>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../PackageMetadata.props" />
+  <PropertyGroup>
+    <PackageId>Mvc5.Native.Experimental.Razor.Build</PackageId>
+    <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../RazorCompiler/RazorCompiler.csproj" ReferenceOutputAssembly="false" PrivateAssets="all" />
+    <None Include="_._" Pack="true" PackagePath="lib/net10.0/" />
+    <None Include="Mvc5.Native.Experimental.Razor.Build.props" Pack="true" PackagePath="build/net10.0/" />
+    <None Include="Mvc5.Native.Experimental.Razor.Build.targets" Pack="true" PackagePath="build/net10.0/" />
+  </ItemGroup>
+  <Target Name="CollectNativeRazorTool" BeforeTargets="_GetPackageFiles">
+    <ItemGroup>
+      <_NativeRazorPackageFile Include="../../RazorCompiler/bin/$(Configuration)/net10.0/*.dll;../../RazorCompiler/bin/$(Configuration)/net10.0/*.deps.json;../../RazorCompiler/bin/$(Configuration)/net10.0/*.runtimeconfig.json" Pack="true" PackagePath="tools/net10.0/any/" />
+      <_NativeRazorRuntimeFile Include="../../RazorCompiler/bin/$(Configuration)/net10.0/runtimes/**/*" />
+      <_NativeRazorPackageFile Include="@(_NativeRazorRuntimeFile)" Pack="true" PackagePath="tools/net10.0/any/runtimes/%(_NativeRazorRuntimeFile.RecursiveDir)%(_NativeRazorRuntimeFile.Filename)%(_NativeRazorRuntimeFile.Extension)" />
+      <None Include="@(_NativeRazorPackageFile)" />
+    </ItemGroup>
+  </Target>
+</Project>

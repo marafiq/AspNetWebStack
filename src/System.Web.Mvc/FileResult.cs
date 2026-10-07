@@ -36,6 +36,17 @@ namespace System.Web.Mvc
                 throw new ArgumentNullException("context");
             }
 
+#if NET10_0_OR_GREATER
+            // Native ownership begins only when this ordinary result executes.
+            // A result canceled/replaced by filters remains application-owned.
+            FileStreamResult nativeStream = GetType() == typeof(FileStreamResult) &&
+                AspNetWebStack.Native.NativeRequestLifetime.For(context.HttpContext) != null ? (FileStreamResult)this : null;
+            if (nativeStream != null && nativeStream.NativeExecutionOwnsStream)
+                throw new InvalidOperationException("A file result cannot execute reentrantly.");
+            if (nativeStream != null) nativeStream.NativeExecutionOwnsStream = true;
+            try
+            {
+#endif
             HttpResponseBase response = context.HttpContext.Response;
             response.ContentType = ContentType;
 
@@ -51,6 +62,17 @@ namespace System.Web.Mvc
             }
 
             WriteFile(response);
+#if NET10_0_OR_GREATER
+            }
+            finally
+            {
+                if (nativeStream != null)
+                {
+                    try { nativeStream.FileStream.Dispose(); }
+                    finally { nativeStream.NativeExecutionOwnsStream = false; }
+                }
+            }
+#endif
         }
 
         protected abstract void WriteFile(HttpResponseBase response);

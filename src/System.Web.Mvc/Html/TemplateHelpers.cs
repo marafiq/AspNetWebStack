@@ -10,7 +10,11 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc.Properties;
 using System.Web.Routing;
+#if NET10_0_OR_GREATER
+using DataBoundControlMode = AspNetWebStack.Native.TemplateMode;
+#else
 using System.Web.UI.WebControls;
+#endif
 using System.Web.WebPages;
 
 namespace System.Web.Mvc.Html

@@ -128,8 +128,12 @@ namespace System.Web.Mvc.Html
             RouteData routeData = CreateRouteData(vpd.Route, routeValues, vpd.DataTokens, htmlHelper.ViewContext);
             HttpContextBase httpContext = htmlHelper.ViewContext.HttpContext;
             RequestContext requestContext = new RequestContext(httpContext, routeData);
+#if NET10_0_OR_GREATER
+            AspNetWebStack.Native.NativeChildActions.Execute(requestContext, textWriter);
+#else
             ChildActionMvcHandler handler = new ChildActionMvcHandler(requestContext);
             httpContext.Server.Execute(HttpHandlerUtil.WrapForServerExecute(handler), textWriter, true /* preserveForm */);
+#endif
         }
 
         private static RouteData CreateRouteData(RouteBase route, RouteValueDictionary routeValues, RouteValueDictionary dataTokens, ViewContext parentViewContext)
@@ -191,6 +195,7 @@ namespace System.Web.Mvc.Html
             return result;
         }
 
+#if !NET10_0_OR_GREATER
         internal class ChildActionMvcHandler : MvcHandler
         {
             public ChildActionMvcHandler(RequestContext context)
@@ -203,5 +208,6 @@ namespace System.Web.Mvc.Html
                 // No version header for child actions
             }
         }
+#endif
     }
 }

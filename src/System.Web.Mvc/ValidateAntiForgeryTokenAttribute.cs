@@ -4,7 +4,9 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+#if !NET10_0_OR_GREATER
 using System.Web.Helpers;
+#endif
 
 namespace System.Web.Mvc
 {
@@ -12,10 +14,20 @@ namespace System.Web.Mvc
     public sealed class ValidateAntiForgeryTokenAttribute : FilterAttribute, IAuthorizationFilter
     {
         private string _salt;
+#if NET10_0_OR_GREATER
+        private readonly bool _nativeValidation;
+#endif
 
         public ValidateAntiForgeryTokenAttribute()
+#if NET10_0_OR_GREATER
+            : this(() => { throw new PlatformNotSupportedException("Native antiforgery requires the filter request context."); })
+#else
             : this(AntiForgery.Validate)
+#endif
         {
+#if NET10_0_OR_GREATER
+            _nativeValidation = true;
+#endif
         }
 
         internal ValidateAntiForgeryTokenAttribute(Action validateAction)
@@ -50,6 +62,13 @@ namespace System.Web.Mvc
                 throw new ArgumentNullException("filterContext");
             }
 
+#if NET10_0_OR_GREATER
+            if (_nativeValidation)
+            {
+                AspNetWebStack.Native.NativeAntiforgery.Validate(filterContext.HttpContext);
+                return;
+            }
+#endif
             ValidateAction();
         }
     }

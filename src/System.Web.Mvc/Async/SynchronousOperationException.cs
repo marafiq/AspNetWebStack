@@ -16,9 +16,16 @@ namespace System.Web.Mvc.Async
         }
 
         private SynchronousOperationException(SerializationInfo info, StreamingContext context)
+#if NET10_0_OR_GREATER
+            : base("Legacy exception deserialization is unavailable on .NET 10.")
+        {
+            throw new PlatformNotSupportedException("U02 does not implement legacy exception deserialization.");
+        }
+#else
             : base(info, context)
         {
         }
+#endif
 
         public SynchronousOperationException(string message)
             : base(message)

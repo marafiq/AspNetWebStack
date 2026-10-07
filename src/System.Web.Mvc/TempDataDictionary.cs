@@ -11,6 +11,9 @@ namespace System.Web.Mvc
     {
         internal const string TempDataSerializationKey = "__tempData";
 
+#if NET10_0_OR_GREATER
+        internal int NativeMutationVersion { get; private set; }
+#endif
         private Dictionary<string, object> _data;
         private HashSet<string> _initialKeys = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         private HashSet<string> _retainedKeys = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -54,6 +57,9 @@ namespace System.Web.Mvc
             }
             set
             {
+#if NET10_0_OR_GREATER
+            NativeMutationVersion++;
+#endif
                 _data[key] = value;
                 _initialKeys.Add(key);
             }
@@ -73,6 +79,9 @@ namespace System.Web.Mvc
         public void Load(ControllerContext controllerContext, ITempDataProvider tempDataProvider)
         {
             IDictionary<string, object> providerDictionary = tempDataProvider.LoadTempData(controllerContext);
+#if NET10_0_OR_GREATER
+            NativeMutationVersion++;
+#endif
             _data = (providerDictionary != null)
                 ? new Dictionary<string, object>(providerDictionary, StringComparer.OrdinalIgnoreCase)
                 : new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
@@ -102,12 +111,18 @@ namespace System.Web.Mvc
 
         public void Add(string key, object value)
         {
+#if NET10_0_OR_GREATER
+            NativeMutationVersion++;
+#endif
             _data.Add(key, value);
             _initialKeys.Add(key);
         }
 
         public void Clear()
         {
+#if NET10_0_OR_GREATER
+            NativeMutationVersion++;
+#endif
             _data.Clear();
             _retainedKeys.Clear();
             _initialKeys.Clear();
@@ -130,6 +145,9 @@ namespace System.Web.Mvc
 
         public bool Remove(string key)
         {
+#if NET10_0_OR_GREATER
+            NativeMutationVersion++;
+#endif
             _retainedKeys.Remove(key);
             _initialKeys.Remove(key);
             return _data.Remove(key);
@@ -148,6 +166,9 @@ namespace System.Web.Mvc
 
         void ICollection<KeyValuePair<string, object>>.Add(KeyValuePair<string, object> keyValuePair)
         {
+#if NET10_0_OR_GREATER
+            NativeMutationVersion++;
+#endif
             _initialKeys.Add(keyValuePair.Key);
             ((ICollection<KeyValuePair<string, object>>)_data).Add(keyValuePair);
         }
@@ -159,6 +180,9 @@ namespace System.Web.Mvc
 
         bool ICollection<KeyValuePair<string, object>>.Remove(KeyValuePair<string, object> keyValuePair)
         {
+#if NET10_0_OR_GREATER
+            NativeMutationVersion++;
+#endif
             _initialKeys.Remove(keyValuePair.Key);
             return ((ICollection<KeyValuePair<string, object>>)_data).Remove(keyValuePair);
         }

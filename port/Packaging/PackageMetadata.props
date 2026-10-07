@@ -1,0 +1,21 @@
+<Project>
+  <PropertyGroup>
+    <Version>0.1.0-u60</Version>
+    <Authors>MVC native port contributors</Authors>
+    <Description>Experimental source-recompilation profile of MVC 5.3 on native .NET 10. Local evaluation only; see the supported contract.</Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <IsPackable>true</IsPackable>
+    <NoWarn>$(NoWarn);NU5128</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath="/README.md" />
+    <None Include="$(MSBuildThisFileDirectory)PROFILE.md" Pack="true" PackagePath="/PROFILE.md" />
+    <None Include="$(MSBuildThisFileDirectory)OPERATIONS.md" Pack="true" PackagePath="/OPERATIONS.md" />
+    <None Include="$(MSBuildThisFileDirectory)LICENSE.txt" Pack="true" PackagePath="/LICENSE.txt" />
+    <None Include="$(MSBuildThisFileDirectory)PROVENANCE.md" Pack="true" PackagePath="/PROVENANCE.md" />
+    <None Include="$(MSBuildThisFileDirectory)licenses/**/*" Pack="true" PackagePath="licenses/%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+</Project>

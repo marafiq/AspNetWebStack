@@ -9,6 +9,10 @@ namespace System.Web.Mvc.Async
     public class AsyncManager
     {
         private readonly SynchronizationContext _syncContext;
+#if NET10_0_OR_GREATER
+        internal AspNetWebStack.Native.NativeLegacyAsyncOperation NativeOperation { get; set; }
+        internal bool NativeOrdinaryContext { get; private set; }
+#endif
 
         /// <summary>
         /// default timeout is 45 sec
@@ -26,6 +30,9 @@ namespace System.Web.Mvc.Async
         public AsyncManager(SynchronizationContext syncContext)
         {
             _syncContext = syncContext ?? SynchronizationContextUtil.GetSynchronizationContext();
+#if NET10_0_OR_GREATER
+            NativeOrdinaryContext = syncContext == null && SynchronizationContext.Current == null;
+#endif
 
             OutstandingOperations = new OperationCounter();
             OutstandingOperations.Completed += delegate
@@ -64,6 +71,13 @@ namespace System.Web.Mvc.Async
         /// </summary>
         public virtual void Finish()
         {
+            #if NET10_0_OR_GREATER
+            if (NativeOperation != null)
+            {
+                NativeOperation.Notify(() => { var nativeHandler = Finished; if (nativeHandler != null) nativeHandler(this, EventArgs.Empty); }, true);
+                return;
+            }
+#endif
             EventHandler handler = Finished;
             if (handler != null)
             {
@@ -77,6 +91,9 @@ namespace System.Web.Mvc.Async
         /// <param name="action"></param>
         public virtual void Sync(Action action)
         {
+            #if NET10_0_OR_GREATER
+            if (NativeOperation != null) { NativeOperation.Sync(action); return; }
+#endif
             _syncContext.Sync(action);
         }
     }

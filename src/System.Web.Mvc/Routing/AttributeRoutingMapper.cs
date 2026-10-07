@@ -71,6 +71,11 @@ namespace System.Web.Mvc.Routing
                 throw new ArgumentNullException("directRouteProvider");
             }
 
+#if NET10_0_OR_GREATER
+            if (routes.NativeCatalog == null)
+                throw new PlatformNotSupportedException("MapMvcAttributeRoutes requires the explicit NativeMvcApplication controller catalog during Map.");
+            IReadOnlyList<Type> controllerTypes = routes.NativeCatalog.GetControllerTypes();
+#else
             DefaultControllerFactory typesLocator =
                 DependencyResolver.Current.GetService<IControllerFactory>() as DefaultControllerFactory
                 ?? ControllerBuilder.Current.GetControllerFactory() as DefaultControllerFactory
@@ -78,6 +83,7 @@ namespace System.Web.Mvc.Routing
 
             IReadOnlyList<Type> controllerTypes = typesLocator.GetControllerTypes();
 
+#endif
             MapAttributeRoutes(routes, controllerTypes, constraintResolver, directRouteProvider);
         }
 
@@ -140,7 +146,11 @@ namespace System.Web.Mvc.Routing
             }
 
             SubRouteCollection subRoutes = new SubRouteCollection();
-            AddRouteEntries(subRoutes, controllerTypes, constraintResolver, directRouteProvider);
+            AddRouteEntries(subRoutes, controllerTypes, constraintResolver, directRouteProvider
+#if NET10_0_OR_GREATER
+                , routes.NativeCatalog == null ? new ControllerDescriptorCache() : routes.NativeCatalog.Descriptors
+#endif
+                );
             IReadOnlyCollection<RouteEntry> entries = subRoutes.Entries;
 
             if (entries.Count > 0)
@@ -205,9 +215,17 @@ namespace System.Web.Mvc.Routing
         }
 
         internal static void AddRouteEntries(SubRouteCollection collector, IEnumerable<Type> controllerTypes,
-            IInlineConstraintResolver constraintResolver, IDirectRouteProvider directRouteProvider)
+            IInlineConstraintResolver constraintResolver, IDirectRouteProvider directRouteProvider
+#if NET10_0_OR_GREATER
+            , ControllerDescriptorCache nativeDescriptors = null
+#endif
+            )
         {
-            IEnumerable<ReflectedAsyncControllerDescriptor> controllers = GetControllerDescriptors(controllerTypes);
+            IEnumerable<ReflectedAsyncControllerDescriptor> controllers = GetControllerDescriptors(controllerTypes
+#if NET10_0_OR_GREATER
+                , nativeDescriptors ?? new ControllerDescriptorCache()
+#endif
+                );
 
             foreach (ReflectedAsyncControllerDescriptor controller in controllers)
             {
@@ -257,16 +275,27 @@ namespace System.Web.Mvc.Routing
                     }
                 }
 
+#if NET10_0_OR_GREATER
+                controller.Selector.NativeInvalidateStandardRouteCache();
+#endif
                 collector.AddRange(entries);
             }
         }
 
-        private static IEnumerable<ReflectedAsyncControllerDescriptor> GetControllerDescriptors(IEnumerable<Type> controllerTypes)
+        private static IEnumerable<ReflectedAsyncControllerDescriptor> GetControllerDescriptors(IEnumerable<Type> controllerTypes
+#if NET10_0_OR_GREATER
+            , ControllerDescriptorCache nativeDescriptors
+#endif
+            )
         {
             Contract.Assert(controllerTypes != null);
 
             Func<Type, ControllerDescriptor> descriptorFactory = ReflectedAsyncControllerDescriptor.DefaultDescriptorFactory;
+#if NET10_0_OR_GREATER
+            ControllerDescriptorCache descriptorsCache = nativeDescriptors;
+#else
             ControllerDescriptorCache descriptorsCache = new AsyncControllerActionInvoker().DescriptorCache;
+#endif
 
             return 
                 controllerTypes

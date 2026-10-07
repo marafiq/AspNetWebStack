@@ -3,7 +3,9 @@
 
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+#if !NET10_0_OR_GREATER
 using System.Web.Helpers;
+#endif
 using System.Web.Mvc;
 using Microsoft.Internal.Web.Utils;
 
@@ -69,7 +71,15 @@ namespace System.Web.WebPages
                 Debug.Assert(HttpContext.Current == null, "This flag should not be set when we are hosted.");
                 return request.Form[field];
             }
+#if NET10_0_OR_GREATER
+            if (_useUnvalidatedValues)
+            {
+                throw new PlatformNotSupportedException("Unvalidated WebPages request fields require the original request-validation contract.");
+            }
+            return request.Form[field];
+#else
             return _useUnvalidatedValues ? request.Unvalidated[field] : request.Form[field];
+#endif
         }
     }
 }

@@ -13,7 +13,9 @@ namespace System.Web.WebPages
     public abstract class WebPageRenderingBase : WebPageExecutingBase, ITemplateFile
     {
         private IPrincipal _user;
+#if !NET10_0_OR_GREATER
         private UrlDataList _urlData;
+#endif
         private TemplateFileInfo _templateFileInfo;
         private DisplayModeProvider _displayModeProvider;
 
@@ -53,11 +55,15 @@ namespace System.Web.WebPages
         {
             get
             {
+#if NET10_0_OR_GREATER
+                throw new PlatformNotSupportedException("The native rendering base does not implement ASP.NET Profile.");
+#else
                 if (Context != null)
                 {
                     return Context.Profile;
                 }
                 return null;
+#endif
             }
         }
 
@@ -113,6 +119,9 @@ namespace System.Web.WebPages
         {
             get
             {
+#if NET10_0_OR_GREATER
+                throw new PlatformNotSupportedException("UrlData requires the original WebPages route-match pipeline.");
+#else
                 if (_urlData == null)
                 {
                     WebPageMatch match = WebPageRoute.GetWebPageMatch(Context);
@@ -127,6 +136,7 @@ namespace System.Web.WebPages
                     }
                 }
                 return _urlData;
+#endif
             }
         }
 

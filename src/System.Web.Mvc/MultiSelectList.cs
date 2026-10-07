@@ -7,7 +7,11 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
+#if NET10_0_OR_GREATER
+using DataBinder = AspNetWebStack.Native.NativeSelectListEvaluator;
+#else
 using System.Web.UI;
+#endif
 
 namespace System.Web.Mvc
 {

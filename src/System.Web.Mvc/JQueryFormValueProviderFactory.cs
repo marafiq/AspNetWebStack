@@ -21,8 +21,12 @@ namespace System.Web.Mvc
         // For unit testing
         internal JQueryFormValueProviderFactory(UnvalidatedRequestValuesAccessor unvalidatedValuesAccessor)
         {
+#if NET10_0_OR_GREATER
+            _unvalidatedValuesAccessor = unvalidatedValuesAccessor ?? (cc => AspNetWebStack.Native.NativeFormValues.Resolve(cc.HttpContext.Request));
+#else
             _unvalidatedValuesAccessor = unvalidatedValuesAccessor ??
                                        (cc => new UnvalidatedRequestValuesWrapper(cc.HttpContext.Request.Unvalidated));
+#endif
         }
 
         /// <summary>
@@ -37,6 +41,9 @@ namespace System.Web.Mvc
                 throw new ArgumentNullException("controllerContext");
             }
 
+#if NET10_0_OR_GREATER
+            if (!AspNetWebStack.Native.NativeFormValues.Available(controllerContext.HttpContext.Request)) return null;
+#endif
             return new JQueryFormValueProvider(controllerContext, _unvalidatedValuesAccessor(controllerContext));
         }
     }

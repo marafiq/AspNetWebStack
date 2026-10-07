@@ -3,7 +3,9 @@
 
 using System.Collections.Generic;
 using System.ComponentModel;
+#if !NET10_0_OR_GREATER
 using System.Data.Linq;
+#endif
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -47,7 +49,9 @@ namespace System.Web.Mvc
             {
                 { typeof(HttpPostedFileBase), new HttpPostedFileBaseModelBinder() },
                 { typeof(byte[]), new ByteArrayModelBinder() },
+#if !NET10_0_OR_GREATER
                 { typeof(Binary), new LinqBinaryModelBinder() },
+#endif
                 { typeof(CancellationToken), new CancellationTokenModelBinder() }
             };
             return binders;

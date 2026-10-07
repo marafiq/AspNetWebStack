@@ -29,14 +29,22 @@ namespace System.Web.Mvc
             }
             else
             {
+#if NET10_0_OR_GREATER
+                string formOverrideValue = (request is AspNetWebStack.Native.INativeFormRequest form && form.HasFormInput ? form.ValidatedForm : request.Form)[XHttpMethodOverrideKey];
+#else
                 string formOverrideValue = request.Form[XHttpMethodOverrideKey];
+#endif
                 if (!String.IsNullOrEmpty(formOverrideValue))
                 {
                     verbOverride = formOverrideValue;
                 }
                 else
                 {
+#if NET10_0_OR_GREATER
+                    string queryStringOverrideValue = (request is AspNetWebStack.Native.INativeQueryRequest query ? query.ValidatedQueryString : request.QueryString)[XHttpMethodOverrideKey];
+#else
                     string queryStringOverrideValue = request.QueryString[XHttpMethodOverrideKey];
+#endif
                     if (!String.IsNullOrEmpty(queryStringOverrideValue))
                     {
                         verbOverride = queryStringOverrideValue;

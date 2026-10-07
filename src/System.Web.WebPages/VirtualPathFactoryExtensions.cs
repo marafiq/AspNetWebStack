@@ -12,12 +12,14 @@ namespace System.Web.WebPages
             {
                 return virtualPathFactoryManager.CreateInstanceOfType<T>(virtualPath);
             }
+#if !NET10_0_OR_GREATER
             var buildManagerFactory = factory as BuildManagerWrapper;
             if (buildManagerFactory != null)
             {
                 return buildManagerFactory.CreateInstanceOfType<T>(virtualPath);
             }
 
+#endif
             return factory.CreateInstance(virtualPath) as T;
         }
     }

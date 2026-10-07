@@ -3,7 +3,11 @@
 
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
+#if NET10_0_OR_GREATER
+using DataBoundControlMode = AspNetWebStack.Native.TemplateMode;
+#else
 using System.Web.UI.WebControls;
+#endif
 
 namespace System.Web.Mvc.Html
 {

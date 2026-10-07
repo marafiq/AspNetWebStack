@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>System.Web.Mvc</AssemblyName>
+    <RootNamespace>System.Web.Mvc</RootNamespace>
+    <AssemblyVersion>5.3.0.0</AssemblyVersion>
+    <DefineConstants>$(DefineConstants);ASPNETMVC</DefineConstants>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <ProjectReference Include="../SystemWebAdapters/SystemWebAdapters.LegacyHtml.csproj" />
+    <ProjectReference Include="../Razor/System.Web.Razor.Net10.csproj" />
+    <PackageReference Include="System.CodeDom" Version="10.0.1" />
+    <EmbeddedResource Include="../../src/System.Web.WebPages.Razor/Resources/RazorWebResources.resx" LogicalName="System.Web.WebPages.Razor.Resources.RazorWebResources.resources" />
+    <Compile Include="../Compatibility/**/*.cs" />
+    <Compile Include="HostAccess.cs" />
+    <Compile Include="../MvcNet10Host/BufferedResponse.cs" Link="Hosting/BufferedResponse.cs" />
+    <Compile Include="../MvcNet10Host/ControllerExecution.cs" Link="Hosting/ControllerExecution.cs" />
+    <EmbeddedResource Include="../../src/System.Web.Mvc/Properties/MvcResources.resx" LogicalName="System.Web.Mvc.Properties.MvcResources.resources" />
+    <EmbeddedResource Include="../../src/CommonResources.resx" LogicalName="System.Web.Mvc.CommonResources.resources" />
+    <EmbeddedResource Include="../../src/System.Web.WebPages/Resources/WebPageResources.resx" LogicalName="System.Web.WebPages.Resources.WebPageResources.resources" />
+  </ItemGroup>
+  <Import Project="SourceInputs.props" />
+</Project>

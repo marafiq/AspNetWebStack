@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <AssemblyName>Microsoft.AspNetCore.SystemWebAdapters</AssemblyName>
+    <AssemblyVersion>2.3.0.0</AssemblyVersion>
+    <Version>2.3.0-u05</Version>
+    <IsPackable>false</IsPackable>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <!-- Matches the upstream internal experimental-feature diagnostic setting. -->
+    <NoWarn>$(NoWarn);SYSWEB1001</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <Compile Include="NativePathHosting.cs" />
+    <PackageReference Include="System.Runtime.Caching" Version="10.0.0" />
+    <Using Include="Microsoft.AspNetCore.Http.HttpContext" Alias="HttpContextCore" />
+    <Using Include="Microsoft.AspNetCore.Http.HttpResponse" Alias="HttpResponseCore" />
+    <Using Include="Microsoft.AspNetCore.Http.HttpRequest" Alias="HttpRequestCore" />
+  </ItemGroup>
+  <!-- Exact pinned inputs; HtmlString.IHtmlContent.cs is intentionally omitted. -->
+  <Import Project="SourceInputs.props" />
+</Project>

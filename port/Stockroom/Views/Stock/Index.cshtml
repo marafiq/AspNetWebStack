@@ -1,0 +1,5 @@
+@model Stockroom.StockEdit
+<h1>Office supplies</h1>
+@if (TempData["Notice"] != null) { <p id="notice" role="status">@TempData["Notice"]</p> }
+<article><h2>Notebooks</h2><p>Available: <strong id="quantity">@Model.Quantity</strong></p><p>Revision <span id="version">@Model.Version</span></p><a id="edit" href="@Url.Action("Edit")">Edit quantity</a></article>
+<p class="muted">Request from <span id="agent">@ViewBag.Agent</span></p>

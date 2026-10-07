@@ -84,7 +84,12 @@ namespace System.Web.Mvc
                 throw new ArgumentNullException("filterContext");
             }
 
+#if NET10_0_OR_GREATER
+            if (OutputCacheAttribute.IsChildActionCacheActive(filterContext) ||
+                (filterContext.IsChildAction && !AspNetWebStack.Native.NativeChildActions.IsOwned(filterContext)))
+#else
             if (OutputCacheAttribute.IsChildActionCacheActive(filterContext))
+#endif
             {
                 // If a child action cache block is active, we need to fail immediately, even if authorization
                 // would have succeeded. The reason is that there's no way to hook a callback to rerun
@@ -101,6 +106,9 @@ namespace System.Web.Mvc
                 return;
             }
 
+#if NET10_0_OR_GREATER
+            AspNetWebStack.Native.NativeAuthorization.CheckPrincipal(filterContext.HttpContext);
+#endif
             if (AuthorizeCore(filterContext.HttpContext))
             {
                 // ** IMPORTANT **
@@ -111,6 +119,9 @@ namespace System.Web.Mvc
                 // then we hook our custom authorization code into the caching mechanism so that we have
                 // the final say on whether a page should be served from the cache.
 
+#if NET10_0_OR_GREATER
+                if (AspNetWebStack.Native.NativeAuthorization.PreventCaching(filterContext.HttpContext)) return;
+#endif
                 HttpCachePolicyBase cachePolicy = filterContext.HttpContext.Response.Cache;
                 cachePolicy.SetProxyMaxAge(new TimeSpan(0));
                 cachePolicy.AddValidationCallback(CacheValidateHandler, null /* data */);

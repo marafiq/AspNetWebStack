@@ -4,7 +4,9 @@
 using System.Collections.Specialized;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+#if !NET10_0_OR_GREATER
 using System.Web.Helpers;
+#endif
 
 namespace System.Web.Mvc
 {
@@ -89,9 +91,15 @@ namespace System.Web.Mvc
                         throw new ArgumentNullException("controllerContext");
                     }
 
+#if NET10_0_OR_GREATER
+                    return new FormCollection(controllerContext.Controller,
+                                              () => AspNetWebStack.Native.NativeFormValues.Snapshot(controllerContext.HttpContext.Request, true),
+                                              () => AspNetWebStack.Native.NativeFormValues.Snapshot(controllerContext.HttpContext.Request, false));
+#else
                     return new FormCollection(controllerContext.Controller,
                                               () => controllerContext.HttpContext.Request.Form,
                                               () => controllerContext.HttpContext.Request.Unvalidated.Form);
+#endif
                 }
             }
         }

@@ -16,6 +16,9 @@ namespace System.Web.Mvc.Routing
     internal class LinkGenerationRoute : Route
     {
         private readonly Route _innerRoute;
+#if NET10_0_OR_GREATER
+        internal Route NativeInnerRoute { get { return _innerRoute; } }
+#endif
 
         public LinkGenerationRoute(Route innerRoute)
             : base(innerRoute.Url, innerRoute.Defaults, innerRoute.Constraints, innerRoute.DataTokens,

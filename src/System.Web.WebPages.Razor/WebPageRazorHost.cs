@@ -8,7 +8,9 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+#if !NET10_0_OR_GREATER
 using System.Web.Compilation;
+#endif
 using System.Web.Hosting;
 using System.Web.Razor;
 using System.Web.Razor.Generator;
@@ -37,7 +39,11 @@ namespace System.Web.WebPages.Razor
         private const string PageStartFileName = "_PageStart";
 
         internal static readonly string FallbackApplicationTypeName = typeof(HttpApplication).FullName;
+#if NET10_0_OR_GREATER
+        internal static readonly string PageBaseClass = "System.Web.WebPages.WebPage"; // Metadata only; standalone WebPages are not compiled by the MVC build tool.
+#else
         internal static readonly string PageBaseClass = typeof(WebPage).FullName;
+#endif
         internal static readonly string TemplateTypeName = typeof(HelperResult).FullName;
 
         private static ConcurrentDictionary<string, object> _importedNamespaces = new ConcurrentDictionary<string, object>();
@@ -65,7 +71,11 @@ namespace System.Web.WebPages.Razor
             NamespaceImports.Add("System.Web.WebPages");
             NamespaceImports.Add("System.Web.WebPages.Html");
 
+#if NET10_0_OR_GREATER
+            RegisterSpecialFile(ApplicationStartFileName, "System.Web.WebPages.ApplicationStartPage");
+#else
             RegisterSpecialFile(ApplicationStartFileName, typeof(ApplicationStartPage));
+#endif
             RegisterSpecialFile(PageStartFileName, typeof(StartPage));
             DefaultNamespace = WebDefaultNamespace;
             GeneratedClassContext = new GeneratedClassContext(GeneratedClassContext.DefaultExecuteMethodName,
@@ -159,7 +169,11 @@ namespace System.Web.WebPages.Razor
 
         internal string GlobalAsaxTypeName
         {
+#if NET10_0_OR_GREATER
+            get { return _globalAsaxTypeName ?? FallbackApplicationTypeName; } // Build-time metadata: no Global.asax compilation.
+#else
             get { return _globalAsaxTypeName ?? (HostingEnvironment.IsHosted ? BuildManager.GetGlobalAsaxType().FullName : FallbackApplicationTypeName); }
+#endif
             set { _globalAsaxTypeName = value; }
         }
 

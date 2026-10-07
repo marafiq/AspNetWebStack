@@ -48,7 +48,16 @@ namespace System.Web.Mvc
                 return null;
             }
 
+#if NET10_0_OR_GREATER
+            Stream input = controllerContext.HttpContext.Request.InputStream;
+            if (input is AspNetWebStack.Native.INativeJsonStream prepared)
+            {
+                return prepared.ReadValue();
+            }
+            StreamReader reader = new StreamReader(input);
+#else
             StreamReader reader = new StreamReader(controllerContext.HttpContext.Request.InputStream);
+#endif
             string bodyText = reader.ReadToEnd();
             if (String.IsNullOrEmpty(bodyText))
             {
@@ -56,8 +65,12 @@ namespace System.Web.Mvc
                 return null;
             }
 
+#if NET10_0_OR_GREATER
+            object jsonData = AspNetWebStack.Native.NativeJsonParser.Parse(bodyText);
+#else
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             object jsonData = serializer.DeserializeObject(bodyText);
+#endif
             return jsonData;
         }
 

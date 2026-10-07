@@ -128,6 +128,11 @@ namespace System.Web.Mvc
             return methodName;
         }
 
+#if NET10_0_OR_GREATER
+        // Native mapping owns startup and may run a provider that inspects FindAction.
+        // Rebuild the derived lookup after original attributed-method exclusions.
+        internal void NativeInvalidateStandardRouteCache() { _standardRouteCache = null; }
+#endif
         private StandardRouteActionMethodCache CreateStandardRouteCache()
         {
             var cache = new StandardRouteActionMethodCache();

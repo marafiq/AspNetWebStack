@@ -1,0 +1,4 @@
+# Keep pinned third-party source bytes exact under the upstream root text rule.
+Upstream/** -text
+LICENSE -text
+original-project.xml -text

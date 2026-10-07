@@ -401,6 +401,9 @@ namespace System.Web.Mvc.Async
                         }
                         catch (Exception ex)
                         {
+#if NET10_0_OR_GREATER
+                            AspNetWebStack.Native.NativeOutputCache.ObserveFailure(preContext);
+#endif
                             postContext = new ActionExecutedContext(preContext, preContext.ActionDescriptor, canceled: false, exception: ex);
                             filter.OnActionExecuted(postContext);
                             if (!postContext.ExceptionHandled)
@@ -426,6 +429,9 @@ namespace System.Web.Mvc.Async
                 }
                 catch (Exception ex)
                 {
+#if NET10_0_OR_GREATER
+                    AspNetWebStack.Native.NativeOutputCache.ObserveFailure(preContext);
+#endif
                     ActionExecutedContext postContext = new ActionExecutedContext(preContext, preContext.ActionDescriptor, canceled: false, exception: ex);
                     filter.OnActionExecuted(postContext);
                     if (postContext.ExceptionHandled)

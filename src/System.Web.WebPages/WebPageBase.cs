@@ -146,7 +146,9 @@ namespace System.Web.WebPages
                 // If the path uses an extension registered with codedom, such as Foo.js,
                 // then an unfriendly compilation error might get thrown by the underlying compiler.
                 // Check if this is the case and throw a simpler error.
+#if !NET10_0_OR_GREATER
                 BuildManagerExceptionUtil.ThrowIfCodeDomDefinedExtension(virtualPath, e);
+#endif
 
                 // Rethrow any errors
                 throw;
@@ -222,6 +224,7 @@ namespace System.Web.WebPages
             // (add server header for falcon debugging)
             // call to MapPath() is expensive. If we are not emiting source files to header, 
             // don't bother to populate the SourceFiles collection. This saves perf significantly.
+#if !NET10_0_OR_GREATER
             if (WebPageHttpHandler.ShouldGenerateSourceHeader(Context))
             {
                 try
@@ -242,6 +245,7 @@ namespace System.Web.WebPages
                 }
             }
 
+#endif
             TemplateStack.Push(Context, this);
             try
             {

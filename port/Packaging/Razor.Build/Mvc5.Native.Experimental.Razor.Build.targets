@@ -1,0 +1,17 @@
+<Project>
+  <PropertyGroup>
+    <NativeRazorCompilerPath Condition="'$(NativeRazorCompilerPath)' == ''">$(MSBuildThisFileDirectory)../../tools/net10.0/any/RazorCompiler.dll</NativeRazorCompilerPath>
+    <NativeRazorDotNetHost Condition="'$(NativeRazorDotNetHost)' == '' And '$(DotNetHostPath)' != ''">$(DotNetHostPath)</NativeRazorDotNetHost>
+    <NativeRazorDotNetHost Condition="'$(NativeRazorDotNetHost)' == ''">dotnet</NativeRazorDotNetHost>
+  </PropertyGroup>
+  <Target Name="GenerateNativeMvcRazor" BeforeTargets="_GenerateCompileDependencyCache;CoreCompile" DependsOnTargets="ResolveProjectReferences" Condition="'$(DesignTimeBuild)' != 'true' And '$(IsCrossTargetingBuild)' != 'true'">
+    <Error Condition="'$(TargetFramework)' != 'net10.0' Or '$(Language)' != 'C#'" Text="Native MVC Razor generation supports C# net10.0 projects only." />
+    <PropertyGroup><NativeRazorOutput>$(IntermediateOutputPath)NativeRazor</NativeRazorOutput></PropertyGroup>
+    <Exec Command="&quot;$(NativeRazorDotNetHost)&quot; &quot;$(NativeRazorCompilerPath)&quot; &quot;$(MSBuildProjectDirectory)&quot; &quot;$(NativeRazorOutput)&quot;" WorkingDirectory="$(MSBuildProjectDirectory)" />
+    <ItemGroup>
+      <Compile Remove="$(NativeRazorOutput)/RazorGenerated_*.g.cs" />
+      <Compile Include="$(NativeRazorOutput)/RazorGenerated_*.g.cs" />
+      <FileWrites Include="$(NativeRazorOutput)/RazorGenerated_*.g.cs" />
+    </ItemGroup>
+  </Target>
+</Project>

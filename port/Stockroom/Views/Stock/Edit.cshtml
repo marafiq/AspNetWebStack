@@ -1,0 +1,14 @@
+@model Stockroom.StockEdit
+<h1>Edit notebooks</h1>
+@using (Html.BeginForm("Edit", "Stock", FormMethod.Post, new { id = "stock-form", novalidate = "novalidate", data_json_url = Url.Action("SaveJson") })) {
+ @Html.AntiForgeryToken()
+ @Html.ValidationSummary(false)
+ @Html.HiddenFor(m => m.Version)
+ <label>Quantity @Html.TextBoxFor(m => m.Quantity, new { type = "number" })</label>
+ @Html.ValidationMessageFor(m => m.Quantity)
+ <button type="submit">Save quantity</button>
+ <button id="save-json" type="button">Save with JSON</button>
+ <p id="json-result" role="status"></p>
+}
+<p><a href="@Url.Action("Index")">Back to stock</a></p>
+<script src="@Url.Content("~/app.js")" defer></script>

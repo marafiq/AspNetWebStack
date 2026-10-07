@@ -20,10 +20,18 @@ namespace System.Web.Mvc
             _controllerFactory = controllerFactory;
         }
 
+#if NET10_0_OR_GREATER
+        internal bool NativeUsesDefaultFactory { get { return _controllerFactory == null; } }
+
+#endif
         protected virtual IHttpHandler GetHttpHandler(RequestContext requestContext)
         {
+#if NET10_0_OR_GREATER
+            throw new PlatformNotSupportedException("NativeMvcApplication owns endpoint dispatch; System.Web IHttpHandler execution is unavailable.");
+#else
             requestContext.HttpContext.SetSessionStateBehavior(GetSessionStateBehavior(requestContext));
             return new MvcHandler(requestContext);
+#endif
         }
 
         protected virtual SessionStateBehavior GetSessionStateBehavior(RequestContext requestContext)

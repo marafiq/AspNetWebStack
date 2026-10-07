@@ -98,6 +98,20 @@ namespace System.Web.Mvc.Async
                 throw new ArgumentNullException("parameters");
             }
 
+#if NET10_0_OR_GREATER
+            if (AspNetWebStack.Native.NativeRequestLifetime.For(controllerContext.HttpContext) != null)
+            {
+                AspNetWebStack.Native.NativeLegacyAsyncOperation.Validate(controllerContext, this);
+                var manager = GetAsyncManager(controllerContext.Controller);
+                var infos = AsyncMethodInfo.GetParameters();
+                var values = infos.Select(info => ExtractParameterFromDictionary(info, parameters, AsyncMethodInfo)).ToArray();
+                return AspNetWebStack.Native.NativeActionOperation.BeginLegacy(controllerContext, manager, infos, values,
+                    () => DispatcherCache.GetDispatcher(AsyncMethodInfo).Execute(controllerContext.Controller, values),
+                    () => DispatcherCache.GetDispatcher(CompletedMethodInfo).Execute(controllerContext.Controller,
+                        CompletedMethodInfo.GetParameters().Select(info => ExtractParameterOrDefaultFromDictionary(info, manager.Parameters)).ToArray()),
+                    this, callback, state);
+            }
+#endif
             AsyncManager asyncManager = GetAsyncManager(controllerContext.Controller);
 
             BeginInvokeDelegate beginDelegate = delegate(AsyncCallback asyncCallback, object asyncState)
@@ -155,6 +169,9 @@ namespace System.Web.Mvc.Async
 
         public override object EndExecute(IAsyncResult asyncResult)
         {
+#if NET10_0_OR_GREATER
+            if (asyncResult is AspNetWebStack.Native.NativeActionAsyncResult native) return native.End(this);
+#endif
             return AsyncResultWrapper.End<object>(asyncResult, _executeTag);
         }
 

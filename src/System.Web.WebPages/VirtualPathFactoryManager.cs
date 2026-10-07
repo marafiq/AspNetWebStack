@@ -10,7 +10,11 @@ namespace System.Web.WebPages
     // by using explicitly registered factories (which happens through ApplicationPart.Register).
     public class VirtualPathFactoryManager : IVirtualPathFactory
     {
+#if NET10_0_OR_GREATER
+        private static readonly Lazy<VirtualPathFactoryManager> _instance = new Lazy<VirtualPathFactoryManager>(() => new VirtualPathFactoryManager(new NativeUnsupportedVirtualPathFactory()));
+#else
         private static readonly Lazy<VirtualPathFactoryManager> _instance = new Lazy<VirtualPathFactoryManager>(() => new VirtualPathFactoryManager(new BuildManagerWrapper()));
+#endif
         private static Func<string, bool> _instancePathExists;
         private readonly LinkedList<IVirtualPathFactory> _virtualPathFactories = new LinkedList<IVirtualPathFactory>();
 

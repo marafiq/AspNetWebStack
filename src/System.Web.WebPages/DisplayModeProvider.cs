@@ -17,7 +17,11 @@ namespace System.Web.WebPages
         {
             new DefaultDisplayMode(MobileDisplayModeId)
             {
+#if NET10_0_OR_GREATER
+                ContextCondition = context => throw new PlatformNotSupportedException("The native display-mode provider does not implement browser override/mobile detection. Configure explicit display modes.")
+#else
                 ContextCondition = context => context.GetOverriddenBrowser().IsMobileDevice
+#endif
             },
             new DefaultDisplayMode()
         };

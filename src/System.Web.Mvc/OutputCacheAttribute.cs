@@ -132,6 +132,10 @@ namespace System.Web.Mvc
 
         private static void CompleteChildAction(ControllerContext filterContext, bool wasException)
         {
+#if NET10_0_OR_GREATER
+            // A disabled nested filter must not finish its ancestor's capture.
+            if (!AspNetWebStack.Native.NativeChildCache.OwnsCapture(filterContext)) return;
+#endif
             Action<bool> callback = GetChildActionFilterFinishCallback(filterContext);
 
             if (callback != null)
@@ -160,8 +164,12 @@ namespace System.Web.Mvc
             DescriptorUtil.AppendUniqueId(uniqueIdBuilder, VaryByCustom);
             if (!String.IsNullOrEmpty(VaryByCustom))
             {
+                #if NET10_0_OR_GREATER
+                throw new PlatformNotSupportedException("Native child caching does not support VaryByCustom.");
+#else
                 string varyByCustomResult = filterContext.HttpContext.ApplicationInstance.GetVaryByCustomString(HttpContext.Current, VaryByCustom);
                 uniqueIdBuilder.Append(varyByCustomResult);
+#endif
             }
 
             // Unique ID from the VaryByParam settings, if any
@@ -170,7 +178,11 @@ namespace System.Web.Mvc
             // The key is typically too long to be useful, so we use a cryptographic hash
             // as the actual key (better randomization and key distribution, so small vary
             // values will generate dramtically different keys).
+            #if NET10_0_OR_GREATER
+            using (SHA256 sha = SHA256.Create())
+#else
             using (SHA256Cng sha = new SHA256Cng())
+#endif
             {
                 return Convert.ToBase64String(sha.ComputeHash(Encoding.UTF8.GetBytes(uniqueIdBuilder.ToString())));
             }
@@ -267,15 +279,30 @@ namespace System.Web.Mvc
                     throw new InvalidOperationException(MvcResources.OutputCacheAttribute_CannotNestChildCache);
                 }
 
+#if NET10_0_OR_GREATER
+                if (!AspNetWebStack.Native.NativeChildCache.IsEligible(filterContext)) return;
+#endif
                 // Already cached?
                 string uniqueId = GetChildActionUniqueId(filterContext);
+#if NET10_0_OR_GREATER
+                uniqueId = AspNetWebStack.Native.NativeChildCache.ScopeKey(filterContext, uniqueId);
+#endif
+#if NET10_0_OR_GREATER
+                string cachedValue = AspNetWebStack.Native.NativeChildCache.Get(filterContext, ChildActionCacheInternal, uniqueId);
+#else
                 string cachedValue = ChildActionCacheInternal.Get(uniqueId) as string;
+#endif
                 if (cachedValue != null)
                 {
                     filterContext.Result = new ContentResult() { Content = cachedValue };
                     return;
                 }
 
+#if NET10_0_OR_GREATER
+                var capture = AspNetWebStack.Native.NativeChildCache.Begin(filterContext);
+                SetChildActionFilterFinishCallback(filterContext, wasException =>
+                    capture.Finish(wasException, text => ChildActionCacheInternal.Add(uniqueId, text, DateTimeOffset.UtcNow.AddSeconds(Duration))));
+#else
                 // Swap in a new TextWriter so we can capture the output
                 StringWriter cachingWriter = new StringWriter(CultureInfo.InvariantCulture);
                 TextWriter originalWriter = filterContext.HttpContext.Response.Output;
@@ -297,6 +324,7 @@ namespace System.Web.Mvc
                         ChildActionCacheInternal.Add(uniqueId, capturedText, DateTimeOffset.UtcNow.AddSeconds(Duration));
                     }
                 });
+#endif
             }
         }
 
@@ -322,11 +350,15 @@ namespace System.Web.Mvc
 
             if (!filterContext.IsChildAction)
             {
+#if NET10_0_OR_GREATER
+                AspNetWebStack.Native.NativeOutputCache.ValidateResultFilter(filterContext, this);
+#else
                 // we need to call ProcessRequest() since there's no other way to set the Page.Response intrinsic
                 using (OutputCachedPage page = new OutputCachedPage(_cacheSettings))
                 {
                     page.ProcessRequest(HttpContext.Current);
                 }
+#endif
             }
         }
 
@@ -346,6 +378,9 @@ namespace System.Web.Mvc
         private static void SetChildActionFilterFinishCallback(ControllerContext controllerContext, Action<bool> callback)
         {
             controllerContext.HttpContext.Items[_childActionFilterFinishCallbackKey] = callback;
+#if NET10_0_OR_GREATER
+            AspNetWebStack.Native.NativeChildCache.RegisterCleanup(controllerContext, _childActionFilterFinishCallbackKey, callback);
+#endif
         }
 
         private void ValidateChildActionConfiguration()
@@ -359,6 +394,10 @@ namespace System.Web.Mvc
                 throw new InvalidOperationException(MvcResources.OutputCacheAttribute_ChildAction_UnsupportedSetting);
             }
 
+#if NET10_0_OR_GREATER
+            if (!String.IsNullOrEmpty(VaryByCustom))
+                throw new PlatformNotSupportedException("Native child caching does not support VaryByCustom.");
+#endif
             if (Duration <= 0)
             {
                 throw new InvalidOperationException(MvcResources.OutputCacheAttribute_InvalidDuration);
@@ -410,6 +449,7 @@ namespace System.Web.Mvc
             return new Dictionary<string, object>(actionParameters, StringComparer.OrdinalIgnoreCase);
         }
 
+#if !NET10_0_OR_GREATER
         [SuppressMessage("ASP.NET.Security", "CA5328:ValidateRequestShouldBeEnabled", Justification = "Instances of this type are not created in response to direct user input.")]
         private sealed class OutputCachedPage : Page
         {
@@ -429,5 +469,6 @@ namespace System.Web.Mvc
                 InitOutputCache(_cacheSettings);
             }
         }
+#endif
     }
 }

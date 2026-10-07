@@ -7,7 +7,9 @@ namespace System.Web.Mvc
     {
         private static readonly ViewEngineCollection _engines = new ViewEngineCollection
         {
+#if !NET10_0_OR_GREATER
             new WebFormViewEngine(),
+#endif
             new RazorViewEngine(),
         };
 

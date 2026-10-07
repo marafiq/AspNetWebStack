@@ -4,7 +4,9 @@
 using System.Globalization;
 using System.IO;
 using System.Web.WebPages.Resources;
+#if !NET10_0_OR_GREATER
 using Microsoft.Web.Infrastructure;
+#endif
 
 namespace System.Web.WebPages
 {
@@ -39,6 +41,7 @@ namespace System.Web.WebPages
             }
         }
 
+#if !NET10_0_OR_GREATER
         internal static void ThrowIfCodeDomDefinedExtension(string virtualPath, HttpException e)
         {
             if (e is HttpCompileException)
@@ -50,5 +53,6 @@ namespace System.Web.WebPages
                 }
             }
         }
+#endif
     }
 }

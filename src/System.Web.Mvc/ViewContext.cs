@@ -6,7 +6,9 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
+#if !NET10_0_OR_GREATER
 using System.Web.Mvc.Html;
+#endif
 using System.Web.WebPages.Scope;
 
 namespace System.Web.Mvc
@@ -129,7 +131,21 @@ window.mvcClientValidationMetadata.push({0});
         }
 
         [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "The property setter is only here to support mocking this type and should not be called at runtime.")]
+#if NET10_0_OR_GREATER
+        private TempDataDictionary _nativeTempData;
+        internal int NativeTempDataVersion { get; private set; }
+        public virtual TempDataDictionary TempData
+        {
+            get { return _nativeTempData; }
+            set
+            {
+                AspNetWebStack.Native.NativeOutputCache.ObserveViewTempData(this, value, NativeTempDataVersion);
+                _nativeTempData = value; NativeTempDataVersion++;
+            }
+        }
+#else
         public virtual TempDataDictionary TempData { get; set; }
+#endif
 
         public virtual bool UnobtrusiveJavaScriptEnabled
         {

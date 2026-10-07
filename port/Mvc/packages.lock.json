@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "dependencies": {
+    "net10.0": {
+      "System.CodeDom": {
+        "type": "Direct",
+        "requested": "[10.0.1, )",
+        "resolved": "10.0.1",
+        "contentHash": "owy+NlWSBRNLZO8CZ7IguuaPHHiAivjstTciM7YlXyDDqBY26FMl3F9Nw04n8Dog1JaxFlZiEIEXKPaigRmkNg=="
+      },
+      "System.Configuration.ConfigurationManager": {
+        "type": "Transitive",
+        "resolved": "10.0.0",
+        "contentHash": "0B+BzJ6pPMrRzJrVsttKf9MfDj6Syw9xoY+agcS9VssYQali1446+jTf5v1K94AMFUBxLXqDZlaTjO5edaI3jA==",
+        "dependencies": {
+          "System.Security.Cryptography.ProtectedData": "10.0.0"
+        }
+      },
+      "System.Runtime.Caching": {
+        "type": "Transitive",
+        "resolved": "10.0.0",
+        "contentHash": "NPh8KaTPj0LyiqPJZCEI9HoFFn9qes/iOfqqnEiKsmkuLwRJIaTdkVlYeNYJWqkuYonExKiM5nlfBk2/N3/TJw==",
+        "dependencies": {
+          "System.Configuration.ConfigurationManager": "10.0.0"
+        }
+      },
+      "System.Security.Cryptography.ProtectedData": {
+        "type": "Transitive",
+        "resolved": "10.0.0",
+        "contentHash": "qy6C3gQRTrfhFfuiIYU1jNwWfFdJpBVo1BARW7jgMm1zTEm3LRzLLyOLJGaAuKE+nZCGkEP71y4rj9NWjqLGdQ=="
+      },
+      "Microsoft.AspNetCore.SystemWebAdapters": {
+        "type": "Project",
+        "dependencies": {
+          "System.Runtime.Caching": "[10.0.0, )"
+        }
+      },
+      "System.Web.Razor": {
+        "type": "Project",
+        "dependencies": {
+          "System.CodeDom": "[10.0.1, )"
+        }
+      }
+    }
+  }
+}

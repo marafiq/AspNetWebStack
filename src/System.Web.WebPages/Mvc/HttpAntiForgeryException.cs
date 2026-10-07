@@ -16,10 +16,12 @@ namespace System.Web.Mvc
         {
         }
 
+#if !NET10_0_OR_GREATER
         private HttpAntiForgeryException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
+#endif
 
         public HttpAntiForgeryException(string message)
             : base(message)

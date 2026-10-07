@@ -1,0 +1,96 @@
+{
+  "repository": "https://github.com/microsoft/referencesource",
+  "commit": "ec9fa9ae770d522a5b5f0607898044b7478574a3",
+  "source_inputs": [
+    {
+      "repository": "https://github.com/microsoft/referencesource",
+      "commit": "ec9fa9ae770d522a5b5f0607898044b7478574a3",
+      "source": "System.Web.Extensions/Script/Serialization/JavaScriptSerializer.cs",
+      "url": "https://raw.githubusercontent.com/microsoft/referencesource/ec9fa9ae770d522a5b5f0607898044b7478574a3/System.Web.Extensions/Script/Serialization/JavaScriptSerializer.cs",
+      "bytes": 23525,
+      "sha256": "dec3c1491b55014469885fecf073fc8ee04ba808a6ca426e7ac75249630205b7",
+      "download_name": "JavaScriptSerializer.cs"
+    },
+    {
+      "repository": "https://github.com/microsoft/referencesource",
+      "commit": "ec9fa9ae770d522a5b5f0607898044b7478574a3",
+      "source": "System.Web.Extensions/Script/Serialization/ScriptIgnoreAttribute.cs",
+      "url": "https://raw.githubusercontent.com/microsoft/referencesource/ec9fa9ae770d522a5b5f0607898044b7478574a3/System.Web.Extensions/Script/Serialization/ScriptIgnoreAttribute.cs",
+      "bytes": 721,
+      "sha256": "63989420408c18652ff6d6cc488f3ac6b8d439f305e171c2d1eb8f86c5ff1686",
+      "download_name": "ScriptIgnoreAttribute.cs"
+    },
+    {
+      "repository": "https://github.com/microsoft/referencesource",
+      "commit": "ec9fa9ae770d522a5b5f0607898044b7478574a3",
+      "source": "System.Web.Extensions/Script/Serialization/JavaScriptConverter.cs",
+      "url": "https://raw.githubusercontent.com/microsoft/referencesource/ec9fa9ae770d522a5b5f0607898044b7478574a3/System.Web.Extensions/Script/Serialization/JavaScriptConverter.cs",
+      "bytes": 1083,
+      "sha256": "9842eb65432a66357cbc98205d8197d94392aababe1bf8c97943566d601cd0d2",
+      "download_name": "JavaScriptConverter.cs"
+    },
+    {
+      "repository": "https://github.com/microsoft/referencesource",
+      "commit": "ec9fa9ae770d522a5b5f0607898044b7478574a3",
+      "source": "System.Web.Extensions/Script/Serialization/JavaScriptTypeResolver.cs",
+      "url": "https://raw.githubusercontent.com/microsoft/referencesource/ec9fa9ae770d522a5b5f0607898044b7478574a3/System.Web.Extensions/Script/Serialization/JavaScriptTypeResolver.cs",
+      "bytes": 568,
+      "sha256": "ea13964affb78d8e263a60779d3eeb5c46d12fae64d418f7aeb59ae6daaa5928",
+      "download_name": "JavaScriptTypeResolver.cs"
+    },
+    {
+      "repository": "https://github.com/microsoft/referencesource",
+      "commit": "ec9fa9ae770d522a5b5f0607898044b7478574a3",
+      "source": "System.Web.Extensions/Resources/AtlasWeb.resx",
+      "url": "https://raw.githubusercontent.com/microsoft/referencesource/ec9fa9ae770d522a5b5f0607898044b7478574a3/System.Web.Extensions/Resources/AtlasWeb.resx",
+      "bytes": 83216,
+      "sha256": "d96c5c8ce5e26c9b4c9e6735d49283cd8e8158cc8b40e3b68f2c3fada346e8d6",
+      "download_name": "AtlasWeb.resx"
+    },
+    {
+      "repository": "https://github.com/microsoft/referencesource",
+      "commit": "ec9fa9ae770d522a5b5f0607898044b7478574a3",
+      "source": "LICENSE.txt",
+      "url": "https://raw.githubusercontent.com/microsoft/referencesource/ec9fa9ae770d522a5b5f0607898044b7478574a3/LICENSE.txt",
+      "bytes": 1121,
+      "sha256": "c1f47cf87974fdc14137ddd32e6273c0d9b30365bba4b96daf0b26243e309a4c",
+      "download_name": "LICENSE.txt"
+    }
+  ],
+  "extraction": "Retain U29 default outbound serializer constants, limits, Serialize methods and graph traversal unchanged. U32 removes the unnecessary U31 internal DeserializeObject facade; native JSON input hands its prepared graph directly to original JsonValueProviderFactory. No public general serializer API, object conversion, converter or resolver support.",
+  "native_adaptations": [
+    "Class internal sealed; constructor initializes the original defaults directly.",
+    "SecurityUtils CAS reflection wrappers replaced by native FieldInfo.GetValue and MethodInfo.Invoke for original public-instance members. No CAS/partial-trust emulation.",
+    "HttpUtility.JavaScriptStringEncode resolves to native runtime; custom Framework HttpEncoder/configuration unavailable.",
+    "Only used English AtlasWeb resource values retained; satellite localization not restored.",
+    "U32 deletes the inbound serializer method; source/API JSON factory keeps a native-only prepared graph handoff or single native parse for custom contexts. Outbound extraction unchanged."
+  ],
+  "resources": [
+    "JSON_CannotSerializeMemberGeneric",
+    "JSON_CircularReference",
+    "JSON_DepthLimitExceeded",
+    "JSON_DictionaryTypeNotSupported",
+    "JSON_InvalidEnumType",
+    "JSON_InvalidMaxJsonLength",
+    "JSON_InvalidRecursionLimit",
+    "JSON_MaxJsonLengthExceeded"
+  ],
+  "files": [
+    {
+      "file": "port/Compatibility/ReferenceSource/Json/AtlasWeb.cs",
+      "sha256": "a0b91d8ac4a77dd7d32315e0b197c6dc99e17ae54c92ac73c2a2965fd8dd9054"
+    },
+    {
+      "file": "port/Compatibility/ReferenceSource/Json/JavaScriptSerializer.cs",
+      "sha256": "24bd04cce89b56e1160e283eac5b5754934b66d0cda6b6e0564c87118048e0ea"
+    },
+    {
+      "file": "port/Compatibility/ReferenceSource/Json/LICENSE.txt",
+      "sha256": "c1f47cf87974fdc14137ddd32e6273c0d9b30365bba4b96daf0b26243e309a4c"
+    },
+    {
+      "file": "port/Compatibility/ReferenceSource/Json/ScriptIgnoreAttribute.cs",
+      "sha256": "63989420408c18652ff6d6cc488f3ac6b8d439f305e171c2d1eb8f86c5ff1686"
+    }
+  ]
+}

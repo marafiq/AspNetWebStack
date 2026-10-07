@@ -5,7 +5,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Text;
+#if !NET10_0_OR_GREATER
 using System.Web.WebPages.Html;
+#endif
 using Microsoft.Internal.Web.Utils;
 
 namespace System.Web.Mvc

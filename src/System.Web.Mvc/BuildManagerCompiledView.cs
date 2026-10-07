@@ -47,7 +47,11 @@ namespace System.Web.Mvc
             {
                 if (_buildManager == null)
                 {
+#if NET10_0_OR_GREATER
+                    _buildManager = new NativeUnavailableBuildManager();
+#else
                     _buildManager = new BuildManagerWrapper();
+#endif
                 }
                 return _buildManager;
             }

@@ -70,7 +70,11 @@ namespace System.Web.Mvc
             {
                 if (_buildManager == null)
                 {
+#if NET10_0_OR_GREATER
+                    throw new PlatformNotSupportedException("Default ASP.NET BuildManager discovery is unavailable. Supply a NativeControllerCatalog with the application's assemblies.");
+#else
                     _buildManager = new BuildManagerWrapper();
+#endif
                 }
                 return _buildManager;
             }

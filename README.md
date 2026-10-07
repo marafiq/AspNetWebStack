@@ -1,3 +1,5 @@
+> **MVC 5.3 on .NET 10 preview:** this branch adds an independently reviewed native-host port and a runnable Stockroom demo. [Quick start](port/README.md) · [Screenshots](port/demo/README.md) · [Compatibility limits](port/Packaging/PROFILE.md). Experimental and unsigned; not an official Microsoft release.
+
 # ASP.NET MVC, Web API, Web Pages, and Razor
 
 ## Note: This repo is for ASP.NET MVC 5.x, Web API 2.x, and Web Pages 3.x. For ASP.NET Core MVC, check the [AspNetCore repo](https://github.com/aspnet/AspNetCore).

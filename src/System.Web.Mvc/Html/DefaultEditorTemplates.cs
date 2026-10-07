@@ -9,10 +9,16 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+#if !NET10_0_OR_GREATER
 using System.Web.Configuration;
+#endif
 using System.Web.Mvc.Properties;
 using System.Web.Routing;
+#if NET10_0_OR_GREATER
+using DataBoundControlMode = AspNetWebStack.Native.TemplateMode;
+#else
 using System.Web.UI.WebControls;
+#endif
 
 namespace System.Web.Mvc.Html
 {
@@ -277,12 +283,17 @@ namespace System.Web.Mvc.Html
         internal static string PasswordTemplate(HtmlHelper html)
         {
             object value = null;
+#if NET10_0_OR_GREATER
+            // Native startup configuration; web.config is not loaded on .NET 10.
+            if (AppContext.TryGetSwitch(UsePasswordValue, out bool usePasswordValue) && usePasswordValue)
+#else
             var usePasswordStrings = WebConfigurationManager.AppSettings.GetValues(UsePasswordValue);
             bool usePasswordValue;
             if (usePasswordStrings != null &&
                 usePasswordStrings.Length > 0 &&
                 bool.TryParse(usePasswordStrings[0], out usePasswordValue) &&
                 usePasswordValue)
+#endif
             {
                 value = html.ViewContext.ViewData.TemplateInfo.FormattedModelValue;
             }
@@ -297,7 +308,11 @@ namespace System.Web.Mvc.Html
         {
             return
                 metadata.ShowForEdit
+#if NET10_0_OR_GREATER
+                && metadata.ModelType != AspNetWebStack.Native.NativeTemplateTypes.LegacyEntityState
+#else
                 && metadata.ModelType != typeof(EntityState)
+#endif
                 && !metadata.IsComplexType
                 && !templateInfo.Visited(metadata);
         }

@@ -1,0 +1,20 @@
+<Project>
+  <!-- NuGet imports this for direct and transitive consumers. Native SDK
+       runtimeconfig generation, rather than an application shim, owns the floor. -->
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net10.0'">
+    <RuntimeFrameworkVersion Condition="'$(RuntimeFrameworkVersion)' == ''">10.0.2</RuntimeFrameworkVersion>
+    <RollForward Condition="'$(RollForward)' == ''">LatestPatch</RollForward>
+  </PropertyGroup>
+  <Target Name="ValidateNativeMvcRuntimeProfile" BeforeTargets="PrepareForBuild" Condition="'$(DesignTimeBuild)' != 'true'">
+    <Error Condition="'$(TargetFramework)' != 'net10.0'" Text="Mvc5.Native.Experimental supports net10.0 only." />
+    <Error Condition="$([MSBuild]::VersionLessThan('$(RuntimeFrameworkVersion)', '10.0.2')) Or $([MSBuild]::VersionGreaterThanOrEquals('$(RuntimeFrameworkVersion)', '10.1.0'))" Text="MVC requires both shared frameworks at 10.0.2 or later in the 10.0 servicing line." />
+    <Error Condition="'$(RollForward)' != 'LatestPatch'" Text="MVC's supported package profile requires RollForward=LatestPatch." />
+    <Error Condition="'$(SelfContained)' == 'true' Or '$(PublishAot)' == 'true' Or '$(PublishTrimmed)' == 'true' Or '$(PublishSingleFile)' == 'true'" Text="MVC's experimental package profile supports untrimmed framework-dependent directory deployment." />
+  </Target>
+  <Target Name="ValidateNativeMvcResolvedFrameworks" BeforeTargets="GenerateBuildRuntimeConfigurationFiles" DependsOnTargets="ResolveFrameworkReferences" Condition="'$(DesignTimeBuild)' != 'true'">
+    <ItemGroup>
+      <_NativeMvcFramework Include="@(RuntimeFramework)" Condition="'%(RuntimeFramework.Identity)' == 'Microsoft.NETCore.App' Or '%(RuntimeFramework.Identity)' == 'Microsoft.AspNetCore.App'" />
+    </ItemGroup>
+    <Error Condition="$([MSBuild]::VersionLessThan('%(_NativeMvcFramework.Version)', '10.0.2')) Or $([MSBuild]::VersionGreaterThanOrEquals('%(_NativeMvcFramework.Version)', '10.1.0'))" Text="The resolved %(_NativeMvcFramework.Identity) runtime version must be in the supported 10.0.2+ servicing line." />
+  </Target>
+</Project>

@@ -8,7 +8,11 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc.Properties;
+#if NET10_0_OR_GREATER
+using DataBoundControlMode = AspNetWebStack.Native.TemplateMode;
+#else
 using System.Web.UI.WebControls;
+#endif
 
 namespace System.Web.Mvc.Html
 {
@@ -213,7 +217,11 @@ namespace System.Web.Mvc.Html
         {
             return
                 metadata.ShowForDisplay
+#if NET10_0_OR_GREATER
+                && metadata.ModelType != AspNetWebStack.Native.NativeTemplateTypes.LegacyEntityState
+#else
                 && metadata.ModelType != typeof(EntityState)
+#endif
                 && !metadata.IsComplexType
                 && !templateInfo.Visited(metadata);
         }

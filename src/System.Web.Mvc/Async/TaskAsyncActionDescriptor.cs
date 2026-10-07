@@ -105,6 +105,16 @@ namespace System.Web.Mvc.Async
                 throw new ArgumentNullException("parameters");
             }
 
+#if NET10_0_OR_GREATER
+            if (AspNetWebStack.Native.NativeRequestLifetime.For(controllerContext.HttpContext) != null)
+            {
+                var infos = TaskMethodInfo.GetParameters();
+                var values = infos.Select(info => ExtractParameterFromDictionary(info, parameters, TaskMethodInfo)).ToArray();
+                return AspNetWebStack.Native.NativeActionOperation.BeginTask(controllerContext, GetAsyncManager(controllerContext.Controller),
+                    infos, values, () => DispatcherCache.GetDispatcher(TaskMethodInfo).Execute(controllerContext.Controller, values) as Task,
+                    task => _taskValueExtractors.GetOrAdd(TaskMethodInfo.ReturnType, CreateTaskValueExtractor)(task), this, callback, state);
+            }
+#endif
             ParameterInfo[] parameterInfos = TaskMethodInfo.GetParameters();
             var rawParameterValues = from parameterInfo in parameterInfos
                                      select ExtractParameterFromDictionary(parameterInfo, parameters, TaskMethodInfo);
@@ -220,6 +230,9 @@ namespace System.Web.Mvc.Async
 
         public override object EndExecute(IAsyncResult asyncResult)
         {
+#if NET10_0_OR_GREATER
+            if (asyncResult is AspNetWebStack.Native.NativeActionAsyncResult native) return native.End(this);
+#endif
             TaskWrapperAsyncResult wrapperResult = (TaskWrapperAsyncResult)asyncResult;
 
             // Throw an exception with the correct call stack

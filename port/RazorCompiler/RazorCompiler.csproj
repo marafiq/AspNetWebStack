@@ -1,0 +1,4 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><OutputType>Exe</OutputType><RuntimeFrameworkVersion>10.0.2</RuntimeFrameworkVersion><RollForward>LatestPatch</RollForward><UseAppHost>false</UseAppHost></PropertyGroup>
+  <ItemGroup><FrameworkReference Include="Microsoft.AspNetCore.App" /><ProjectReference Include="../Mvc/System.Web.Mvc.Net10.csproj" /><PackageReference Include="System.CodeDom" Version="10.0.1" /></ItemGroup>
+</Project>
