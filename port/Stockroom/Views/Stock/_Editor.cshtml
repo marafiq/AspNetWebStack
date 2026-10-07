@@ -1,0 +1,13 @@
+@model Stockroom.StockEdit
+@using System.Web.Mvc.Ajax
+@{ Html.EnableClientValidation(); Html.EnableUnobtrusiveJavaScript(); }
+@using (Ajax.BeginForm("Edit", "Stock", null, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "editor-region", InsertionMode = InsertionMode.Replace, OnBegin = "Stockroom.begin", OnSuccess = "Stockroom.saved", OnFailure = "Stockroom.failed", OnComplete = "Stockroom.complete" }, new { id = "stock-form", novalidate = "novalidate", data_json_url = Url.Action("SaveJson") })) {
+ @Html.AntiForgeryToken()
+ @Html.ValidationSummary(false)
+ @Html.HiddenFor(m => m.Version)
+ <label>Quantity @Html.TextBoxFor(m => m.Quantity, new { type = "number" })</label>
+ @Html.ValidationMessageFor(m => m.Quantity)
+ <button type="submit">Save quantity</button>
+ <button id="save-json" type="button">Save with JSON</button>
+ <p id="json-result" role="status"></p>
+}

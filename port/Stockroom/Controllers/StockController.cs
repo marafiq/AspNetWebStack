@@ -10,12 +10,13 @@ namespace Stockroom
         public StockController(IStockEditor stock) { _stock = stock; }
         [HttpGet] public async Task<ActionResult> Index() { await Task.Yield(); ViewBag.Agent = Request.UserAgent; return View(_stock.Read()); }
         [HttpGet, Authorize(Roles = "Editor")]
-        public async Task<ActionResult> Edit() { await Task.Yield(); return View(_stock.Read()); }
+        public async Task<ActionResult> Edit() { await Task.Yield(); return Request.IsAjaxRequest() ? (ActionResult)PartialView("_Editor", _stock.Read()) : View(_stock.Read()); }
         [HttpPost, Authorize(Roles = "Editor"), ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(StockEdit model) {
             await Task.Yield();
-            if (!ModelState.IsValid) return View(model);
+            if (!ModelState.IsValid) return Request.IsAjaxRequest() ? (ActionResult)PartialView("_Editor", model) : View(model);
             if (!_stock.TryStage(model.Quantity, model.Version)) { Response.StatusCode = 409; ModelState.AddModelError("", "Stock changed. Return to the list and reload before saving."); return View(model); }
+            if (Request.IsAjaxRequest()) { ModelState.Clear(); return PartialView("_Editor", new StockEdit { Quantity = model.Quantity, Version = model.Version + 1 }); }
             TempData["Notice"] = "Quantity saved.";
             return RedirectToAction("Index");
         }

@@ -12,7 +12,9 @@ internal static class NativeIdentity
             o.LoginPath = "/account/login"; o.ExpireTimeSpan = TimeSpan.FromMinutes(20); o.SlidingExpiration = false;
             o.Events.OnRedirectToAccessDenied = c => { c.Response.StatusCode = 403; return c.Response.WriteAsync("Editor access is required."); };
             o.Events.OnRedirectToLogin = c => {
-                if (c.Request.Path.Value.EndsWith("/SaveJson", StringComparison.OrdinalIgnoreCase)) c.Response.StatusCode = 401;
+                // Ajax callers must receive a failure, rather than following a login redirect into an HTML update target.
+                if (c.Request.Path.Value.EndsWith("/SaveJson", StringComparison.OrdinalIgnoreCase) ||
+                    String.Equals(c.Request.Headers["X-Requested-With"], "XMLHttpRequest", StringComparison.Ordinal)) c.Response.StatusCode = 401;
                 else c.Response.Redirect(c.Request.PathBase + "/account/login");
                 return Task.CompletedTask;
             };

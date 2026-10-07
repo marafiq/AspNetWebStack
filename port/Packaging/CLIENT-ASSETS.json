@@ -1,0 +1,27 @@
+{
+  "source_release": "1231b77d79956152831b75ad7f094f844251b97f",
+  "assets": [
+    {
+      "file": "jquery-3.7.1.js",
+      "sha256": "78a85aca2f0b110c29e0d2b137e09f0a1fb7a8e554b499f740d6744dc8962cfe",
+      "source": "https://registry.npmjs.org/jquery/-/jquery-3.7.1.tgz"
+    },
+    {
+      "file": "jquery.validate-1.22.1.js",
+      "sha256": "d001b227ad4d97b207c8c690a827d55d60ae189428ce7b9417e9d6dad8170c10",
+      "source": "https://registry.npmjs.org/jquery-validation/-/jquery-validation-1.22.1.tgz"
+    },
+    {
+      "file": "jquery.validate.unobtrusive.js",
+      "sha256": "ab6d8b55adbcaad9b5b1d54f9a765d9c3b43aec15b0cb0cd92c9dcb496529648",
+      "source": "https://github.com/aspnet/AspNetWebStack/blob/1231b77d79956152831b75ad7f094f844251b97f/src/System.Web.Mvc/JavaScript/jquery.validate.unobtrusive.js"
+    },
+    {
+      "file": "jquery.unobtrusive-ajax.js",
+      "sha256": "488ace2700cb8d68a58b6f9aef6a487a8d42583d2fc641916ba7e586c0c22787",
+      "source": "https://github.com/aspnet/AspNetWebStack/blob/1231b77d79956152831b75ad7f094f844251b97f/src/System.Web.Mvc/JavaScript/jquery.unobtrusive-ajax.js"
+    }
+  ],
+  "usage": "Copy client/*.js from the runtime package into your application static assets. Stockroom includes exact copies under wwwroot/vendor; no runtime CDN.",
+  "licenses": "MVC Apache-2.0; jQuery and jQuery Validation MIT, full texts in licenses."
+}

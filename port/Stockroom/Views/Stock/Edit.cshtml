@@ -1,14 +1,12 @@
 @model Stockroom.StockEdit
+@using System.Web.Mvc.Ajax
+@{ Html.EnableClientValidation(); Html.EnableUnobtrusiveJavaScript(); }
 <h1>Edit notebooks</h1>
-@using (Html.BeginForm("Edit", "Stock", FormMethod.Post, new { id = "stock-form", novalidate = "novalidate", data_json_url = Url.Action("SaveJson") })) {
- @Html.AntiForgeryToken()
- @Html.ValidationSummary(false)
- @Html.HiddenFor(m => m.Version)
- <label>Quantity @Html.TextBoxFor(m => m.Quantity, new { type = "number" })</label>
- @Html.ValidationMessageFor(m => m.Quantity)
- <button type="submit">Save quantity</button>
- <button id="save-json" type="button">Save with JSON</button>
- <p id="json-result" role="status"></p>
-}
-<p><a href="@Url.Action("Index")">Back to stock</a></p>
+<div id="editor-region">@Html.Partial("_Editor", Model)</div>
+<p id="ajax-status" role="status" aria-live="polite"></p>
+<p>@Ajax.ActionLink("Reload current stock", "Edit", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "editor-region", InsertionMode = InsertionMode.Replace, OnBegin = "Stockroom.begin", OnSuccess = "Stockroom.loaded", OnFailure = "Stockroom.failed", OnComplete = "Stockroom.complete" }) · <a href="@Url.Action("Index")">Back to stock</a></p>
+<script src="@Url.Content("~/vendor/jquery-3.7.1.js")" defer></script>
+<script src="@Url.Content("~/vendor/jquery.validate-1.22.1.js")" defer></script>
+<script src="@Url.Content("~/vendor/jquery.validate.unobtrusive.js")" defer></script>
+<script src="@Url.Content("~/vendor/jquery.unobtrusive-ajax.js")" defer></script>
 <script src="@Url.Content("~/app.js")" defer></script>
