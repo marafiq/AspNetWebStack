@@ -1,6 +1,6 @@
 # MVC 5.3 on native .NET 10 — preview
 
-This fork recompiles original ASP.NET MVC controller, model, helper and C# Razor code on a native ASP.NET Core host. It is an experimental, unsigned **U62 preview**, independently reviewed within the [supported profile](Packaging/PROFILE.md). It is not an official Microsoft release or a drop-in replacement for System.Web/IIS.
+This fork recompiles original ASP.NET MVC controller, model, helper and C# Razor code on a native ASP.NET Core host. The agreed native MVC port is complete within its [documented public contract and approved differences](SOURCE-COMPATIBILITY.md). It remains an experimental, unsigned **U62 preview**, independently reviewed within the [supported profile](Packaging/PROFILE.md). It is not an official Microsoft release or a drop-in replacement for System.Web/IIS.
 
 [Release scope](RELEASE.md) · [Source compatibility](SOURCE-COMPATIBILITY.md) · [Run Stockroom](Stockroom/README.md) · [Screenshots](demo/README.md) · [Deployment configuration](Stockroom/OPERATIONS.md) · [Source provenance](Packaging/PROVENANCE.md)
 
@@ -19,3 +19,5 @@ The helper builds the local runtime and private Razor packages, copies Stockroom
 Original AreaRegistration.RegisterAllAreas startup registration now uses only the explicitly supplied application/feature assemblies inside the synchronous Map callback. See [operations](Packaging/OPERATIONS.md) for ordering and failure limits.
 
 Original MVC unobtrusive validation/Ajax is included with pinned local jQuery dependencies. The demo also retains its separate native-fetch JSON path. Ajax authentication expiry returns401 and preserves the editor with a sign-in message. Sixteen released MVC source types are absent, and binary identity, historical tokens/wire formats, WebForms and broad System.Web hosting are not preserved. [The finite profile](Packaging/PROFILE.md) states the boundaries. A passing native workflow does not establish .NET Framework behavior parity.
+
+Use native `byte[]` models for binary form values. Existing HiddenFor/ByteArrayModelBinder integration is verified; LINQ-to-SQL and its historical binder are not required. Future work follows the [public-contract and native-foundation rule](../AGENTS.md).
