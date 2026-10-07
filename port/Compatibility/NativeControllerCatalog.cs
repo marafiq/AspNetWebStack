@@ -27,6 +27,8 @@ namespace AspNetWebStack.Native
             _builder.DefaultNamespaces.UnionWith(defaultNamespaces ?? ControllerBuilder.Current.DefaultNamespaces);
         }
 
+        internal void RegisterAreas(System.Web.Routing.RouteCollection routes, object state) => AreaRegistration.RegisterAllAreas(routes, _assemblies, state);
+
         internal IReadOnlyList<Type> GetControllerTypes() => CreateFactory().GetControllerTypes();
 
         public DefaultControllerFactory CreateFactory(IControllerActivator controllerActivator = null)

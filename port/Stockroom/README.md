@@ -1,6 +1,6 @@
 # Run Stockroom
 
-Stockroom is a package-only MVC 5.3 demo on native .NET 10. This public preview contains the reviewed **U61** source: public stock, native cookie login, Editor/Reader roles, original MVC client/server validation, protected Ajax form/link updates, JSON/fetch and redirect/TempData. [The screenshots](../demo/README.md) show the earlier accepted U59 local flow; U60 added deployment configuration and durable SQLite state; U61 adds the original unobtrusive client scripts.
+Stockroom is a package-only MVC 5.3 demo on native .NET 10. This public preview contains the reviewed **U62** source: public stock, native cookie login, Editor/Reader roles, original MVC client/server validation, protected Ajax form/link updates, JSON/fetch and redirect/TempData. [The screenshots](../demo/README.md) show the earlier accepted U59 local flow; U60 added deployment configuration and durable SQLite state; U61 adds the original unobtrusive client scripts.
 
 From the repository root, select installed SDK/runtime hosts and build:
 

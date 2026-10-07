@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <Version>0.1.0-u61</Version>
+    <Version>0.1.0-u62</Version>
     <Authors>MVC native port contributors</Authors>
     <Description>Experimental source-recompilation profile of MVC 5.3 on native .NET 10. Local evaluation only; see the supported contract.</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>

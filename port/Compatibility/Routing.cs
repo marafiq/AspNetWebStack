@@ -94,6 +94,47 @@ namespace System.Web.Routing
         private readonly System.Threading.ReaderWriterLockSlim _gate = new(System.Threading.LockRecursionPolicy.SupportsRecursion);
         internal NativeRouteBinding NativeBinding { get; set; }
         internal AspNetWebStack.Native.NativeControllerCatalog NativeCatalog { get; set; }
+        private bool _configurationReserved;
+        private int _configurationThread;
+        private bool _registeringAreas;
+
+        internal IDisposable BeginNativeConfiguration(AspNetWebStack.Native.NativeControllerCatalog catalog)
+        {
+            if (System.Threading.Volatile.Read(ref _configurationReserved))
+                throw new InvalidOperationException("Native route configuration is already active.");
+            using (GetWriteLock())
+            {
+                Mutable();
+                if (_configurationReserved) throw new InvalidOperationException("Native route configuration is already active.");
+                NativeCatalog = catalog;
+                System.Threading.Volatile.Write(ref _configurationReserved, true);
+                System.Threading.Volatile.Write(ref _configurationThread, Environment.CurrentManagedThreadId);
+            }
+            // Ownership is synchronous and deliberately does not flow to child tasks.
+            // Never hold the route lock while application registration code executes.
+            return new Unlock(() => { using (GetWriteLock()) { System.Threading.Volatile.Write(ref _configurationThread, 0); System.Threading.Volatile.Write(ref _configurationReserved, false); } });
+        }
+
+        internal void EndNativeConfigurationCallback()
+        {
+            using (GetWriteLock()) { System.Threading.Volatile.Write(ref _configurationThread, 0); }
+        }
+
+        internal void RegisterNativeAreas(object state)
+        {
+            // Reject non-owners before a lock that native endpoint publication may hold.
+            if (System.Threading.Volatile.Read(ref _configurationThread) != Environment.CurrentManagedThreadId)
+                throw new InvalidOperationException("RegisterAllAreas requires the owning synchronous startup callback.");
+            using (GetWriteLock())
+            {
+                if (NativeBinding != null || _configurationThread == 0 ||
+                    _configurationThread != Environment.CurrentManagedThreadId || NativeCatalog == null || _registeringAreas)
+                    throw new InvalidOperationException("RegisterAllAreas requires the owning synchronous NativeMvcApplication.Map route-configuration callback and cannot be recursive.");
+                _registeringAreas = true;
+            }
+            try { NativeCatalog.RegisterAreas(this, state); }
+            finally { using (GetWriteLock()) { _registeringAreas = false; } }
+        }
         internal string NameFor(RouteBase route) => _names.FirstOrDefault(pair => ReferenceEquals(pair.Value, route)).Key;
         public RouteCollection() { }
         public RouteCollection(System.Web.Hosting.VirtualPathProvider virtualPathProvider) => throw Route.Unavailable();

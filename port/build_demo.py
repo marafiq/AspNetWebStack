@@ -68,7 +68,7 @@ def main():
     run([sdk, 'publish', 'Stockroom.csproj', '-c', 'Release', '--no-self-contained', '-o', str(OUT / 'published'), *common], source)
     if list((OUT / 'published').glob('*RazorCompiler*')):
         raise RuntimeError('The private Razor compiler must not be published.')
-    result = {'status': 'built', 'sdk': version, 'package_version': '0.1.0-u61',
+    result = {'status': 'built', 'sdk': version, 'package_version': '0.1.0-u62',
               'consumer': 'Copied source using package references only',
               'published_directory': 'port/artifacts/demo/published',
               'runtime_selection': 'Core and ASP.NET Core10.0.2+; LatestPatch',

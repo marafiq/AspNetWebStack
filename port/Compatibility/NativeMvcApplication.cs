@@ -128,13 +128,17 @@ public sealed class NativeMvcApplication : IDisposable
     public void Map(IEndpointRouteBuilder endpoints, Action<System.Web.Routing.RouteCollection> configureRoutes)
     {
         ObjectDisposedException.ThrowIf(_disposed, this);
+        ArgumentNullException.ThrowIfNull(endpoints);
         ArgumentNullException.ThrowIfNull(configureRoutes);
         if (_mapped) throw new InvalidOperationException("Map this application once during startup.");
         var routes = System.Web.Routing.RouteTable.Routes;
-        routes.NativeCatalog = _catalog;
-        configureRoutes(routes);
-        NativeRouteBinding.Bind(routes, endpoints, Dispatch, acceptForms: true);
-        _mapped = true;
+        using (routes.BeginNativeConfiguration(_catalog))
+        {
+            configureRoutes(routes);
+            routes.EndNativeConfigurationCallback();
+            NativeRouteBinding.Bind(routes, endpoints, Dispatch, acceptForms: true);
+            _mapped = true;
+        }
     }
 
     private async Task Dispatch(Microsoft.AspNetCore.Http.HttpContext core)

@@ -1,4 +1,4 @@
-# Supported native profile —0.1.0-u61
+# Supported native profile —0.1.0-u62
 
 This unsigned local source recompilation preserves ordinary MVC developer shapes while using native .NET10 hosting, routing, authentication and protection. It is not an official Microsoft distribution, signed Framework replacement, general System.Web emulator or production-readiness certification. Source compatibility, binary/type identity, wire/token formats and runtime behavior are separate claims. The tested sample is Stockroom; accepted earlier combined-consumer evidence remains valid within its contracts.
 
@@ -6,7 +6,7 @@ This unsigned local source recompilation preserves ordinary MVC developer shapes
 |---|---|---|
 | Controllers and DI | Explicit assemblies, original discovery, scoped native activation/resolver | One MVC/global configuration per process; arbitrary multi-app composition untested |
 | Async actions | Awaited Task and admitted original legacy pairs, native cooperative settlement | Detached/async-void, custom APM/managers, async children unsupported; uncooperative work can wait |
-| Routing/URLs/HTTP | Conventional/attribute/area/method routes, native links, root/nested mounts, HTTPS filters | Custom route callbacks/handlers, physical routes and automatic area scanning unsupported |
+| Routing/URLs/HTTP | Conventional/attribute/area/method routes, native links, root/nested mounts, HTTPS filters | Custom route callbacks/handlers, physical routes and ambient assembly scanning unsupported; RegisterAllAreas uses only explicit assemblies during Map configuration |
 | Razor | Build-time original C# Razor, typed views/layouts/partials/sections | Runtime compilation/CodeDOM host, VB and general multi-app runtime unsupported |
 | Forms/helpers/metadata | Original binding, helpers, server validation and metadata/filter overrides | Original unobtrusive validation/Ajax now integrated with pinned local assets; tested rules/modes below; no full browser/culture/CSP-expression parity |
 | Children/WebForms | Admitted synchronous child composition and leaf cache (prior combined proof) | Async/custom children/nested cache and historical WebForms lifecycle unsupported |
@@ -19,7 +19,7 @@ This unsigned local source recompilation preserves ordinary MVC developer shapes
 | Packaging/deployment | Exact package-only Debug/Release/publish with private Razor; runnable local guide | Framework-dependent untrimmed directory only; deployment transport/encrypted keys/proxy configured; business state durable SQLite; actual crypto/proxy/provider provisioning untested |
 | Source/binary/platform | Preserved released MVC source/API rows, explicit native adaptations and unsigned identities | Missing historical handlers/startup/WebForms, LinqBinaryModelBinder/MvcWebRazorHostFactory remain visible; no Framework/IIS binary/platform parity |
 
-No exclusion earns implementation credit. Whole-port T82 acceptance and independent weighted maturity are separately assessed; this profile does not redefine the original10weighted groups or claim completeness from14checklist rows. This exact U61 unit/native profile passed independent review; publication receives a separate source/privacy review. See [operations](OPERATIONS.md) and [provenance](PROVENANCE.md).
+No exclusion earns implementation credit. Whole-port T82 acceptance and independent weighted maturity are separately assessed; this profile does not redefine the original10weighted groups or claim completeness from14checklist rows. This exact U62 unit/native profile passed independent review; the assembled release receives a separate final profile and publication review. See [operations](OPERATIONS.md) and [provenance](PROVENANCE.md).
 
 ## Finite compatibility disposition
 
